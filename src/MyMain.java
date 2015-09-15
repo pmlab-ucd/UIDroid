@@ -87,12 +87,13 @@ public class MyMain {
 		/*
 		 * rm exprs should be killed by the statement
 		 */
+		@SuppressWarnings("rawtypes")
 		private void kill(Object in, Object node, Object out) {
 			FlowSet inSet = (FlowSet)in,
 					outSet = (FlowSet)out;
 			Unit unit = (Unit)node;
-			FlowSet kills = (FlowSet) outSet.emptySet();
-			for (ValueBox defBox: unit.getUseBoxes()) {
+			inSet = outSet.clone();
+			for (ValueBox defBox: unit.getDefBoxes()) {
 				if (defBox.getValue() instanceof Local) {
 					Iterator iterator = inSet.iterator();
 					while (iterator.hasNext()) {
@@ -103,16 +104,13 @@ public class MyMain {
 								ValueBox useBox = (ValueBox) it.next();
 								if (useBox.getValue() instanceof Local
 										&& useBox.getValue().equivTo(defBox.getValue())) {
-									kills.add(binExpr);
+									inSet.remove(binExpr);
 								}
 							}
-								
 						}
 					}
 				}
 			}
-			outSet.difference(kills);
-			inSet = outSet;
 		}
 		
 		/*
@@ -140,7 +138,7 @@ public class MyMain {
 		 */
 		@Override
 		protected Object newInitialFlow() {
-			return new ValueArraySparseSet();
+			return new ArraySparseSet();
 		}
 
 		/*
