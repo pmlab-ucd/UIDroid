@@ -22,10 +22,12 @@
  * Boston, MA 02111-1307, USA.
  */
 import java.util.Map;
+import java.util.Iterator;
 
 import soot.Body;
 import soot.BodyTransformer;
 import soot.G;
+import soot.Local;
 import soot.PackManager;
 import soot.Transform;
 import soot.Unit;
@@ -89,7 +91,28 @@ public class MyMain {
 			FlowSet inSet = (FlowSet)in,
 					outSet = (FlowSet)out;
 			Unit unit = (Unit)node;
-			
+			FlowSet kills = (FlowSet) outSet.emptySet();
+			for (ValueBox defBox: unit.getUseBoxes()) {
+				if (defBox.getValue() instanceof Local) {
+					Iterator iterator = inSet.iterator();
+					while (iterator.hasNext()) {
+						if (iterator.next() instanceof BinopExpr) {
+							BinopExpr binExpr = (BinopExpr) iterator.next();
+							Iterator it = binExpr.getUseBoxes().iterator();
+							while (it.hasNext()) {
+								ValueBox useBox = (ValueBox) it.next();
+								if (useBox.getValue() instanceof Local
+										&& useBox.getValue().equivTo(defBox.getValue())) {
+									kills.add(binExpr);
+								}
+							}
+								
+						}
+					}
+				}
+			}
+			outSet.difference(kills);
+			inSet = outSet;
 		}
 		
 		/*
@@ -99,6 +122,9 @@ public class MyMain {
 			FlowSet outSet = (FlowSet)out;
 			Unit unit = (Unit)node;
 			for (ValueBox useBox: unit.getUseBoxes()) {
+				// Box is the reference of the object
+				// Value means an instance
+				// if is instance of a binary operands expr
 				if (useBox.getValue() instanceof BinopExpr) {
 					outSet.add(useBox.getValue());
 				}
