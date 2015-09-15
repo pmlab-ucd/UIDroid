@@ -35,11 +35,9 @@ import soot.ValueBox;
 import soot.jimple.BinopExpr;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
-import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.scalar.BackwardFlowAnalysis;
-import soot.toolkits.scalar.FlowSet;
 
-public class MyMain {
+public class MyVeryBusyExprAnalysis {
 
 	public static void main(String[] args) {
 		PackManager.v().getPack("jtp").add(
@@ -130,7 +128,6 @@ public class MyMain {
 			
 		}
 		
-		
 		/*
 		 * init contents of the lattice element for the nodes except the entry point
 		 * init with the empty set
@@ -138,7 +135,8 @@ public class MyMain {
 		 */
 		@Override
 		protected Object newInitialFlow() {
-			return new ArraySparseSet();
+			// 2 diff occurrences of same expr will be diff instances of same class implementation
+			return new ValueArraySparseSet<Object>();
 		}
 
 		/*
@@ -149,7 +147,7 @@ public class MyMain {
 		 */
 		@Override
 		protected Object entryInitialFlow() {
-			return new ValueArraySparseSet();
+			return new ValueArraySparseSet<Object>();
 		}
 		
 		/*
