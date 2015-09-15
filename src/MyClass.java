@@ -11,5 +11,4 @@ public class MyClass {
 		}
 		System.out.print(a * b);
 	}
-
 }
