@@ -95,8 +95,9 @@ public class MyVeryBusyExprAnalysis {
 				if (defBox.getValue() instanceof Local) {
 					Iterator iterator = inSet.iterator();
 					while (iterator.hasNext()) {
-						if (iterator.next() instanceof BinopExpr) {
-							BinopExpr binExpr = (BinopExpr) iterator.next();
+						BinopExpr binExpr = (BinopExpr)iterator.next();
+						if (binExpr instanceof BinopExpr) {
+							System.out.print(binExpr.toString());
 							Iterator it = binExpr.getUseBoxes().iterator();
 							while (it.hasNext()) {
 								ValueBox useBox = (ValueBox) it.next();
