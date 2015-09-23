@@ -1,8 +1,8 @@
-package SootPlay;
 /*
  * Modified from https://mailman.cs.mcgill.ca/pipermail/soot-list/2009-February/002241.html
  */
 
+package SootPlay;
 
 import java.util.Map;
 

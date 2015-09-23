@@ -1,18 +1,16 @@
+/*
+ * https://groups.google.com/forum/#!topic/soot-list/bob7WNBJwwU
+ */
+
 package FlowDroidPlay;
+
 import java.io.IOException;
-
 import java.util.Collections;
-
 import org.xmlpull.v1.XmlPullParserException;
-
 import soot.PackManager;
-
 import soot.Scene;
-
 import soot.SootMethod;
-
 import soot.jimple.infoflow.android.SetupApplication;
-
 import soot.options.Options;
 
 public class CallFlowGraphTest {
@@ -28,42 +26,35 @@ public class CallFlowGraphTest {
 		// TODO Auto-generated method stub
 
 		SetupApplication app = new SetupApplication(
-				"D:/AndroidADT/adt-bundle-windows-x86_64-20131030/sdk/platforms",
-				"D:/APKs/location.apk");
+				"C:/Users/hao/Downloads/android-sdk-windows/platforms",
+				"F:/PATDroid/PATDroidTest/app/app-debug.apk");
 
 		try {
-
-			app.calculateSourcesSinksEntrypoints("D:/FlowDroid/SourcesAndSinks.txt");
-
+			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
 		} catch (IOException e) {
-
 			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		} catch (XmlPullParserException e) {
-
 			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
+		
+		// reset graph
 		soot.G.reset();
-
+		// load apk files
 		Options.v().set_src_prec(Options.src_prec_apk);
 
 		Options.v().set_process_dir(
-				Collections.singletonList("D:/APKs/location.apk"));
+				Collections.singletonList("F:/PATDroid/PATDroidTest/app/app-debug.apk"));
 
 		Options.v()
 				.set_android_jars(
-						"D:/AndroidADT/adt-bundle-windows-x86_64-20131030/sdk/platforms");
+						"C:/Users/hao/Downloads/android-sdk-windows/platforms");
 
 		Options.v().set_whole_program(true);
 
 		Options.v().set_allow_phantom_refs(true);
-
+		// produces a Dex/APK file as output
 		Options.v().set_output_format(Options.output_format_none);
 
 		Options.v().setPhaseOption("cg.spark", "on");

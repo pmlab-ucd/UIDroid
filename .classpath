@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/soot-infoflow.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/soot-infoflow-android.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/soot-trunk.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/axml-2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
