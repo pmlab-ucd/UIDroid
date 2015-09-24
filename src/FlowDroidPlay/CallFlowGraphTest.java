@@ -4,9 +4,12 @@
 
 package FlowDroidPlay;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+
 import org.xmlpull.v1.XmlPullParserException;
+
 import soot.PackManager;
 import soot.Scene;
 import soot.SootMethod;
@@ -19,9 +22,14 @@ public class CallFlowGraphTest {
 	}
 
 	public static void main(String[] args) {
+		File f = new File("/media/hao/Hitachi/PATDroid/PATDroidTest/app/app-debug.apk");
+		String source_apk = f.getAbsolutePath();
+		soot.G.reset();
+
 		SetupApplication app = new SetupApplication(
-				"C:/Users/hao/Downloads/android-sdk-windows/platforms",
-				"F:/PATDroid/PATDroidTest/app/app-debug.apk");
+				//"C:/Users/hao/Downloads/android-sdk-windows/platforms",
+				"/home/hao/Android/Sdk/platforms",
+				source_apk);
 
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
@@ -36,12 +44,10 @@ public class CallFlowGraphTest {
 		// load apk files
 		Options.v().set_src_prec(Options.src_prec_apk);
 
-		Options.v().set_process_dir(
-				Collections.singletonList("F:/PATDroid/PATDroidTest/app/app-debug.apk"));
-
-		Options.v()
-				.set_android_jars(
-						"C:/Users/hao/Downloads/android-sdk-windows/platforms");
+		Options.v().set_process_dir(Collections.singletonList(source_apk));
+		Options.v().set_force_android_jar(
+				//"C:/Users/hao/Downloads/android-sdk-windows/platforms");
+				"/home/hao/Android/Sdk/platforms");
 
 		Options.v().set_whole_program(true);
 
@@ -66,5 +72,4 @@ public class CallFlowGraphTest {
 		System.out.println(Scene.v().getCallGraph().size());
 
 	}
-
 }
