@@ -34,62 +34,62 @@ public class CallFlowGraphDot {
 
 		//for (int i = 0; i < files.length; i++) {
 			//File f = files[i];
-			File f = new File("F:/PATDroid/PATDroidTest/app/app-debug.apk");
-			String source_apk = f.getAbsolutePath();
-			soot.G.reset();
+			//File f = new File("F:/PATDroid/PATDroidTest/app/app-debug.apk");
+		File f = new File("/media/hao/Hitachi/PATDroid/PATDroidTest/app/app-debug.apk");
+		String source_apk = f.getAbsolutePath();
+		soot.G.reset();
 
-			SetupApplication app = new SetupApplication(
-					"C:/Users/hao/Downloads/android-sdk-windows/platforms",
-					source_apk);
+		SetupApplication app = new SetupApplication(
+				//"C:/Users/hao/Downloads/android-sdk-windows/platforms",
+				"/home/hao/Android/Sdk",
+				source_apk);
 
-			try {
-				app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (XmlPullParserException e) {
-				e.printStackTrace();
-			}
+		try {
+			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		}
 
-			Options.v().set_src_prec(Options.src_prec_apk);
+		Options.v().set_src_prec(Options.src_prec_apk);
 
-			Options.v().set_process_dir(Collections.singletonList(source_apk));
-			Options.v()
-					.set_force_android_jar(
-							"C:/Users/hao/Downloads/android-sdk-windows/platforms");
+		Options.v().set_process_dir(Collections.singletonList(source_apk));
+		Options.v().set_force_android_jar(
+				//"C:/Users/hao/Downloads/android-sdk-windows/platforms");
+				"/home/hao/Android/Sdk/platforms");
 
-			Options.v().set_whole_program(true);
+		Options.v().set_whole_program(true);
 
-			Options.v().set_allow_phantom_refs(true);
+		Options.v().set_allow_phantom_refs(true);
 
-			Options.v().set_output_format(Options.output_format_none);
+		Options.v().set_output_format(Options.output_for/platformsmat_none);
 
-			Options.v().setPhaseOption("cg.spark verbose:true", "on");
+		Options.v().setPhaseOption("cg.spark verbose:true", "on");
 
-			Scene.v().loadNecessaryClasses();
+		Scene.v().loadNecessaryClasses();
 
-			SootMethod entryPoint = app.getEntryPointCreator()
-					.createDummyMain();
+		SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
 
-			Options.v().set_main_class(entryPoint.getSignature());
+		Options.v().set_main_class(entryPoint.getSignature());
 
-			Scene.v().setEntryPoints(Collections.singletonList(entryPoint));
+		Scene.v().setEntryPoints(Collections.singletonList(entryPoint));
 
-			System.out.println("............" + entryPoint.getActiveBody());
+		System.out.println("............" + entryPoint.getActiveBody());
 
-			PackManager.v().runPacks();
+		PackManager.v().runPacks();
 
-			System.out.println(Scene.v().getCallGraph().size());
-			CallGraph cg = Scene.v().getCallGraph();
-			// System.out.println("+++++++++++++++++" + cg);
-			// System.out.println(".................."+entryPoint);
-			// String label = Scene.v().getCallGraph().listener().toString();
-			// dot.createSubGraph(label);
-			visit(cg, entryPoint);
-			String dest = f.getName();
-			String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
-			String destination = "./sootOutput/"
-					+ fileNameWithOutExt;
-			dot.plot(destination + dot.DOT_EXTENSION);
+		System.out.println(Scene.v().getCallGraph().size());
+		CallGraph cg = Scene.v().getCallGraph();
+		// System.out.println("+++++++++++++++++" + cg);
+		// System.out.println(".................."+entryPoint);
+		// String label = Scene.v().getCallGraph().listener().toString();
+		// dot.createSubGraph(label);
+		visit(cg, entryPoint);
+		String dest = f.getName();
+		String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
+		String destination = "./sootOutput/" + fileNameWithOutExt;
+		dot.plot(destination + dot.DOT_EXTENSION);
 			// soot.PhaseOptions.getBoolean(Scene.v().getCallGraph().listener(),"dump_cg");
 			// System.out.println(Scene.v().getCallGraph());
 
