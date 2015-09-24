@@ -29,11 +29,12 @@ public class CallFlowGraphDot {
 
 	public static void main(String[] args) {
 
-		File dir = new File("F:/PATDroid/PATDroidTest/app/");
-		File[] files = dir.listFiles();
+		//File dir = new File("F:/PATDroid/PATDroidTest/app/");
+		//File[] files = dir.listFiles();
 
-		for (int i = 0; i < files.length; i++) {
-			File f = files[i];
+		//for (int i = 0; i < files.length; i++) {
+			//File f = files[i];
+			File f = new File("F:/PATDroid/PATDroidTest/app/app-debug.apk");
 			String source_apk = f.getAbsolutePath();
 			soot.G.reset();
 
@@ -92,7 +93,7 @@ public class CallFlowGraphDot {
 			// soot.PhaseOptions.getBoolean(Scene.v().getCallGraph().listener(),"dump_cg");
 			// System.out.println(Scene.v().getCallGraph());
 
-		}
+		//}
 	}
 
 	private static void visit(CallGraph cg, SootMethod k) {
