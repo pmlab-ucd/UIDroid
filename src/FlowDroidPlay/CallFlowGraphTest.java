@@ -16,15 +16,9 @@ import soot.options.Options;
 public class CallFlowGraphTest {
 
 	public CallFlowGraphTest() {
-
-		// TODO Auto-generated constructor stub
-
 	}
 
 	public static void main(String[] args) {
-
-		// TODO Auto-generated method stub
-
 		SetupApplication app = new SetupApplication(
 				"C:/Users/hao/Downloads/android-sdk-windows/platforms",
 				"F:/PATDroid/PATDroidTest/app/app-debug.apk");
@@ -32,10 +26,8 @@ public class CallFlowGraphTest {
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (XmlPullParserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -54,7 +46,7 @@ public class CallFlowGraphTest {
 		Options.v().set_whole_program(true);
 
 		Options.v().set_allow_phantom_refs(true);
-		// produces a Dex/APK file as output
+		// no output or produces a Dex/APK file as output
 		Options.v().set_output_format(Options.output_format_none);
 
 		Options.v().setPhaseOption("cg.spark", "on");
