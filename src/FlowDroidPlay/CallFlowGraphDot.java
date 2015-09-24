@@ -51,6 +51,9 @@ public class CallFlowGraphDot {
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
+		
+		// reset graph
+		soot.G.reset();
 
 		Options.v().set_src_prec(Options.src_prec_apk);
 
@@ -65,7 +68,8 @@ public class CallFlowGraphDot {
 
 		Options.v().set_output_format(Options.output_format_none);
 
-		Options.v().setPhaseOption("cg.spark verbose:true", "on");
+		//Options.v().setPhaseOption("cg.spark verbose:true", "on");
+		Options.v().setPhaseOption("cg.spark", "on");
 
 		Scene.v().loadNecessaryClasses();
 
