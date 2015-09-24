@@ -41,7 +41,7 @@ public class CallFlowGraphDot {
 
 		SetupApplication app = new SetupApplication(
 				//"C:/Users/hao/Downloads/android-sdk-windows/platforms",
-				"/home/hao/Android/Sdk",
+				"/home/hao/Android/Sdk/platforms",
 				source_apk);
 
 		try {
@@ -63,7 +63,7 @@ public class CallFlowGraphDot {
 
 		Options.v().set_allow_phantom_refs(true);
 
-		Options.v().set_output_format(Options.output_for/platformsmat_none);
+		Options.v().set_output_format(Options.output_format_none);
 
 		Options.v().setPhaseOption("cg.spark verbose:true", "on");
 
