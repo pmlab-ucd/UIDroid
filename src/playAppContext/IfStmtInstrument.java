@@ -61,16 +61,22 @@ public class IfStmtInstrument {
 		// 不知道DummyClass是搞毛的
 		Scene.v().addBasicClass("app.DummyClass", 2);
 		// jimple transform (-> IR) package (phase)
+		// 对函数体进行操作
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.myInstrumenter", new BodyTransformer() {
+					@Override
 					protected void internalTransform(final Body b,
 							String phaseName, Map options) {
+						// 获得函数体内所有语句
 						final PatchingChain<Unit> units = b.getUnits();
-
+						// 循环对每条语句
 						for (Iterator<Unit> iter = units.snapshotIterator(); iter
 								.hasNext();) {
 							final Unit u = (Unit) iter.next();
+							// visitor design pattern观察者模式: 自动判断语句类型
 							u.apply(new AbstractStmtSwitch() {
+								// 如果是if语句， 重载了抽象类的caseIfStmt函数
+								@Override
 								public void caseIfStmt(IfStmt stmt) {
 									Value condition = stmt.getCondition();
 									List<ValueBox> values = condition

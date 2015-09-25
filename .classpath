@@ -9,7 +9,11 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/soot-infoflow.jar"/>
 	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/soot-infoflow-android.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/soot-infoflow-android.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/soot-infoflow-android-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/axml-2.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/Instrument/IfInstrument.jar"/>
