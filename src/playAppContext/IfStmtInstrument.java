@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import soot.ArrayType;
 import soot.Body;
 import soot.BodyTransformer;
@@ -35,10 +36,12 @@ import soot.jimple.AbstractStmtSwitch;
 import soot.jimple.IfStmt;
 import soot.jimple.Jimple;
 import soot.jimple.LookupSwitchStmt;
+import soot.jimple.StmtSwitch;
 import soot.jimple.TableSwitchStmt;
 import soot.jimple.internal.JimpleLocal;
 import soot.options.Options;
 import soot.util.Chain;
+import soot.util.Switch;
 
 public class IfStmtInstrument {
 	public static void main(String[] args) {
@@ -72,10 +75,19 @@ public class IfStmtInstrument {
 						// 循环对每条语句
 						for (Iterator<Unit> iter = units.snapshotIterator(); iter
 								.hasNext();) {
+							// 多态: 用基类Unit
 							final Unit u = (Unit) iter.next();
-							// visitor design pattern观察者模式: 自动判断语句类型
+							/* visitor design pattern观察者模式: 判断语句类型
+							 apply接收StmtSwitch的派生类对象作为参数
+							 apply的派生类具体实现 e.g. 
+							 public void apply(Switch sw)
+						     {
+						        ((StmtSwitch) sw).caseIfStmt(this);
+						     }
+						     当unit实际的派生类为JIfStmt时，调用apply会告诉sw“我”(this)是if语句
+						     */    
 							u.apply(new AbstractStmtSwitch() {
-								// 如果是if语句， 重载了抽象类的caseIfStmt函数
+								// 如果是if语句； 重载了抽象类的caseIfStmt函数
 								@Override
 								public void caseIfStmt(IfStmt stmt) {
 									Value condition = stmt.getCondition();
