@@ -87,198 +87,117 @@ public class IfStmtInstrument {
 						     当unit实际的派生类为JIfStmt时，调用apply会告诉sw“我”(this)是if语句
 						     */    
 							u.apply(new AbstractStmtSwitch() {
-								// 如果是if语句； 重载了抽象类的caseIfStmt函数
+								// 重载了抽象类的caseIfStmt函数
 								@Override
 								public void caseIfStmt(IfStmt stmt) {
 									Value condition = stmt.getCondition();
+									// 此if语句使用的操作数和expr
 									List<ValueBox> values = condition
 											.getUseBoxes();
 									int size = values.size();
-
+									// 载入要分析的类到Soot
 									SootClass klass = Scene.v().getSootClass(
 											"app.DummyClass");
+									// 通过函数名寻找函数
+									// 这些函数用于后面的嵌套
 									SootMethod boolCall = klass
 											.getMethod("void invokeIfStmt(boolean)");
 									SootMethod objCall = klass
 											.getMethod("void invokeIfStmt(java.lang.Object)");
-
-									SootMethod primCall = Scene
-											.v()
-											.getSootClass("app.DummyClass")
-											.getMethod(
-													"void invokeIfStmt(double)");
-
+									
+									SootMethod primCall = Scene.v().getSootClass("app.DummyClass").getMethod("void invokeIfStmt(double)");
+									
 									for (int i = 0; i < values.size(); i++) {
+										// 获得变量
 										ValueBox vBox = (ValueBox) values
 												.get(i);
+										// 获得变量值
 										Value v = vBox.getValue();
 										System.out.println("Value: " + v);
+										// 获得变量类型
 										System.out.println("Class: "
 												+ v.getClass());
+										// 如果变量是局部变量
 										if ((v instanceof JimpleLocal)) {
+											// 如果局部变量是boolean类型
 											if ((v.getType() instanceof BooleanType)) {
-												System.out.println("Type: "
-														+ v.getType());
-												units.insertBefore(
-														Jimple.v()
-																.newInvokeStmt(
-																		Jimple.v()
-																				.newStaticInvokeExpr(
-																						boolCall.makeRef(),
-																						v)),
-														u);
+												System.out.println("Type: " + v.getType());
+												// 在此if语句u前嵌入新函数调用Jimple.v().newInvokeStmt(
+												// 新嵌入的函数为静态函数"void invokeIfStmt(boolean)"， 以指针的形式传入, 嵌入函数参数为v
+												units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(boolCall.makeRef(), v)), u);
 											} else if ((v.getType() instanceof PrimType)) {
-												System.out.println("Type: "
-														+ v.getType());
-												units.insertBefore(
-														Jimple.v()
-																.newInvokeStmt(
-																		Jimple.v()
-																				.newStaticInvokeExpr(
-																						primCall.makeRef(),
-																						v)),
-														u);
+												// 如果是原生类型
+												System.out.println("Type: " + v.getType());
+												units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(primCall.makeRef(), v)), u);
 											} else {
-												units.insertBefore(
-														Jimple.v()
-																.newInvokeStmt(
-																		Jimple.v()
-																				.newStaticInvokeExpr(
-																						objCall.makeRef(),
-																						v)),
-														u);
+												// 其余类型全部以Object形式传入
+												units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(objCall.makeRef(),v)), u);
 											}
 										}
 									}
-
+									
+									// 貌似是用于检验是否为合法的函数体，但没完成的样子
 									b.validate();
 								}
 
-								public void caseTableSwitchStmt(
-										TableSwitchStmt stmt) {
-									SootMethod objCall = Scene
-											.v()
-											.getSootClass("app.DummyClass")
-											.getMethod(
-													"void invokeIfStmt(java.lang.Object)");
-									SootMethod boolCall = Scene
-											.v()
-											.getSootClass("app.DummyClass")
-											.getMethod(
-													"void invokeIfStmt(boolean)");
-									SootMethod primCall = Scene
-											.v()
-											.getSootClass("app.DummyClass")
-											.getMethod(
-													"void invokeIfStmt(double)");
+								public void caseTableSwitchStmt(TableSwitchStmt stmt) {
+									SootMethod objCall = Scene.v().getSootClass("app.DummyClass").getMethod("void invokeIfStmt(java.lang.Object)");
+									SootMethod boolCall = Scene.v().getSootClass("app.DummyClass").getMethod("void invokeIfStmt(boolean)");
+									SootMethod primCall = Scene.v().getSootClass("app.DummyClass").getMethod("void invokeIfStmt(double)");
 
 									Value v = stmt.getKey();
 									System.out.println("Value: " + v);
 									System.out.println("Class: " + v.getClass());
 									if ((v instanceof JimpleLocal)) {
 										if ((v.getType() instanceof BooleanType)) {
-											System.out.println("Type: "
-													+ v.getType());
-											units.insertBefore(
-													Jimple.v()
-															.newInvokeStmt(
-																	Jimple.v()
-																			.newStaticInvokeExpr(
-																					boolCall.makeRef(),
-																					v)),
-													u);
+											System.out.println("Type: " + v.getType());
+											// 在此if语句u前嵌入新函数调用Jimple.v().newInvokeStmt(
+											// 新嵌入的函数为静态函数"void invokeIfStmt(boolean)"， 以指针的形式传入, 嵌入函数参数为v
+											units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(boolCall.makeRef(), v)), u);
 										} else if ((v.getType() instanceof PrimType)) {
-											System.out.println("Type: "
-													+ v.getType());
-											units.insertBefore(
-													Jimple.v()
-															.newInvokeStmt(
-																	Jimple.v()
-																			.newStaticInvokeExpr(
-																					primCall.makeRef(),
-																					v)),
-													u);
+											// 如果是原生类型
+											System.out.println("Type: " + v.getType());
+											units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(primCall.makeRef(), v)), u);
 										} else {
-											units.insertBefore(
-													Jimple.v()
-															.newInvokeStmt(
-																	Jimple.v()
-																			.newStaticInvokeExpr(
-																					objCall.makeRef(),
-																					v)),
-													u);
+											// 其余类型全部以Object形式传入
+											units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(objCall.makeRef(),v)), u);
 										}
 									}
 
 									b.validate();
 								}
 
-								public void caseLookupSwitchStmt(
-										LookupSwitchStmt stmt) {
-									SootMethod objCall = Scene
-											.v()
-											.getSootClass("app.DummyClass")
-											.getMethod(
-													"void invokeIfStmt(java.lang.Object)");
-									SootMethod boolCall = Scene
-											.v()
-											.getSootClass("app.DummyClass")
-											.getMethod(
-													"void invokeIfStmt(boolean)");
-									SootMethod primCall = Scene
-											.v()
-											.getSootClass("app.DummyClass")
-											.getMethod(
-													"void invokeIfStmt(double)");
+								public void caseLookupSwitchStmt(LookupSwitchStmt stmt) {
+									SootMethod objCall = Scene.v().getSootClass("app.DummyClass").getMethod("void invokeIfStmt(java.lang.Object)");
+									SootMethod boolCall = Scene.v().getSootClass("app.DummyClass").getMethod("void invokeIfStmt(boolean)");
+									SootMethod primCall = Scene.v().getSootClass("app.DummyClass").getMethod("void invokeIfStmt(double)");
 
 									Value v = stmt.getKey();
 									System.out.println("Value: " + v);
 									System.out.println("Class: " + v.getClass());
 									if ((v instanceof JimpleLocal)) {
 										if ((v.getType() instanceof BooleanType)) {
-											System.out.println("Type: "
-													+ v.getType());
-											units.insertBefore(
-													Jimple.v()
-															.newInvokeStmt(
-																	Jimple.v()
-																			.newStaticInvokeExpr(
-																					boolCall.makeRef(),
-																					v)),
-													u);
+											System.out.println("Type: " + v.getType());
+											// 在此if语句u前嵌入新函数调用Jimple.v().newInvokeStmt(
+											// 新嵌入的函数为静态函数"void invokeIfStmt(boolean)"， 以指针的形式传入, 嵌入函数参数为v
+											units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(boolCall.makeRef(), v)), u);
 										} else if ((v.getType() instanceof PrimType)) {
-											System.out.println("Type: "
-													+ v.getType());
-											units.insertBefore(
-													Jimple.v()
-															.newInvokeStmt(
-																	Jimple.v()
-																			.newStaticInvokeExpr(
-																					primCall.makeRef(),
-																					v)),
-													u);
+											// 如果是原生类型
+											System.out.println("Type: " + v.getType());
+											units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(primCall.makeRef(), v)), u);
 										} else {
-											units.insertBefore(
-													Jimple.v()
-															.newInvokeStmt(
-																	Jimple.v()
-																			.newStaticInvokeExpr(
-																					objCall.makeRef(),
-																					v)),
-													u);
+											// 其余类型全部以Object形式传入
+											units.insertBefore(Jimple.v().newInvokeStmt(Jimple.v().newStaticInvokeExpr(objCall.makeRef(),v)), u);
 										}
 									}
 
 									b.validate();
-
 								}
-
 							});
 						}
-
 					}
-
 				}));
+		
 		String class_path = findJarfiles(extraJar) + File.pathSeparator
 				+ androidJar + File.pathSeparator
 				+ System.getProperty("java.class.path") + File.pathSeparator
