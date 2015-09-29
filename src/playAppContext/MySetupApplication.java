@@ -3,17 +3,16 @@ package playAppContext;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import org.slf4j.Logger;
+
 import org.xmlpull.v1.XmlPullParserException;
+
+import app.ConditionalSourceSinkManager;
 import soot.G;
 import soot.Main;
 import soot.Scene;
-import soot.jimple.infoflow.android.AndroidSourceSinkManager;
 import soot.jimple.infoflow.android.SetupApplication;
 import soot.jimple.infoflow.android.data.AndroidMethod;
 import soot.jimple.infoflow.android.manifest.ProcessManifest;
@@ -42,7 +41,7 @@ public class MySetupApplication extends SetupApplication {
 		appPackageName = processMan.getPackageName();
 		entrypoints = processMan.getEntryPointClasses();
 
-		long beforeARSC = System.nanoTime();vate 
+		long beforeARSC = System.nanoTime(); 
 		ARSCFileParser resParser = new ARSCFileParser();
 		resParser.parse(apkFileLocation);
 		logger.info("ARSC file parsing took "

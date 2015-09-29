@@ -1,7 +1,12 @@
 package playAppContext;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -20,6 +25,9 @@ public class MyTest extends Test {
 		myTestMain(args);
 	}
 	
+	/*
+	 * 参考自Test.java中的main()
+	 */
 	public static void myTestMain(String[] args) 
 			throws IOException, InterruptedException {
 		// 读入Pscout
@@ -43,38 +51,96 @@ public class MyTest extends Test {
 			// 遍历文件
 			for (int i = 0; i < j; i++) {
 				File f = arrayOfFile[i];
+				// 用于删除目录下所有文件
+				success = (success) && (f.delete());
+				if (!success) {
+					System.err.println("Cleanup of output dir " + outputDir + " failed@");
+				}
+				outputDir.delete();
 			}
 		}
+		
+		// 读入额外的参数
+		if (!parseAdditionalOptions(args)) {
+			return;
+		}
+		if (!validateAdditionalOptions()) {
+			return;
+		}
+		// 读入文件并判断是否是apk文件
+		List<String> apkFiles = new ArrayList();
+		File apkFile = new File(args[0]);
+		if (apkFile.isDirectory()) {
+			String[] dirFiles = apkFile.list(new FilenameFilter() {
+			
+				@Override
+				public boolean accept(File dir, String name) {
+					return (name.endsWith(".apk"));
+				}
+			
+			});
+			for (String s : dirFiles)
+				apkFiles.add(s);
+		} else {
+			// 获得文件类型
+			String extension = apkFile.getName().substring(apkFile.getName().lastIndexOf("."));
+			if (extension.equalsIgnoreCase(".txt")) {
+				BufferedReader rdr = new BufferedReader(new FileReader(apkFile));
+				String line = null;
+				while ((line = rdr.readLine()) != null)
+					apkFiles.add(line);
+				rdr.close();
+			}
+			else if (extension.equalsIgnoreCase(".apk"))
+				apkFiles.add(args[0]);
+			else {
+				System.err.println("Invalid input file format: " + extension);
+				return;
+			}
+		}
+		
+		
+		for (final String fileName : apkFiles) {
+			final String fullFilePath;
+			System.gc();
+			
+			// Directory handling
+			if (apkFiles.size() > 1) {
+				if (apkFile.isDirectory())
+					fullFilePath = args[0] + File.separator + fileName;
+				else
+					fullFilePath = fileName;
+				System.out.println("Analyzing file " + fullFilePath + "...");
+				File flagFile = new File("_Run_" + new File(fileName).getName());
+				if (flagFile.exists())
+					continue;
+				flagFile.createNewFile();
+			}
+			else
+				fullFilePath = fileName;
+
+			// Run the analysis
+				System.gc();
+				if (timeout > 0) {
+					runAnalysisTimeout(fullFilePath, args[1]);
+				} else if (sysTimeout > 0) {
+					runAnalysisSysTimeout(fullFilePath, args[1]);
+				} else {
+					// 这里多了个extraJar参数
+					runAnalysis(fullFilePath, args[1], extraJar);
+				}
+				// AppContext独有的
+				permissionAnalysis(fullFilePath, args[1], extraJar);
+			
+			System.gc();
+		}				
 	}
 	
-	private static void printUsage()
-	   {
-	     System.out.println("FlowDroid (c) Secure Software Engineering Group @ EC SPRIDE");
-	     System.out.println();
-	     System.out.println("Incorrect arguments: [0] = apk-file, [1] = android-jar-directory");
-	     System.out.println("Optional further parameters:");
-	     System.out.println("\t--TIMEOUT n Time out after n seconds");
-	     System.out.println("\t--SYSTIMEOUT n Hard time out (kill process) after n seconds, Unix only");
-	     System.out.println("\t--SINGLEFLOW Stop after finding first leak");
-	     System.out.println("\t--IMPLICIT Enable implicit flows");
-	     System.out.println("\t--NOSTATIC Disable static field tracking");
-	     System.out.println("\t--NOEXCEPTIONS Disable exception tracking");
-	     System.out.println("\t--APLENGTH n Set access path length to n");
-	     System.out.println("\t--CGALGO x Use callgraph algorithm x");
-	     System.out.println("\t--NOCALLBACKS Disable callback analysis");
-	     System.out.println("\t--LAYOUTMODE x Set UI control analysis mode to x");
-	     System.out.println("\t--ALIASFLOWINS Use a flow insensitive alias search");
-	     System.out.println("\t--NOPATHS Do not compute result paths");
-	     System.out.println("\t--AGGRESSIVETW Use taint wrapper in aggressive mode");
-	     System.out.println("\t--PATHALGO Use path reconstruction algorithm x");
-	     System.out.println("\t--LIBSUMTW Use library summary taint wrapper");
-	     System.out.println("\t--SUMMARYPATH Path to library summaries");
-	     System.out.println("\t--SYSFLOWS Also analyze classes in system packages");
-	     System.out.println("\t--NOTAINTWRAPPER Disables the use of taint wrappers");
-	     System.out.println("\t--NOTYPETIGHTENING Disables the use of taint wrappers");
-	     System.out.println();
-	     System.out.println("Supported callgraph algorithms: AUTO, CHA, RTA, VTA, SPARK");
-	     System.out.println("Supported layout mode algorithms: NONE, PWD, ALL");
-	     System.out.println("Supported path algorithms: CONTEXTSENSITIVE, CONTEXTINSENSITIVE, SOURCESONLY");
-	   }
+	private static void permissionAnalysis(String apkDir, String plarformDir,
+			String extraJar) {
+		
+	}
+	
+	
+
 }
