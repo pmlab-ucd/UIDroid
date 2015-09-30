@@ -21,27 +21,65 @@ import soot.jimple.infoflow.ipc.IIPCManager;
 import soot.options.Options;
 
 public class MySetupApplication extends SetupApplication {
+	/**
+	 * Creates a new instance of the {@link SetupApplication} class
+	 * 
+	 * @param androidJar
+	 *            The path to the Android SDK's "platforms" directory if Soot shall automatically select the JAR file to
+	 *            be used or the path to a single JAR file to force one.
+	 * @param apkFileLocation
+	 *            The path to the APK file to be analyzed
+	 * @param extraJar
+	 * 			  The jar libs       
+	 */
 	public MySetupApplication(String androidJar, String apkFileLocation,
 			String extraJar) {
 		super(androidJar, apkFileLocation);
 		this.extraJar = extraJar;
 	}
-
+	
+	/**
+	 * Creates a new instance of the {@link SetupApplication} class
+	 * 
+	 * @param androidJar
+	 *            The path to the Android SDK's "platforms" directory if Soot shall automatically select the JAR file to
+	 *            be used or the path to a single JAR file to force one.
+	 * @param apkFileLocation
+	 *            The path to the APK file to be analyzed
+	 * @param extraJar
+	 * 			  The jar libs 
+	 * @param ipcManager
+	 * 			  The IPC manager to use for modelling inter-component and inter-application data flows              
+	 */
 	public MySetupApplication(String androidJar, String apkFileLocation,
 			IIPCManager ipcManager, String extraJar) {
 		super(androidJar, apkFileLocation, ipcManager);
-
 		this.extraJar = extraJar;
 	}
-
+	
+	/**
+	 * Calculates the sets of sources, sinks, entry points, and callbacks methods for the given APK file.
+	 * 
+	 * @param sources
+	 *            The methods that shall be considered as sources
+	 * @param sinks
+	 *            The methods that shall be considered as sinks
+	 * @throws IOException
+	 *             Thrown if the given source/sink file could not be read.
+	 * @throws XmlPullParserException
+	 *             Thrown if the Android manifest file could not be read.
+	 */
 	public void calculateSourcesSinksEntrypoints(
 			Set<AndroidMethod> sourceMethods, Set<AndroidMethod> sinkMethods)
 			throws IOException, XmlPullParserException {
+		// read manifest of apk
 		ProcessManifest processMan = new ProcessManifest(apkFileLocation);
 		appPackageName = processMan.getPackageName();
+		// Gets all classes the contain entry points in this applications
 		entrypoints = processMan.getEntryPointClasses();
 
 		long beforeARSC = System.nanoTime(); 
+		// parse resource def file: resources.arsc 
 		ARSCFileParser resParser = new ARSCFileParser();
 		resParser.parse(apkFileLocation);
 		logger.info("ARSC file parsing took "
@@ -49,16 +87,17 @@ public class MySetupApplication extends SetupApplication {
 		resourcePackages = resParser.getPackages();
 
 		if (enableCallbacks) {
+			// Calculates the set of callback methods declared in the XML resource files or the app's source code
 			calculateCallbackMethods(resParser);
 		}
-		sources = new HashSet(sourceMethods);
-		sinks = new HashSet(sinkMethods);
+		sources = new HashSet<>(sourceMethods);
+		sinks = new HashSet<>(sinkMethods);
 
 		System.out.println("Entry point calculation done.");
 
 		G.reset();
 
-		Set<AndroidMethod> callbacks = new HashSet();
+		Set<AndroidMethod> callbacks = new HashSet<>();
 		for (Set<AndroidMethod> methods : callbackMethods.values()) {
 			callbacks.addAll(methods);
 		}

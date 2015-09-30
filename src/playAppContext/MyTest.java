@@ -6,10 +6,10 @@ import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.xmlpull.v1.XmlPullParserException;
 
 import soot.jimple.infoflow.android.TestApps.Test;
 
@@ -68,7 +68,7 @@ public class MyTest extends Test {
 			return;
 		}
 		// 读入文件并判断是否是apk文件
-		List<String> apkFiles = new ArrayList();
+		List<String> apkFiles = new ArrayList<>();
 		File apkFile = new File(args[0]);
 		if (apkFile.isDirectory()) {
 			String[] dirFiles = apkFile.list(new FilenameFilter() {
@@ -136,8 +136,17 @@ public class MyTest extends Test {
 		}				
 	}
 	
-	private static void permissionAnalysis(String apkDir, String plarformDir,
+	private static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {
+		MySetupApplication app = new MySetupApplication(platformDir,
+				apkDir, extraJar);
+		try {
+			app.calculateSourcesSinksEntrypoints("./SourceAndSinks.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
