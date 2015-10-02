@@ -1,6 +1,7 @@
 package playAppContext;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import soot.MethodOrMethodContext;
+import soot.PackManager;
 import soot.Scene;
 import soot.SceneTransformer;
 import soot.SootClass;
@@ -28,16 +30,26 @@ public class tmp extends AnalyzeJimpleClass {
 	private final Set<String> androidCallbacks;
 	// 存储当前需要处理的callback
 	private MultiMap<String, SootMethodAndClass> callbackWorklist;
+	// 存储已经遇到过得callback函数, <所在类， 函数signature>
+	private final Map<String, Set<SootMethodAndClass>> callbackMethods =
+			new HashMap<String, Set<SootMethodAndClass>>();
 
 	public tmp(Set<String> entryPointClasses) throws IOException {
 		super(entryPointClasses);
-		// TODO Auto-generated constructor stub
+		//this.config = config;
+		//this.entryPointClasses = entryPointClasses;
+		this.androidCallbacks = loadAndroidCallbacks();
+	}
+	
+	private Set<String> loadAndroidCallbacks() throws IOException {
+		Set<String> androidCallbacks = new HashSet<String>();
+		String fileName = "AndroidCallbacks.txt";
+		// read callbacks from the file
+		return androidCallbacks;
 	}
 
 	public void collectCallBackMethodsIncremental() {
 		Transform transform = new Transform("wjtp.ajc", new SceneTransformer() {
-
-
 			@Override
 			protected void internalTransform(String phaseName,
 					Map<String, String> options) {
@@ -58,9 +70,10 @@ public class tmp extends AnalyzeJimpleClass {
 					analyzeRechableMethods(Scene.v().getSootClass(className), entryClasses);
 					callbackWorklist.remove(className);
 				}
-			}
-			
+			}		
 		});
+		// 加入到Soot的phase里, 一会执行
+		PackManager.v().getPack("wjtp").add(transform);
 	}
 	
 	private void analyzeRechableMethods(SootClass lifecycleElement, List<MethodOrMethodContext> methods) {
@@ -75,7 +88,7 @@ public class tmp extends AnalyzeJimpleClass {
 			SootMethod method = reachableMethods.next().method();
 			//Analyzes the given method and looks for callback registrations
 			analyzeMethodForCallbackRegistrations(lifecycleElement, method);
-			analyzeMethodForDynamicBroadcastReceiver(method);
+			//analyzeMethodForDynamicBroadcastReceiver(method);
 		}
 	}
 	
@@ -100,20 +113,20 @@ public class tmp extends AnalyzeJimpleClass {
 		// 先通过baseClass排除不可能条件
 		
 		// Do we implement one of the well-known interfaces?
-				for (SootClass i : collectAllInterfaces(sootClass)) {
-					if (androidCallbacks.contains(i.getName()))
-						for (SootMethod sm : i.getMethods())
-							checkAndAddMethod(getMethodFromHierarchyEx(baseClass,
-									sm.getSubSignature()), lifecycleElement);
-				}
+				//for (SootClass i : collectAllInterfaces(sootClass)) {
+					//if (androidCallbacks.contains(i.getName()))
+						//for (SootMethod sm : i.getMethods())
+							//checkAndAddMethod(getMethodFromHierarchyEx(baseClass,
+									//sm.getSubSignature()), lifecycleElement);
+				//}
 	}
 	
 	private void checkAndAddMethod(SootMethod method, SootClass baseClass) {
 		AndroidMethod am = new AndroidMethod(method);
 		boolean isNew;
 		if (this.callbackMethods.containsKey(baseClass.getName()))
-			// 用.add时会判断要加入的是否在，并返回结果
-			// 函数在所在的类是否已经出现在了callbackMethod
+			// 用.add时会判断要加入的是否在callbackMethods里，并返回结果
+			// 函数在所在的类是否已经出现在了callbackMethod，不在isNew为true
 			isNew = this.callbackMethods.get(baseClass.getName()).add(am);
 		else {
 			Set<SootMethodAndClass> methods = new HashSet<SootMethodAndClass>();

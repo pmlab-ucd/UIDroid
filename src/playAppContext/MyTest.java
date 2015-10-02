@@ -2,16 +2,48 @@ package playAppContext;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
+import org.jboss.util.collection.ConcurrentReferenceHashMap.Option;
 import org.xmlpull.v1.XmlPullParserException;
 
+import app.DFSPathQueue;
+import app.PermissionInvocation;
+import soot.G;
+import soot.MethodOrMethodContext;
+import soot.PackManager;
+import soot.Scene;
+import soot.SceneTransformer;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.Transform;
+import soot.Unit;
+import soot.jimple.Stmt;
 import soot.jimple.infoflow.android.TestApps.Test;
+import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
+import soot.jimple.infoflow.results.InfoflowResults;
+import soot.jimple.infoflow.solver.IInfoflowCFG;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.jimple.toolkits.ide.icfg.BiDiInterproceduralCFG;
+import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
+import soot.options.Options;
+import soot.util.queue.QueueReader;
+import soot.jimple.infoflow.InfoflowResults.SourceInfo;
 
 
 
@@ -19,10 +51,38 @@ public class MyTest extends Test {
 	// the list of sensitive methods: got from Pscout
 	private static List<String> PscoutMethod;
 	private static String csvName;
+	private static CallGraph cg;
+	private static JimpleBasedInterproceduralCFG icfg;
+	private static List<PermissionInvocation> perInvocs; 
+	// control flow graph
+	private static IInfoflowCFG flowcfg;
+	// data flow analysis
+	private static InfoflowResults flowResults;
 	
 	public static void main(String[] args) 
 			throws IOException, InterruptedException {
 		myTestMain(args);
+	}
+	
+	private static final class ConditionalResultsAvailableHandler
+		implements ResultsAvailableHandler {
+		IInfoflowCFG cfg;
+
+		@Override
+		public void onResultsAvailable(
+				soot.jimple.infoflow.solver.cfg.IInfoflowCFG cfg,
+				InfoflowResults results) {
+			this.cfg = (IInfoflowCFG) cfg;
+			MyTest.flowcfg = (IInfoflowCFG) cfg;
+			System.out.println("end flow analysis: " + new Date());
+			
+			if (results == null) {
+				System.out.println("No result found.");
+			} else {
+				MyTest.flowResults = results;
+			}
+		}
+		
 	}
 	
 	/*
@@ -32,7 +92,7 @@ public class MyTest extends Test {
 			throws IOException, InterruptedException {
 		// 读入Pscout
 		PscoutMethod = FileUtils.readLines(new File("./jellybean_publishedapimapping_parsed.txt"));
-		// 参数过少， 打印帮助
+		// 如参数过少， 打印帮助
 		if (args.length < 2) {
 			printUsage();
 			return;
@@ -121,6 +181,8 @@ public class MyTest extends Test {
 
 			// Run the analysis
 				System.gc();
+				// taint analysis
+				// will assign results to flowResults
 				if (timeout > 0) {
 					runAnalysisTimeout(fullFilePath, args[1]);
 				} else if (sysTimeout > 0) {
@@ -148,6 +210,155 @@ public class MyTest extends Test {
 			e.printStackTrace();
 		}
 		
+		// setup
+		G.reset();
+		Options.v().set_src_prec(5);
+		Options.v().set_process_dir(Collections.singletonList(apkDir));
+		Options.v().set_android_jars(platformDir);
+		Options.v().set_whole_program(true);
+		Options.v().set_allow_phantom_refs(true);
+		Options.v().set_output_format(13);
+		
+		Scene.v().loadNecessaryClasses();
+		// 干嘛用的？
+		SootClass c = Scene.v().forceResolve("org.bouncycastle.asn1.DERObjectIdentifier", 3);
+		// 创建dummy main并作为app的main函数(分析入口)
+		SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
+		Options.v().set_main_class(entryPoint.getSignature());
+		Scene.v().setEntryPoints(Collections.singletonList(entryPoint));
+		
+		Transform CGtransform = new Transform("wjtp.checkCG", new SceneTransformer() {
+			@Override
+			protected void internalTransform(String phaseName,
+					Map<String, String> options) {
+				MyTest.cg = Scene.v().getCallGraph();
+				MyTest.icfg = new JimpleBasedInterproceduralCFG();
+				MyTest.analyzeCG();
+			}});
+		
+		PackManager.v().getPack("wjtp").add(CGtransform);
+		PackManager.v().runPacks();
+	}
+	
+	private static void analyzeCG() {
+		QueueReader<Edge> edges = cg.listener();
+		
+		File resultFile = new File("CG2.log");
+		PrintWriter out = null;
+		try {
+			out = new PrintWriter(resultFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		out.println("CG==================");
+		// iterate through edges of call graph
+		while (edges.hasNext()) {
+			Edge edge = (Edge)edges.next();
+			SootMethod target = (SootMethod)edge.getTgt();
+			MethodOrMethodContext src = edge.getSrc();
+			out.println(src + "  -->   " + target);
+			// 如果是敏感函数
+			if (PscoutMethod.contains(target.toString())) {
+				System.out.println(target.toString());
+				PermissionInvocation perInvoc = new PermissionInvocation((SootMethod)src, target);
+				if (!perInvocs.contains(perInvoc)) {
+					System.out.println("begin per analysis: " + new Date());
+					// 获得敏感函数所对应的权限
+					perInvoc.setPermission(getPermissionForInvoc(target.toString(), PscoutMethod));
+					printCFGpath((SootMethod)src, target, icfg, cg, perInvoc);
+					System.out.println("end per analysis: " + new Date());
+					perInvocs.add(perInvoc);
+					analyzeFlowResult(perInvoc);
+				}
+			}
+		}
+	}
+	
+	private static void printCFGpath(SootMethod src, SootMethod tgt,
+			BiDiInterproceduralCFG<Unit, SootMethod> icfg, CallGraph cg,
+			PermissionInvocation perInvoc) {
+		// iterate over the statements where source methods locate
+		Set<Unit> callers = icfg.getCallsFromWithin(src);
+		Iterator<Unit> unitItr = callers.iterator();
+		Stmt tgtStmt = null;
+		while (unitItr.hasNext()) {
+			Unit u = (Unit)unitItr.next();
+			if ((u instanceof Stmt)) {
+				Stmt stmt = (Stmt)u;
+				if ((stmt.containsInvokeExpr()) &&
+						stmt.getInvokeExpr().getMethod().equals(tgt)) {
+							tgtStmt = stmt;
+						}
+			}
+			System.out.println("====CFG====");
+			printCFGpath(src, tgtStmt, icfg, cg, perInvoc);
+		}
+		
+	}
+	
+	private static void printCFGpath(SootMethod src, Unit u, BiDiInterproceduralCFG<Unit, SootMethod> icfg, 
+			CallGraph cg, PermissionInvocation permInvoc) {
+		Set<Unit> callers = new HashSet<>();
+		Unit last = null;
+		// store visited by DFS
+		DFSPathQueue<Unit> unitStack = new DFSPathQueue<Unit>();
+		DFSPathQueue<SootMethod> callerStack = new DFSPathQueue<SootMethod>();
+		Map<Unit, SootMethod> contexts = new HashMap<Unit, SootMethod>();
+		ArrayList<SootMethod> path = new ArrayList<SootMethod>();
+		path.add(src);
+		ArrayList<Set<SootMethod>> methodByEntries = new ArrayList<Set<SootMethod>>();
+		ArrayList<SootMethod> entries = new ArrayList<SootMethod>();
+		unitStack.push(u);
+		callerStack.push(src);
+		int signal = 0;
+		Set<SootMethod> s;
+		while (!unitStack.isEmpty()) {
+			boolean isStartpoint = true;
+			try {
+				isStartpoint = icfg.isStartPoint(u);
+			} catch (NullPointerException e) {
+				System.err.println("DirectedGraph cannot be constructed: "
+						+ u);
+			}
+		}
+		
+	}
+
+	private static String getPermissionForInvoc(String signature, List<String> file) {
+		String permission = "";
+		
+		for (String s : file) {
+			if (s.startsWith("Permission:")) {
+				permission = s.substring(11, s.length());
+			} else if (s.contains(signature)) {
+				break;
+			}
+		}
+		
+		return permission;
+	}
+	
+	private static void analyzeFlowResult(PermissionInvocation perInvoc) {
+		System.out.println("tgt: " + perInvoc.getTgt());
+		System.out.println("src: " + perInvoc.getSrc());
+		System.out.println("per: " + perInvoc.getPermission());
+		
+		System.out.println("=======CFG======");
+		Iterator localIterator2, localIterator4;
+		SootMethod m;
+		// iterate over flowResults
+		for (Iterator localIterator1 = flowResults.getResults().keySet().iterator();
+				localIterator1.hasNext(); localIterator2.hasNext()) {
+			soot.jimple.infoflow.InfoflowResults.SourceInfo sink = 
+					(soot.jimple.infoflow.InfoflowResults.SourceInfo)localIterator1.next();
+			// 此处的context是指sink所在的语句
+			Stmt context = sink.getContext();
+			System.out.println("Found a flow to sink" + sink + " Context: " + context);
+			localIterator2 = perInvoc.getContexts().iterator();
+			//continue;
+			Context ctx = (Context)localIterator2.next();
+			System.out.println("Entry: " + ctx);
+		}
 	}
 	
 	
