@@ -179,9 +179,8 @@ public class MyTest extends Test {
 			else
 				fullFilePath = fileName;
 
-			// Run the analysis
+			// Run the taint analysis
 				System.gc();
-				// taint analysis
 				// will assign results to flowResults
 				if (timeout > 0) {
 					runAnalysisTimeout(fullFilePath, args[1]);
@@ -251,7 +250,7 @@ public class MyTest extends Test {
 			e.printStackTrace();
 		}
 		out.println("CG==================");
-		// iterate through edges of call graph
+		// iterate over edges of call graph
 		while (edges.hasNext()) {
 			Edge edge = (Edge)edges.next();
 			SootMethod target = (SootMethod)edge.getTgt();
