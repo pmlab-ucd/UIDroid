@@ -38,7 +38,7 @@ import soot.toolkits.scalar.FlowSet;
 /**
  * Reference implementation for a FlowSet. Items are stored in an Array.
  */
-public class ValueArraySparseSet<T> extends AbstractFlowSet<T> {
+public class ValueArraySparseSet<T> extends FlowSet<T> {
 	protected static final int DEFAULT_SIZE = 8;
 
 	protected int numElements;
