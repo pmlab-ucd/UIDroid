@@ -24,7 +24,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import app.Context;
 import app.DFSPathQueue;
+import app.MySetupApplication;
 import app.PermissionInvocation;
+import app.MyTest.ConditionalResultsAvailableHandler;
 import au.com.bytecode.opencsv.CSVWriter;
 import soot.G;
 import soot.MethodOrMethodContext;
@@ -45,6 +47,8 @@ import soot.jimple.infoflow.android.TestApps.Test;
 import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
 //import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.solver.IInfoflowCFG;
+import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
+import soot.jimple.infoflow.taintWrappers.ITaintPropagationWrapper;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.jimple.toolkits.ide.icfg.BiDiInterproceduralCFG;
@@ -217,12 +221,80 @@ public class MyTest extends Test {
 		}
 	}
 
+	/*
+	 * Taint Analysis module
+	 */
+	public static InfoflowResults runAnalysis(String fileName,
+			String androidJar, String extraJar) {
+		try {
+			System.out.println("begin flow analysis: " + new Date());
+			long beforeRun = System.nanoTime();
+			MySetupApplication app;
+			if (ipcManager == null) {
+				app = new MySetupApplication(androidJar, fileName, extraJar);
+			} else {
+				app = new MySetupApplication(androidJar, fileName, ipcManager,
+						extraJar);
+			}
+
+			app.setStopAfterFirstFlow(stopAfterFirstFlow);
+			app.setEnableImplicitFlows(implicitFlows);
+			app.setEnableStaticFieldTracking(staticTracking);
+			app.setEnableCallbacks(enableCallbacks);
+			app.setEnableExceptionTracking(enableExceptions);
+			app.setAccessPathLength(accessPathLength);
+			app.setLayoutMatchingMode(layoutMatchingMode);
+			app.setFlowSensitiveAliasing(flowSensitiveAliasing);
+			app.setComputeResultPaths(computeResultPaths);
+			ITaintPropagationWrapper taintWrapper;
+			if (librarySummaryTaintWrapper) {
+				taintWrapper = createLibrarySummaryTW();
+			} else {
+				EasyTaintWrapper easyTaintWrapper;
+
+				if (new File("../soot-infoflow/EasyTaintWrapperSource.txt")
+						.exists()) {
+					easyTaintWrapper = new EasyTaintWrapper(
+							"../soot-infoflow/EasyTaintWrapperSource.txt");
+				} else
+					easyTaintWrapper = new EasyTaintWrapper(
+							"EasyTaintWrapperSource.txt");
+				easyTaintWrapper.setAggressiveMode(aggressiveTaintWrapper);
+				taintWrapper = easyTaintWrapper;
+			}
+			app.setTaintWrapper(taintWrapper);
+			app.calculateSourcesSinksEntrypoints("SourcesAndSinks.txt");
+
+			if (DEBUG) {
+				app.printEntrypoints();
+				app.printSinks();
+				app.printSources();
+			}
+
+			System.out.println("Running data flow analysis...");
+			InfoflowResults res = app
+					.runInfoflow(new ConditionalResultsAvailableHandler());
+			System.out.println("Analysis has run for "
+					+ (System.nanoTime() - beforeRun) / 1.0E9D + " seconds");
+			return res;
+		} catch (IOException ex) {
+			System.err.println("Could not read file: " + ex.getMessage());
+			ex.printStackTrace();
+			throw new RuntimeException(ex);
+		} catch (XmlPullParserException ex) {
+			System.err.println("Could not read Android manifest file: "
+					+ ex.getMessage());
+			ex.printStackTrace();
+			throw new RuntimeException(ex);
+		}
+	}
+
 	private static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {
 		MySetupApplication app = new MySetupApplication(platformDir, apkDir,
 				extraJar);
 		try {
-			app.calculateSourcesSinksEntrypoints("./SourceAndSinks.txt");
+			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (XmlPullParserException e) {
@@ -296,8 +368,9 @@ public class MyTest extends Test {
 				}
 			}
 		}
-		
-		System.out.println("size: " + perInvocs.size() + "cg.size: " + cg.size());
+
+		System.out.println("size: " + perInvocs.size() + "cg.size: "
+				+ cg.size());
 		out.println("CG ends==================");
 		out.close();
 	}
@@ -404,8 +477,9 @@ public class MyTest extends Test {
 		Iterator<Context> localIterator2;
 		Iterator<Set> localIterator4;
 		SootMethod m;
-		for (Iterator<SinkInfo> localIterator1 = flowResults.getResults().keySet()
-				.iterator(); localIterator1.hasNext(); localIterator2.hasNext()) {
+		for (Iterator<SinkInfo> localIterator1 = flowResults.getResults()
+				.keySet().iterator(); localIterator1.hasNext(); localIterator2
+				.hasNext()) {
 			InfoflowResults.SinkInfo sink = (InfoflowResults.SinkInfo) localIterator1
 					.next();
 
@@ -413,12 +487,13 @@ public class MyTest extends Test {
 			System.out.println("Found a flow to sink " + sink + "  Context: "
 					+ context);
 			localIterator2 = perInvoc.getContexts().iterator();
-			//continue;
+			// continue;
 			Context ctx = (Context) localIterator2.next();
 			System.out.println("Entry: " + ctx.getEntrypoint());
 			for (Stmt conStmt : ctx.getConditionalStmt()) {
 				if (isSameStmt(conStmt, context)) {
-					localIterator4 = ((Set) flowResults.getResults().get(sink)).iterator();
+					localIterator4 = ((Set) flowResults.getResults().get(sink))
+							.iterator();
 					while (localIterator4.hasNext()) {
 						InfoflowResults.SourceInfo source = (InfoflowResults.SourceInfo) localIterator4
 								.next();

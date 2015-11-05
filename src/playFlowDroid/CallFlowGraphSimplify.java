@@ -1,3 +1,8 @@
+/*
+ * Generate brief Call Graph 
+ * https://groups.google.com/forum/#!topic/soot-list/bob7WNBJwwU
+ */
+
 package playFlowDroid;
 
 import java.io.File;
@@ -28,22 +33,14 @@ public class CallFlowGraphSimplify {
 	}
 
 	public static void main(String[] args) {
-
-		//File dir = new File("F:/PATDroid/PATDroidTest/app/");
-		//File[] files = dir.listFiles();
-
-		//for (int i = 0; i < files.length; i++) {
-			//File f = files[i];
-			//File f = new File("F:/PATDroid/PATDroidTest/app/app-debug.apk");
-		//File f = new File("/media/hao/Hitachi/PATDroid/PATDroidTest/app/app-debug.apk");
-		File f = new File("/home/hao/workspace/AppContext/ApkSamples/app-debug.apk");
+		File f = new File(
+				"/home/hao/workspace/AppContext/ApkSamples/app-debug.apk");
 		String source_apk = f.getAbsolutePath();
 		soot.G.reset();
 
 		SetupApplication app = new SetupApplication(
-				//"C:/Users/hao/Downloads/android-sdk-windows/platforms",
-				"/home/hao/Android/Sdk/platforms",
-				source_apk);
+		// "C:/Users/hao/Downloads/android-sdk-windows/platforms",
+				"/home/hao/Android/Sdk/platforms", source_apk);
 
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
@@ -52,7 +49,7 @@ public class CallFlowGraphSimplify {
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
-		
+
 		// reset graph
 		soot.G.reset();
 
@@ -60,7 +57,7 @@ public class CallFlowGraphSimplify {
 
 		Options.v().set_process_dir(Collections.singletonList(source_apk));
 		Options.v().set_force_android_jar(
-				//"C:/Users/hao/Downloads/android-sdk-windows/platforms");
+		// "C:/Users/hao/Downloads/android-sdk-windows/platforms");
 				"/home/hao/Android/Sdk/platforms");
 
 		Options.v().set_whole_program(true);
@@ -69,7 +66,7 @@ public class CallFlowGraphSimplify {
 
 		Options.v().set_output_format(Options.output_format_none);
 
-		//Options.v().setPhaseOption("cg.spark verbose:true", "on");
+		// Options.v().setPhaseOption("cg.spark verbose:true", "on");
 		Options.v().setPhaseOption("cg.spark", "on");
 
 		Scene.v().loadNecessaryClasses();
@@ -95,12 +92,12 @@ public class CallFlowGraphSimplify {
 		String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
 		String destination = "./sootOutput/" + fileNameWithOutExt;
 		dot.plot(destination + dot.DOT_EXTENSION);
-			// soot.PhaseOptions.getBoolean(Scene.v().getCallGraph().listener(),"dump_cg");
-			// System.out.println(Scene.v().getCallGraph());
+		// soot.PhaseOptions.getBoolean(Scene.v().getCallGraph().listener(),"dump_cg");
+		// System.out.println(Scene.v().getCallGraph());
 
-		//}
+		// }
 	}
-	
+
 	/*
 	 * DFS travel over the call graph
 	 */
