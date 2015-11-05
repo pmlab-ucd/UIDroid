@@ -43,7 +43,7 @@ public class CallFlowGraphFull extends MyTest{
 
 	private static List<String> PscoutMethod;
 	static String appName = "app-debug";
-	private static String csvName = "output.csv";
+	private static String csvName;// = "output.csv";
 	private static CallGraph cg;
 	private static JimpleBasedInterproceduralCFG icfg;
 	private static List<PermissionInvocation> perInvocs = new ArrayList<>();
@@ -54,6 +54,14 @@ public class CallFlowGraphFull extends MyTest{
 
 	public CallFlowGraphFull() {
 	}
+	
+	public static void setCsvName() {
+		csvName = "output.csv";
+	}
+	
+	public static void printCsvName() {
+		System.out.print(csvName);
+	}
 
 	public static void main(String[] args) {
 		// File f = new
@@ -62,14 +70,6 @@ public class CallFlowGraphFull extends MyTest{
 				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
 		String apkPath = f.getAbsolutePath();
 		String platformPath = "/home/hao/Android/Sdk/platforms";
-		if (timeout > 0) {
-			runAnalysisTimeout(apkPath, platformPath);
-		} else if (sysTimeout > 0) {
-			runAnalysisSysTimeout(apkPath, platformPath);
-		} else {
-			// 这里多了个extraJar参数
-			runAnalysis(apkPath, platformPath, "/home/hao/workspace/AppContext/libs");
-		}
 		
 		try {
 			PscoutMethod = FileUtils.readLines(new File(
@@ -79,7 +79,6 @@ public class CallFlowGraphFull extends MyTest{
 			e.printStackTrace();
 		}
 		
-		MyTest.permissionAnalysis(apkPath, platformPath, "/home/hao/workspace/AppContext/libs");
 		
 		soot.G.reset();
 
@@ -124,9 +123,9 @@ public class CallFlowGraphFull extends MyTest{
 					@Override
 					protected void internalTransform(String phaseName,
 							Map<String, String> options) {
-						CallGraph cg = Scene.v().getCallGraph();
+						cg = Scene.v().getCallGraph();
 						icfg = new JimpleBasedInterproceduralCFG();
-						analyzeCG(cg);
+						analyzeCG();
 					}
 				});
 

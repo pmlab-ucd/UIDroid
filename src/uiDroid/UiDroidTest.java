@@ -12,7 +12,7 @@ public class UiDroidTest extends MyTest {
 		File f = new File(
 				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
 		String apkPath = f.getAbsolutePath();
-		//permissionAnalysis(apkPath, args[2], args[3]);
+		permissionAnalysis(apkPath, args[2], args[3]);
 	}
 
 }

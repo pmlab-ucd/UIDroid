@@ -10,25 +10,12 @@ import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
 import app.MyTest;
 import app.PermissionInvocation;
 
-public class Test extends MyTest {
-	private static List<String> PscoutMethod;
-	private static List<PermissionInvocation> perInvocs;
-	private static JimpleBasedInterproceduralCFG icfg;
-
+public class Test extends CallFlowGraphFull {
+	private static String csvName = "damn";
 	public static void main(String[] args) {
-		File f = new File(
-				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
-		String apkPath = f.getAbsolutePath();
-		String platformPath = "/home/hao/Android/Sdk/platforms";
-		
-		try {
-			PscoutMethod = FileUtils.readLines(new File(
-					"./jellybean_publishedapimapping_parsed.txt"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		permissionAnalysis(apkPath, platformPath, "/home/hao/workspace/AppContext/libs");
+		String csvName = "damn";
+		printCsvName();
+		setCsvName();
+		printCsvName();
 	}
 }

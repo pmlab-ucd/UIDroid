@@ -3,10 +3,10 @@ digraph "callgraph" {
     "<de.ecspride.Button1: void <clinit>()>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1: void <clinit>()>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1: void <clinit>()>";
     "<java.lang.Object: void <clinit>()>"
     "<dummyMainClass: void dummyMainMethod()>"->"<java.lang.Object: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<java.lang.Object: void <clinit>()>";
-    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1: void <clinit>()>";
     "<de.ecspride.Button1: void <clinit>()>"->"<de.ecspride.Button1: void <clinit>()>";
     "<java.lang.Object: void <clinit>()>"->"<java.lang.Object: void <clinit>()>";
     "<java.lang.Object: void registerNatives()>"
@@ -17,14 +17,14 @@ digraph "callgraph" {
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1: void onCreate(android.os.Bundle)>";
     "<de.ecspride.Button1: void sendMessageWrapper(android.view.View)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1: void sendMessageWrapper(android.view.View)>";
-    "<de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>"
-    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>";
-    "<de.ecspride.Button1$1: void onClick(android.view.View)>"
-    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1$1: void onClick(android.view.View)>";
     "<de.ecspride.Button1$2: void <init>(de.ecspride.Button1)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1$2: void <init>(de.ecspride.Button1)>";
     "<de.ecspride.Button1$2: void onClick(android.view.View)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1$2: void onClick(android.view.View)>";
+    "<de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>";
+    "<de.ecspride.Button1$1: void onClick(android.view.View)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Button1$1: void onClick(android.view.View)>";
     "<de.ecspride.Button1: void onCreate(android.os.Bundle)>"->"<java.lang.Object: void <clinit>()>";
     "<de.ecspride.Button1: void onCreate(android.os.Bundle)>"->"<java.lang.Object: void <clinit>()>";
     "<de.ecspride.Button1$2: void onClick(android.view.View)>"->"<de.ecspride.Button1: void <clinit>()>";
@@ -45,12 +45,12 @@ digraph "callgraph" {
     "<de.ecspride.Button1: void sendMessage()>"->"<android.widget.Toast: android.widget.Toast makeText(android.content.Context,java.lang.CharSequence,int)>";
     "<de.ecspride.Button1: void sendMessage()>"->"<de.ecspride.Button1: void <clinit>()>";
     "<java.lang.Object: void <init>()>"
-    "<de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>"->"<java.lang.Object: void <init>()>";
+    "<de.ecspride.Button1$2: void <init>(de.ecspride.Button1)>"->"<java.lang.Object: void <init>()>";
     "<java.lang.Object: void finalize()>"
     "<java.lang.Object: void <init>()>"->"<java.lang.Object: void finalize()>";
+    "<de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>"->"<java.lang.Object: void <init>()>";
     "<de.ecspride.Button1: void getDevIdWrapperTop()>"
     "<de.ecspride.Button1$1: void onClick(android.view.View)>"->"<de.ecspride.Button1: void getDevIdWrapperTop()>";
-    "<de.ecspride.Button1$2: void <init>(de.ecspride.Button1)>"->"<java.lang.Object: void <init>()>";
     "<de.ecspride.Button1: void getDevIdWrapper2()>"
     "<de.ecspride.Button1: void access$000(de.ecspride.Button1)>"->"<de.ecspride.Button1: void getDevIdWrapper2()>";
     "<de.ecspride.Button1: void getDevIdWrapperTop()>"->"<de.ecspride.Button1: void getDevIdWrapper2()>";

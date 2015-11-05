@@ -58,9 +58,9 @@ CG==================
 <dummyMainClass: void dummyMainMethod()>   -->    <de.ecspride.Button1: void onCreate(android.os.Bundle)>
 <dummyMainClass: void dummyMainMethod()>   -->    <de.ecspride.Button1: void sendMessageWrapper(android.view.View)>
 <dummyMainClass: void dummyMainMethod()>   -->    <android.os.Bundle: void <init>()>
-<dummyMainClass: void dummyMainMethod()>   -->    <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod()>   -->    <de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>
 <dummyMainClass: void dummyMainMethod()>   -->    <de.ecspride.Button1$1: void onClick(android.view.View)>
+<dummyMainClass: void dummyMainMethod()>   -->    <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod()>   -->    <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod()>   -->    <de.ecspride.Button1$2: void <init>(de.ecspride.Button1)>
 <dummyMainClass: void dummyMainMethod()>   -->    <de.ecspride.Button1$2: void onClick(android.view.View)>
@@ -87,10 +87,10 @@ CG==================
 <android.os.Bundle: void <init>()>   -->    <java.lang.Object: void <init>()>
 <android.os.Bundle: void <init>()>   -->    <java.lang.RuntimeException: void <init>(java.lang.String)>
 <java.lang.Object: void <init>()>   -->    <java.lang.Object: void finalize()>
-<android.view.View: void <init>(android.content.Context)>   -->    <java.lang.Object: void <init>()>
-<android.view.View: void <init>(android.content.Context)>   -->    <java.lang.RuntimeException: void <init>(java.lang.String)>
 <de.ecspride.Button1$1: void <init>(de.ecspride.Button1)>   -->    <java.lang.Object: void <init>()>
 <de.ecspride.Button1$1: void onClick(android.view.View)>   -->    <de.ecspride.Button1: void getDevIdWrapperTop()>
+<android.view.View: void <init>(android.content.Context)>   -->    <java.lang.Object: void <init>()>
+<android.view.View: void <init>(android.content.Context)>   -->    <java.lang.RuntimeException: void <init>(java.lang.String)>
 <de.ecspride.Button1$2: void <init>(de.ecspride.Button1)>   -->    <java.lang.Object: void <init>()>
 <de.ecspride.Button1: void access$000(de.ecspride.Button1)>   -->    <de.ecspride.Button1: void getDevIdWrapper2()>
 <android.app.Activity: void <init>()>   -->    <android.view.ContextThemeWrapper: void <init>()>
