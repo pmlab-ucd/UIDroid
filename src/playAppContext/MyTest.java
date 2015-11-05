@@ -60,7 +60,7 @@ public class MyTest extends Test {
 	private static String csvName;
 	private static CallGraph cg;
 	private static JimpleBasedInterproceduralCFG icfg;
-	private static List<PermissionInvocation> perInvocs;
+	private static List<PermissionInvocation> perInvocs = new ArrayList();
 	// control flow graph
 	private static IInfoflowCFG flowcfg;
 	// data flow analysis
@@ -296,6 +296,10 @@ public class MyTest extends Test {
 				}
 			}
 		}
+		
+		System.out.println("size: " + perInvocs.size() + "cg.size: " + cg.size());
+		out.println("CG ends==================");
+		out.close();
 	}
 
 	private static void printCFGpath(SootMethod src, SootMethod tgt,
