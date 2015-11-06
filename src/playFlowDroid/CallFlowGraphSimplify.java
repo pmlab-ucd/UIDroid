@@ -101,16 +101,16 @@ public class CallFlowGraphSimplify {
 	/*
 	 * DFS travel over the call graph
 	 */
-	private static void visit(CallGraph cg, SootMethod k) {
-		String identifier = k.getName();
+	private static void visit(CallGraph cg, SootMethod method) {
+		String identifier = method.getSignature();
 
-		visited.put(k.getSignature(), true);
+		visited.put(method.getSignature(), true);
 
 		// System.out.println(dot.drawNode(identifier));
 		dot.drawNode(identifier);
 
 		// iterate over unvisited parents
-		Iterator<MethodOrMethodContext> ptargets = new Targets(cg.edgesInto(k));
+		Iterator<MethodOrMethodContext> ptargets = new Targets(cg.edgesInto(method));
 
 		if (ptargets != null) {
 			while (ptargets.hasNext()) {
@@ -125,17 +125,17 @@ public class CallFlowGraphSimplify {
 		}
 
 		// iterate over unvisited children
-		Iterator<MethodOrMethodContext> ctargets = new Targets(cg.edgesOutOf(k));
+		Iterator<MethodOrMethodContext> ctargets = new Targets(cg.edgesOutOf(method));
 
 		if (ctargets != null) {
 			while (ctargets.hasNext()) {
-				SootMethod c = (SootMethod) ctargets.next();
-				if (c == null)
-					System.out.println("c is null");
-				dot.drawEdge(identifier, c.getName());
+				SootMethod method2 = (SootMethod) ctargets.next();
+				if (method2 == null)
+					System.out.println("method2 is null");
+				dot.drawEdge(identifier, method2.getSignature());
 
-				if (!visited.containsKey(c.getSignature()))
-					visit(cg, c);
+				if (!visited.containsKey(method2.getSignature()))
+					visit(cg, method2);
 			}
 		}
 	}

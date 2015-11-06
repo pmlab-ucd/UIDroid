@@ -38,9 +38,13 @@ import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
 import soot.Value;
+import soot.jimple.IfStmt;
 import soot.jimple.InvokeExpr;
+import soot.jimple.InvokeStmt;
+import soot.jimple.LookupSwitchStmt;
 import soot.jimple.Ref;
 import soot.jimple.Stmt;
+import soot.jimple.TableSwitchStmt;
 import soot.jimple.infoflow.InfoflowResults;
 import soot.jimple.infoflow.InfoflowResults.SinkInfo;
 import soot.jimple.infoflow.android.TestApps.Test;
@@ -397,30 +401,156 @@ public class MyTest extends Test {
 
 	}
 
+	public static ArrayList<SootMethod> cutPath(ArrayList<SootMethod> path,
+			SootMethod node) {
+		int length = path.size() - 1;
+		for (int i = length; i >= 0; i--) {
+			if (!((SootMethod) path.get(i)).equals(node))
+				path.remove(i);
+		}
+		return path;
+	}
+
 	private static void printCFGpath(SootMethod src, Unit u,
 			BiDiInterproceduralCFG<Unit, SootMethod> icfg, CallGraph cg,
 			PermissionInvocation permInvoc) {
-		Set<Unit> callers = new HashSet<>();
+		Set<Unit> callers = new HashSet();
 		Unit last = null;
-		// store visited by DFS
-		DFSPathQueue<Unit> unitStack = new DFSPathQueue<Unit>();
-		DFSPathQueue<SootMethod> callerStack = new DFSPathQueue<SootMethod>();
-		Map<Unit, SootMethod> contexts = new HashMap<Unit, SootMethod>();
-		ArrayList<SootMethod> path = new ArrayList<SootMethod>();
+		// store visited nodes in a queue
+		DFSPathQueue<Unit> unitStack = new DFSPathQueue();
+		DFSPathQueue<SootMethod> callerStack = new DFSPathQueue();
+		Map<Unit, SootMethod> contexts = new HashMap();
+		ArrayList<SootMethod> path = new ArrayList();
 		path.add(src);
-		ArrayList<Set<SootMethod>> methodByEntries = new ArrayList<Set<SootMethod>>();
-		ArrayList<SootMethod> entries = new ArrayList<SootMethod>();
+		ArrayList<Set<SootMethod>> methodByEntries = new ArrayList();
+		ArrayList<SootMethod> entries = new ArrayList();
 		unitStack.push(u);
 		callerStack.push(src);
 		int signal = 0;
 		Set<SootMethod> s;
 		while (!unitStack.isEmpty()) {
 			boolean isStartpoint = true;
+
 			try {
 				isStartpoint = icfg.isStartPoint(u);
 			} catch (NullPointerException e) {
 				System.err.println("DirectedGraph cannot be constructed: " + u);
+				try {
+					u = (Unit) icfg.getPredsOf(u).iterator().next();
+				} catch (NullPointerException e1) {
+					isStartpoint = true;
+				}
+				last = u;
 			}
+			if (!isStartpoint) {
+
+				if (((u instanceof IfStmt)) || ((u instanceof TableSwitchStmt))
+						|| ((u instanceof LookupSwitchStmt))) {
+					if (signal <= 0) {
+						Unit predUnit = u;
+
+						while (u.equals(predUnit)) {
+							predUnit = (Unit) icfg.getPredsOf(u).iterator()
+									.next();
+							if ((icfg.getPredsOf(u).size() == 1)
+									&& ((predUnit instanceof InvokeStmt))) {
+								InvokeStmt condStmt = (InvokeStmt) predUnit;
+
+								if (condStmt.getInvokeExpr().getMethod()
+										.getName().contains("invokeIfStmt")) {
+									u = predUnit;
+
+									contexts.put(condStmt, src);
+								}
+							}
+						}
+					} else {
+						signal--;
+					}
+				}
+				icfg.getPredsOf(u).size();
+
+				if (icfg.getPredsOf(u).size() > 1) {
+					signal++;
+				}
+
+				last = u;
+				u = (Unit) icfg.getPredsOf(u).iterator().next();
+
+			} else {
+				Iterator<Edge> iter = cg.edgesInto(src);
+				while (iter.hasNext()) {
+					Edge edge = (Edge) iter.next();
+					SootMethod srcCallerMethod = edge.src();
+					if (srcCallerMethod.toString().contains(
+							"dummyMainClass: void dummyMainMethod()")) {
+						if (!entries.contains(src)) {
+							entries.add(src);
+							methodByEntries.add(new HashSet(path));
+						} else {
+							int i = entries.indexOf(src);
+							Set<SootMethod> set = (Set) methodByEntries.get(i);
+							set.addAll(new HashSet(path));
+							methodByEntries.set(i, set);
+						}
+
+						if (callerStack.lastRemoved() == null)
+							break;
+						path = cutPath(path,
+								(SootMethod) callerStack.lastRemoved());
+
+						break;
+					}
+					Unit caller = edge.srcUnit();
+					if (caller != null) {
+						if (!callers.contains(caller)) {
+							callers.add(caller);
+
+							if (!caller.toString().contains(
+									"dummyMainClass: void dummyMainMethod()")) {
+								unitStack.push(caller);
+								callerStack.push(srcCallerMethod);
+							}
+						} else {
+							for (int i = 0; i < methodByEntries.size(); i++) {
+								s = (Set) methodByEntries.get(i);
+								if (s.contains(srcCallerMethod)) {
+									s.addAll(new HashSet(path));
+									methodByEntries.set(i, s);
+								}
+							}
+							if (callerStack.lastRemoved() != null)
+								path = cutPath(path,
+										(SootMethod) callerStack.lastRemoved());
+						}
+					}
+				}
+				u = (Unit) unitStack.pop();
+
+				src = (SootMethod) callerStack.pop();
+				path.add(src);
+			}
+		}
+
+		for (int i = 0; i < methodByEntries.size(); i++) {
+			Set<SootMethod> set = (Set) methodByEntries.get(i);
+			SootMethod m = (SootMethod) entries.get(i);
+			Context ctx = new Context();
+			List<Stmt> conditionalStmt = new ArrayList();
+			ctx.setEntrypoint(m);
+			Iterator localIterator;
+			for (set =  set.iterator(); set.hasNext(); localIterator.hasNext()) {
+				SootMethod method = (SootMethod) set.next();
+				localIterator = contexts.entrySet().iterator();
+				continue;
+				Map.Entry<Unit, SootMethod> entry = (Map.Entry) localIterato.next();
+				if (((SootMethod) entry.getValue()).equals(method)) {
+					conditionalStmt.add((Stmt) entry.getKey());
+				}
+			}
+
+			ctx.setConditionalStmt(conditionalStmt);
+			permInvoc.addContext(ctx);
 		}
 
 	}

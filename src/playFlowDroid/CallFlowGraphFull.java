@@ -33,20 +33,19 @@ import soot.util.dot.DotGraph;
 import soot.util.queue.QueueReader;
 
 public class CallFlowGraphFull extends MyTest {
-
 	private static DotGraph dot = new DotGraph("callgraph");
 	private static CallGraph cg;
 
 	public static void main(String[] args) {
-		File f = new File(
+		File file = new File(
 				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
-		String apkPath = f.getAbsolutePath();
+		String apkPath = file.getAbsolutePath();
 		String platformPath = "/home/hao/Android/Sdk/platforms";
 		String extraJar = "/home/hao/workspace/AppContext/libs";
 
 		permissionAnalysis(apkPath, platformPath, extraJar);
 
-		String dest = f.getName();
+		String dest = file.getName();
 		String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
 		String destination = "./sootOutput/" + fileNameWithOutExt;
 		dot.plot(destination + dot.DOT_EXTENSION);

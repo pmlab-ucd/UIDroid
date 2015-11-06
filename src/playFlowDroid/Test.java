@@ -14,8 +14,5 @@ public class Test extends CallFlowGraphFull {
 	private static String csvName = "damn";
 	public static void main(String[] args) {
 		String csvName = "damn";
-		printCsvName();
-		setCsvName();
-		printCsvName();
 	}
 }

@@ -7,6 +7,7 @@ package uiDroid;
 import java.io.IOException;
 
 import app.IfStmtInstrument;
+import app.MyTest;
 
 public class UiDroidMain {
 	public static void main(String[] args) {
@@ -18,11 +19,9 @@ public class UiDroidMain {
 				mainArgs[(i - 1)] = args[i];
 			}
 			try {
-				UiDroidTest.main(mainArgs);
-			} catch (IOException ioExcept) {
-				ioExcept.printStackTrace();
-			} catch (InterruptedException interruptExcept) {
-				interruptExcept.printStackTrace();
+				MyTest.main(mainArgs);
+			} catch (IOException | InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
