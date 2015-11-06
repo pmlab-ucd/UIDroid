@@ -6,23 +6,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import soot.Body;
 import soot.G;
 import soot.MethodOrMethodContext;
-import soot.MethodSource;
 import soot.PackManager;
 import soot.Scene;
 import soot.SceneTransformer;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
-import soot.UnitBox;
 import soot.jimple.Stmt;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
@@ -52,6 +48,7 @@ public class UiDroidTest extends MyTest {
 	public static void analyzeCG() {
 		QueueReader<Edge> edges = cg.listener();
 		Set<String> visited = new HashSet<>();
+		Set<String> activities = new HashSet<>();
 
 		File resultFile = new File("./sootOutput/CGTest.log");
 		PrintWriter out = null;
@@ -77,17 +74,22 @@ public class UiDroidTest extends MyTest {
 			
 			out.println(src + "  -->   " + target);
 			//if (tgtMethod.contains("android.view.View findViewById")) {
-			if (tgtMethod.contains("onCreate")) {
-				out.println("found here!");
-				Set<Unit> callers = icfg.getCallsFromWithin(src.method());
+			if (tgtMethod.contains("onCreate") && !activities.contains(tgtMethod)) {
+				out.print("\n");
+				out.println("found a onCreate here!>>>>>>>>>>>>>>>");
+				// get callers inside a method body through icfg
+				Set<Unit> callers = icfg.getCallsFromWithin(target);
 				for (Unit unit : callers) {
 					if (unit instanceof Stmt) {
 						Stmt stmt = (Stmt) unit;
 						out.println(stmt);
 					}
 				}
+				activities.add(tgtMethod);
+				
+				out.println("end a onCreate >>>>>>>>>>>>>>>");		
+				out.print("\n");
 			}
-						
 		}
 
 		out.println("CG ends==================");
