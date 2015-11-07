@@ -1,4 +1,13 @@
+/*
+ * Warning:
+ * This can only be executed correctly when using SOOTCLASSES　
+ * and put the /bin/ as External Class folder suggested as 
+ * http://stackoverflow.com/questions/20282481/loading-java-class-files-for-soot-dynamically-in-eclipse.
+ * Not working anymore if use soot-trunk.jar as lib
+ */
+
 package playSoot;
+
 import soot.Body;
 import soot.Scene;
 import soot.SootClass;
@@ -10,12 +19,11 @@ import soot.toolkits.scalar.FlowSet;
 
 public class MyMain {
 	public static void main(String[] args) {
-		// 载入MyClass类
-		SootClass c = Scene.v().loadClassAndSupport("MyClass");
+		SootClass tgtClass = Scene.v().loadClassAndSupport("playSoot.MyClass");
 		// 把它作为我们要分析的类
-		c.setApplicationClass();
+		tgtClass.setApplicationClass();
 		// 找到它的myMethod函数
-		SootMethod method = c.getMethodByName("myMethod");
+		SootMethod method = tgtClass.getMethodByName("myMethod");
 		// 获得它的函数体
 		Body body = method.retrieveActiveBody();
 		// 生成函数的cfg
@@ -27,7 +35,8 @@ public class MyMain {
 		for (Unit unit : cfg) {
 			FlowSet in = (FlowSet) an.getFlowBefore(unit);
 			FlowSet out = (FlowSet) an.getFlowAfter(unit);
-			System.out.println(unit.toString() + ": " + in.toString() + ' ' + out.toString());
 		}
+
 	}
+	
 }

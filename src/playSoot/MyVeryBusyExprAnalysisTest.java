@@ -1,3 +1,12 @@
+/*
+ * Warning:
+ * This can only be executed correctly when using SOOTCLASSES　
+ * and put the /bin/ as External Class folder suggested as 
+ * http://stackoverflow.com/questions/20282481/loading-java-class-files-for-soot-dynamically-in-eclipse.
+ * Not working anymore if use soot-trunk.jar as lib
+ */
+
+
 package playSoot;
 import static org.junit.Assert.*;
 
@@ -22,19 +31,19 @@ public class MyVeryBusyExprAnalysisTest {
 	@Before
 	public void setUp() throws Exception {
 		// 载入MyClass类
-		SootClass c = Scene.v().loadClassAndSupport("MyClass");
+		SootClass tgtClass = Scene.v().loadClassAndSupport("MyClass");
 		// 把它作为我们要分析的类
-		c.setApplicationClass();
+		tgtClass.setApplicationClass();
 		// 找到它的myMethod函数
-		SootMethod m = c.getMethodByName("myMethod");
+		SootMethod method = tgtClass.getMethodByName("myMethod");
 		// 获得它的函数体
-		Body b = m.retrieveActiveBody();
+		Body body = method.retrieveActiveBody();
 		// 生成函数的cfg
-		UnitGraph g = new ExceptionalUnitGraph(b);
+		UnitGraph cfg = new ExceptionalUnitGraph(body);
 		// 执行我们的分析
-		MyVeryBusyExprAnalysis.VeryBusyExprAnalysis an = new MyVeryBusyExprAnalysis.VeryBusyExprAnalysis(g);
+		MyVeryBusyExprAnalysis.VeryBusyExprAnalysis an = new MyVeryBusyExprAnalysis.VeryBusyExprAnalysis(cfg);
 		// iterate over the results
-		for (Unit unit: g) {
+		for (Unit unit: cfg) {
 			FlowSet in = (FlowSet) an.getFlowBefore(unit);
 			FlowSet out = (FlowSet) an.getFlowAfter(unit);
 		}

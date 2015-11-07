@@ -12,4 +12,9 @@ public class MyClass {
 		}
 		System.out.print(a * b);
 	}
+	
+	public static void main(String[] args) {
+		MyClass mc = new MyClass();
+		mc.myMethod();
+	}
 }

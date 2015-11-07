@@ -2,14 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/axml-2.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/Core/Main.jar">
+	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/home/hao/Dropbox/workspace/MyFlowAnalysis/libs/soot-infoflow-android-javadoc.jar!/"/>
+			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/ICC/epicc-0.1.jar"/>
+	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/Core/Main.jar"/>
+	<classpathentry kind="var" path="SOOTCLASSES" sourcepath="SOOTSRC"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/bin/playSoot"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

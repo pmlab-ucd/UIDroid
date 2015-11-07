@@ -1,0 +1,50 @@
+public class playSoot.MyClass extends java.lang.Object
+{
+
+    private final void myMethod()
+    {
+        playSoot.MyClass this;
+        int x, a, b, temp$0, temp$1, temp$2, temp$4, temp$5, temp$6, temp$8;
+        java.io.PrintStream temp$3, temp$7;
+
+        this := @this: playSoot.MyClass;
+        temp$0 = 30;
+        x = temp$0;
+        temp$1 = x - 1;
+        a = temp$1;
+        temp$2 = x - 2;
+        b = temp$2;
+
+     label0:
+        nop;
+        if x > 0 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = <java.lang.System: java.io.PrintStream out>;
+        temp$4 = a * b;
+        temp$5 = temp$4 - x;
+        virtualinvoke temp$3.<java.io.PrintStream: void print(int)>(temp$5);
+        temp$6 = x - 1;
+        x = temp$6;
+        goto label0;
+
+     label2:
+        nop;
+        temp$7 = <java.lang.System: java.io.PrintStream out>;
+        temp$8 = a * b;
+        virtualinvoke temp$7.<java.io.PrintStream: void print(int)>(temp$8);
+        return;
+    }
+
+    public void <init>()
+    {
+        playSoot.MyClass this;
+
+        this := @this: playSoot.MyClass;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}
