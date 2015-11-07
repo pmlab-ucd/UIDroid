@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import soot.Body;
 import soot.G;
 import soot.MethodOrMethodContext;
 import soot.PackManager;
@@ -24,6 +25,8 @@ import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
 import soot.options.Options;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.UnitGraph;
 import soot.util.queue.QueueReader;
 import app.MySetupApplication;
 import app.MyTest;
@@ -78,15 +81,25 @@ public class UiDroidTest extends MyTest {
 				out.print("\n");
 				out.println("found a onCreate here!>>>>>>>>>>>>>>>");
 				// get callers inside a method body through icfg
-				Set<Unit> callers = icfg.getCallsFromWithin(target);
+				/*Set<Unit> callers = icfg.getCallsFromWithin(target);
 				for (Unit unit : callers) {
 					if (unit instanceof Stmt) {
 						Stmt stmt = (Stmt) unit;
 						out.println(stmt);
 					}
-				}
-				activities.add(tgtMethod);
+				}*/
 				
+				Body body = target.retrieveActiveBody();
+				UnitGraph cfg = new ExceptionalUnitGraph(body);
+				for (Unit unit : cfg) {
+					if (unit instanceof Stmt) {
+						Stmt stmt = (Stmt) unit;
+						out.println(stmt);
+					}
+				}
+				
+				activities.add(tgtMethod);
+								
 				out.println("end a onCreate >>>>>>>>>>>>>>>");		
 				out.print("\n");
 			}
