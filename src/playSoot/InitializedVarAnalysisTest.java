@@ -1,13 +1,5 @@
-/*
- * Warning:
- * This can only be executed correctly when using SOOTCLASSES　
- * and put the /bin/ as External Class folder suggested as 
- * http://stackoverflow.com/questions/20282481/loading-java-class-files-for-soot-dynamically-in-eclipse.
- * Not working anymore if use soot-trunk.jar as lib
- */
-
-
 package playSoot;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -22,9 +14,7 @@ import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.FlowSet;
 
-
-public class MyVeryBusyExprAnalysisTest {
-	
+public class InitializedVarAnalysisTest {
 	/*
 	 * 执行我们写的分析
 	 */
@@ -41,7 +31,7 @@ public class MyVeryBusyExprAnalysisTest {
 		// 生成函数的cfg
 		UnitGraph cfg = new ExceptionalUnitGraph(body);
 		// 执行我们的分析
-		MyVeryBusyExprAnalysis.VeryBusyExprAnalysis an = new MyVeryBusyExprAnalysis.VeryBusyExprAnalysis(cfg);
+		InitializedVarAnalysis.InitVarAnalysis an = new InitializedVarAnalysis.InitVarAnalysis(cfg);
 		// iterate over the results
 		for (Unit unit: cfg) {
 			FlowSet in = (FlowSet) an.getFlowBefore(unit);
@@ -52,6 +42,7 @@ public class MyVeryBusyExprAnalysisTest {
 
 	@Test
 	public void test() {
+		fail("Not yet implemented");
 	}
 
 }

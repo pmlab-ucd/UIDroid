@@ -79,7 +79,7 @@ public class UiDroidTest extends MyTest {
 			//if (tgtMethod.contains("android.view.View findViewById")) {
 			if (tgtMethod.contains("onCreate") && !activities.contains(tgtMethod)) {
 				out.print("\n");
-				out.println("found a onCreate here!>>>>>>>>>>>>>>>");
+				out.println("found an onCreate here!>>>>>>>>>>>>>>>");
 				// get callers inside a method body through icfg
 				/*Set<Unit> callers = icfg.getCallsFromWithin(target);
 				for (Unit unit : callers) {
@@ -100,7 +100,7 @@ public class UiDroidTest extends MyTest {
 				
 				activities.add(tgtMethod);
 								
-				out.println("end a onCreate >>>>>>>>>>>>>>>");		
+				out.println("end an onCreate >>>>>>>>>>>>>>>");		
 				out.print("\n");
 			}
 		}

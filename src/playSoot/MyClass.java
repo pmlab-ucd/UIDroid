@@ -13,6 +13,11 @@ public class MyClass {
 		System.out.print(a * b);
 	}
 	
+	private void testInitVar() {
+		int x;
+		System.out.print(x);
+	}
+	
 	public static void main(String[] args) {
 		MyClass mc = new MyClass();
 		mc.myMethod();

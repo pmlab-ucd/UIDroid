@@ -8,8 +8,8 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/Core/Main.jar"/>
 	<classpathentry kind="var" path="SOOTCLASSES" sourcepath="SOOTSRC"/>
+	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/Core/Main.jar"/>
 	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/MyFlowAnalysis/bin/playSoot"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
