@@ -4,15 +4,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
 import soot.Body;
@@ -30,12 +34,10 @@ import soot.UnitPrinter;
 import soot.Value;
 import soot.ValueBox;
 import soot.jimple.AssignStmt;
-import soot.jimple.InstanceInvokeExpr;
 import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 import soot.jimple.infoflow.android.resources.ARSCFileParser;
 import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
-import soot.jimple.infoflow.android.resources.ARSCFileParser.ResourceId;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
@@ -43,15 +45,30 @@ import soot.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.util.queue.QueueReader;
+import uiDroid.UiForwardAnalysis.UiForwardVarAnalysis;
 import app.MySetupApplication;
 import app.MyTest;
 
 public class UiDroidTest extends MyTest {
+	// basics for analysis
 	private static CallGraph cg;
 	private static JimpleBasedInterproceduralCFG icfg;
 	private static ARSCFileParser fileParser = new ARSCFileParser();
 
+	// sensitive permission related
+	private static List<String> PscoutMethod;
+	private static Map<SootMethod, SootMethod> sensEntries = new HashMap<>();
+	private static UnionFind<SootMethod> uf = new UnionFind<>();
+
 	public static void main(String[] args) {
+		try {
+			myTestMain(args);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void myTestMain(String[] args) throws IOException {
 		File file = new File(
 				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
 		String apkPath = file.getAbsolutePath();
@@ -62,16 +79,19 @@ public class UiDroidTest extends MyTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		// 读入Pscout
+		PscoutMethod = FileUtils.readLines(new File(
+				"./jellybean_publishedapimapping_parsed.txt"));
 		permissionAnalysis(apkPath, platformPath, extraJar);
 	}
 
 	/*
-	 * travel over Call Graph by visit edges one by one
+	 * traverse over Call Graph by visit edges one by one
+	 * check whether is a sensitive permission related API call
 	 */
-	public static void analyzeCG() {
+	public static void getEntries() {
 		QueueReader<Edge> edges = cg.listener();
-		Set<String> visited = new HashSet<>();
-		Set<String> activities = new HashSet<>();
 
 		File resultFile = new File("./sootOutput/CGTest.log");
 		PrintWriter out = null;
@@ -85,37 +105,18 @@ public class UiDroidTest extends MyTest {
 		while (edges.hasNext()) {
 			Edge edge = (Edge) edges.next();
 			SootMethod target = (SootMethod) edge.getTgt();
-			MethodOrMethodContext src = edge.getSrc();
-			String srcMethod = src.toString();
+			SootMethod src = edge.getSrc().method();
+
 			String tgtMethod = target.toString();
-			if (!visited.contains(srcMethod)) {
-				visited.add(srcMethod);
-			}
-			if (!visited.contains(tgtMethod)) {
-				visited.add(tgtMethod);
+			if (!src.toString().contains("dummy")
+					&& !tgtMethod.contains("<java.lang.RuntimeException")) {
+				uf.union(src, target);
 			}
 
 			out.println(src + "  -->   " + target);
-			// if (tgtMethod.contains("android.view.View findViewById")) {
-			if (tgtMethod.contains("onCreate")
-					&& !activities.contains(tgtMethod)) {
-				out.print("\n");
-				out.println("found an onCreate here!>>>>>>>>>>>>>>>");
-				// get callees inside a method body through icfg
-				analyzeMethod(target);
-				Body body = target.retrieveActiveBody();
-				UnitGraph cfg = new ExceptionalUnitGraph(body);
-				for (Unit unit : cfg) {
-					if (unit instanceof Stmt) {
-						Stmt stmt = (Stmt) unit;
-						out.println(stmt);
-					}
-				}
-
-				activities.add(tgtMethod);
-
-				out.println("end an onCreate >>>>>>>>>>>>>>>");
-				out.print("\n");
+			if (PscoutMethod.contains(target.toString())) {
+				sensEntries.put(target, uf.find(target));
+				System.out.println(target + ": " + uf.find(target));
 			}
 		}
 
@@ -124,14 +125,49 @@ public class UiDroidTest extends MyTest {
 		System.out.println(cg.size());
 	}
 
-	public static void analyzeMethod(SootMethod method) {
+	/*
+	 * get Ui widgets from UI event handlers
+	 */
+	public static void getWidgets() {
+		QueueReader<Edge> edges = cg.listener();
+		for (SootMethod method : sensEntries.values()) {
+			if (method.toString().contains("onClick")) {
+				// iterate over edges of call graph
+				while (edges.hasNext()) {
+					Edge edge = (Edge) edges.next();
+					SootMethod target = (SootMethod) edge.getTgt();
+					SootMethod src = edge.getSrc().method();
+
+					String tgtMethod = target.toString();
+
+					// check whether sensitive whether entry point exists in
+					// onCreate()					
+					String baseClass = method.getDeclaringClass().toString().split("\\$")[0];
+					//System.out.println("Class:++++" + baseClass);
+					if (tgtMethod.contains("onCreate")
+							&& target.getDeclaringClass().toString().contains(baseClass)) {
+						// get callees inside a method body through icfg
+						analyzeOnCreate(target, method);
+					}
+				}
+			}
+		}
+
+	}
+
+	/*
+	 * retrieve interested sensitive widgets by parsing onCreate methods
+	 */
+	public static void analyzeOnCreate(SootMethod onCreate, SootMethod eventHandler) {
 		String sep = File.separator;
-		Body body = method.retrieveActiveBody();
+		Body body = onCreate.retrieveActiveBody();
 		// 生成函数的control flow graph
 		UnitGraph cfg = new ExceptionalUnitGraph(body);
 		// 执行我们的分析
 		UiForwardAnalysis.UiForwardVarAnalysis ta = new UiForwardAnalysis.UiForwardVarAnalysis(
 				cfg);
+		UiForwardVarAnalysis.uiEventHandler = new StringBuilder(eventHandler.getDeclaringClass().toString());
+
 		// iterate over the results
 		for (Unit unit : cfg) {
 			// System.out.println(unit);
@@ -172,9 +208,10 @@ public class UiDroidTest extends MyTest {
 						Map<Value, Unit> idMap = bfs(widgetMap.get(val), null,
 								cfg, 1, val);
 						for (Unit stmt : idMap.values()) {
-							int id = extractId((Stmt)stmt);
+							int id = extractId((Stmt) stmt);
 							System.out.println(id);
-							AbstractResource widget = fileParser.findResource(id);
+							AbstractResource widget = fileParser
+									.findResource(id);
 							System.out.println(widget.getResourceName());
 						}
 					}
@@ -183,7 +220,7 @@ public class UiDroidTest extends MyTest {
 			System.out.println("---------------------------------------");
 		}
 	}
-	
+
 	/*
 	 * Extract id from stmt, e.g. findViewById(id)
 	 */
@@ -196,8 +233,8 @@ public class UiDroidTest extends MyTest {
 				}
 			}
 		}
-			
-		return -1;		
+
+		return -1;
 	}
 
 	/*
@@ -270,7 +307,7 @@ public class UiDroidTest extends MyTest {
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
-		
+
 		// setup
 		G.reset();
 		Options.v().set_src_prec(Options.src_prec_apk);
@@ -294,7 +331,8 @@ public class UiDroidTest extends MyTest {
 							Map<String, String> options) {
 						cg = Scene.v().getCallGraph();
 						icfg = new JimpleBasedInterproceduralCFG();
-						analyzeCG();
+						getEntries();
+						getWidgets();
 					}
 				});
 

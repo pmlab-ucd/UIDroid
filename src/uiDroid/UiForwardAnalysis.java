@@ -25,6 +25,7 @@ import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 public class UiForwardAnalysis {
+
 	public static void main(String[] args) {
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.myTransform", new BodyTransformer() {
@@ -47,6 +48,7 @@ public class UiForwardAnalysis {
 	 */
 	public static class UiForwardVarAnalysis extends
 			ForwardFlowAnalysis<Object, Object> {
+		public static StringBuilder uiEventHandler = new StringBuilder(); // e.g. "Activity1$"
 
 		private Map<Unit, List<Local>> unitToBeforeFlow, unitToAfterFlow;
 
@@ -69,8 +71,7 @@ public class UiForwardAnalysis {
 				kill(unit, outSet);
 			}
 
-			List<Local> inSetNoHandlers = new ArrayList<>(), 
-					outSetNoHandlers = new ArrayList<>();
+			List<Local> inSetNoHandlers = new ArrayList<>(), outSetNoHandlers = new ArrayList<>();
 			for (Object value : inSet.toList()) {
 				if (((Value) value).getType().toString()
 						.startsWith("android.widget")) {
@@ -120,7 +121,7 @@ public class UiForwardAnalysis {
 				// if x = new Activity1$1 (a event handler class)
 				// if (((AssignStmt) unit).containsInvokeExpr()
 				if (unit.toString().contains("new")
-						&& unit.toString().contains("Activity1$")) {
+						&& unit.toString().contains(uiEventHandler.toString())) {
 					System.out.println("found Source! " + unit);
 					addDefBox(unit, outSet);
 					hasTainted = true;
