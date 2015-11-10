@@ -13,8 +13,20 @@ public class MyClass {
 		System.out.print(a * b);
 	}
 	
-	private void testInitVar() {
-		int x;
+	private void testTaintForwardVar() {
+		int x = source();
+		int y = x, k = 3;
+		//System.out.print("\n");
+		x = k;
+		sink(y);
+		System.out.print("\n");
+	}
+	
+	private int source() {
+		return 21;
+	}
+	
+	private void sink(int x) {
 		System.out.print(x);
 	}
 	

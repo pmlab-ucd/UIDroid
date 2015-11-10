@@ -6,20 +6,26 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import playSoot.TaintForwardAnalysis;
 import soot.Body;
 import soot.G;
+import soot.Local;
 import soot.MethodOrMethodContext;
+import soot.NormalUnitPrinter;
 import soot.PackManager;
 import soot.Scene;
 import soot.SceneTransformer;
+import soot.SootClass;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
+import soot.UnitPrinter;
 import soot.jimple.Stmt;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
@@ -80,15 +86,8 @@ public class UiDroidTest extends MyTest {
 			if (tgtMethod.contains("onCreate") && !activities.contains(tgtMethod)) {
 				out.print("\n");
 				out.println("found an onCreate here!>>>>>>>>>>>>>>>");
-				// get callers inside a method body through icfg
-				/*Set<Unit> callers = icfg.getCallsFromWithin(target);
-				for (Unit unit : callers) {
-					if (unit instanceof Stmt) {
-						Stmt stmt = (Stmt) unit;
-						out.println(stmt);
-					}
-				}*/
-				
+				// get callees inside a method body through icfg
+				analyzeMethod(target);
 				Body body = target.retrieveActiveBody();
 				UnitGraph cfg = new ExceptionalUnitGraph(body);
 				for (Unit unit : cfg) {
@@ -110,8 +109,47 @@ public class UiDroidTest extends MyTest {
 		System.out.println(cg.size());
 	}
 	
-	public static void analyzeMethod(SootMethod src, SootMethod tgt) {
-		
+	public static void analyzeMethod(SootMethod method) {
+		String sep = File.separator;
+		Body body = method.retrieveActiveBody();
+		// 生成函数的control flow graph
+		UnitGraph cfg = new ExceptionalUnitGraph(body);
+		// 执行我们的分析
+		UiForwardAnalysis.UiForwardVarAnalysis ta = new UiForwardAnalysis.UiForwardVarAnalysis(cfg);
+		// iterate over the results
+		for (Unit unit : cfg) {
+			//System.out.println(unit);
+			List<Local> before = ta.getLiveLocalsBefore(unit);
+			List<Local> after = ta.getLiveLocalsAfter(unit);
+			UnitPrinter up = new NormalUnitPrinter(body);
+			up.setIndent("");
+			
+			System.out.println("---------------------------------------");		
+			unit.toString(up);			
+			System.out.println(up.output());
+			if (!before.isEmpty()) {
+				if (unit.toString().contains("sink")) {
+					System.out.println("found a sink!");
+				}
+			}
+			System.out.print("Ui event handlers in: {");
+			sep = "";
+			for (Local l : before) {
+				System.out.print(sep);
+				System.out.print(l.getName() + ": " + l.getType());
+				sep = ", ";
+			}
+			System.out.println("}");
+			System.out.print("Ui event handlers out: {");
+			sep = "";
+			for (Local l : after) {
+				System.out.print(sep);
+				System.out.print(l.getName() + ": " + l.getType());
+				sep = ", ";
+			}			
+			System.out.println("}");			
+			System.out.println("---------------------------------------");
+		}
 	}
 
 	public static void permissionAnalysis(String apkDir, String platformDir,
