@@ -164,9 +164,9 @@ public class UiDroidTest extends MyTest {
 		// 生成函数的control flow graph
 		UnitGraph cfg = new ExceptionalUnitGraph(body);
 		// 执行我们的分析
+		UiForwardVarAnalysis.uiEventHandler = eventHandler;
 		UiForwardAnalysis.UiForwardVarAnalysis ta = new UiForwardAnalysis.UiForwardVarAnalysis(
 				cfg);
-		UiForwardVarAnalysis.uiEventHandler = new StringBuilder(eventHandler.getDeclaringClass().toString());
 
 		// iterate over the results
 		for (Unit unit : cfg) {

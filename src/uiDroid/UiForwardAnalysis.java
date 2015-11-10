@@ -10,6 +10,7 @@ import soot.BodyTransformer;
 import soot.G;
 import soot.Local;
 import soot.PackManager;
+import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
 import soot.Value;
@@ -48,7 +49,7 @@ public class UiForwardAnalysis {
 	 */
 	public static class UiForwardVarAnalysis extends
 			ForwardFlowAnalysis<Object, Object> {
-		public static StringBuilder uiEventHandler = new StringBuilder(); // e.g. "Activity1$"
+		public static SootMethod uiEventHandler = null; // e.g. "Activity1$"
 
 		private Map<Unit, List<Local>> unitToBeforeFlow, unitToAfterFlow;
 
@@ -121,7 +122,7 @@ public class UiForwardAnalysis {
 				// if x = new Activity1$1 (a event handler class)
 				// if (((AssignStmt) unit).containsInvokeExpr()
 				if (unit.toString().contains("new")
-						&& unit.toString().contains(uiEventHandler.toString())) {
+						&& unit.toString().contains(uiEventHandler.getDeclaringClass().toString())) {
 					System.out.println("found Source! " + unit);
 					addDefBox(unit, outSet);
 					hasTainted = true;
@@ -138,7 +139,7 @@ public class UiForwardAnalysis {
 			} else {
 				// if x.setOnClickLinster(y)
 				if (((Stmt) unit).containsInvokeExpr()
-						&& unit.toString().contains("setOnClickListener")) {
+						&& unit.toString().contains("set" + "OnClick")) {
 					InvokeExpr ie = ((Stmt) unit).getInvokeExpr();
 					System.out.println("found onClick! " + unit);
 					for (Value arg : ie.getArgs()) {
