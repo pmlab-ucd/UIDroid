@@ -40,60 +40,63 @@ public class UiForwardAnalysis {
 
 		soot.Main.main(args);
 	}
-	
+
 	/*
-	 * perform an init var analysis using Soot. 
-	 * nature: forward, may
-	 * lattice element: the set of possibly uninit vars 
+	 * perform an init var analysis using Soot. nature: forward, may lattice
+	 * element: the set of possibly uninit vars
 	 */
 	public static class UiForwardVarAnalysis extends
 			ForwardFlowAnalysis<Object, Object> {
-		
-		private Map<Unit, List<Local>> unitToBeforeFlow, unitToAfterFlow; 
-		
+
+		private Map<Unit, List<Local>> unitToBeforeFlow, unitToAfterFlow;
+
 		@SuppressWarnings("unchecked")
 		public UiForwardVarAnalysis(DirectedGraph<?> exceptionalUnitGraph) {
 			// use superclass's constructor
 			super((DirectedGraph<Object>) exceptionalUnitGraph);
-			unitToBeforeFlow = new IdentityHashMap<>(exceptionalUnitGraph.size() * 2 + 1);
-			unitToAfterFlow = new IdentityHashMap<>(exceptionalUnitGraph.size() * 2 + 1);
+			unitToBeforeFlow = new IdentityHashMap<>(
+					exceptionalUnitGraph.size() * 2 + 1);
+			unitToAfterFlow = new IdentityHashMap<>(
+					exceptionalUnitGraph.size() * 2 + 1);
 			doAnalysis();
 		}
 
 		@Override
 		protected void flowThrough(Object in, Object node, Object out) {
-			FlowSet inSet = (FlowSet)in, outSet = (FlowSet)out;
+			FlowSet inSet = (FlowSet) in, outSet = (FlowSet) out;
 			Unit unit = (Unit) node;
 			if (!gen(inSet, unit, outSet)) {
 				kill(unit, outSet);
 			}
-			
-			List<Local> inSetNoHandlers = new ArrayList<>(),
+
+			List<Local> inSetNoHandlers = new ArrayList<>(), 
 					outSetNoHandlers = new ArrayList<>();
 			for (Object value : inSet.toList()) {
-				if (((Value) value).getType().toString().startsWith("android.widget")) {
+				if (((Value) value).getType().toString()
+						.startsWith("android.widget")) {
 					inSetNoHandlers.add((Local) value);
 					inSet.remove(value);
 				}
 			}
 			for (Object value : outSet.toList()) {
-				if (((Value) value).getType().toString().startsWith("android.widget")) {
+				if (((Value) value).getType().toString()
+						.startsWith("android.widget")) {
 					outSetNoHandlers.add((Local) value);
 					outSet.remove(value);
 				}
 			}
-			unitToBeforeFlow.put((Unit)node, inSetNoHandlers);
-			unitToAfterFlow.put((Unit)node, outSetNoHandlers);	
-			//System.out.println(unitToBeforeFlow.size());
+			unitToBeforeFlow.put((Unit) node, inSetNoHandlers);
+			unitToAfterFlow.put((Unit) node, outSetNoHandlers);
+			// System.out.println(unitToBeforeFlow.size());
 		}
-		
+
 		/*
-		 * rm tainted var who has been assigned value from un-tainted
-		 * x := y, where y has noting to do with interested UI event handler instance
+		 * rm tainted var who has been assigned value from un-tainted x := y,
+		 * where y has noting to do with interested UI event handler instance
 		 */
 		private void kill(Object node, Object out) {
-			FlowSet	outSet = (FlowSet)out;
-			Unit unit = (Unit)node;
+			FlowSet outSet = (FlowSet) out;
+			Unit unit = (Unit) node;
 			if (unit instanceof AssignStmt) {
 				for (ValueBox defBox : unit.getDefBoxes()) {
 					Value value = defBox.getValue();
@@ -104,19 +107,18 @@ public class UiForwardAnalysis {
 				}
 			}
 		}
-		
+
 		/*
-		 * add vars possibly instanced by Handler 
+		 * add vars possibly instanced by Handler
 		 */
 		private boolean gen(Object in, Object node, Object out) {
-			FlowSet inSet = (FlowSet)in,
-					outSet = (FlowSet)out;
-			Unit unit = (Unit)node;
+			FlowSet inSet = (FlowSet) in, outSet = (FlowSet) out;
+			Unit unit = (Unit) node;
 			copy(inSet, outSet);
 			boolean hasTainted = false;
 			if (unit instanceof AssignStmt) {
 				// if x = new Activity1$1 (a event handler class)
-				//if (((AssignStmt) unit).containsInvokeExpr()
+				// if (((AssignStmt) unit).containsInvokeExpr()
 				if (unit.toString().contains("new")
 						&& unit.toString().contains("Activity1$")) {
 					System.out.println("found Source! " + unit);
@@ -136,22 +138,23 @@ public class UiForwardAnalysis {
 				// if x.setOnClickLinster(y)
 				if (((Stmt) unit).containsInvokeExpr()
 						&& unit.toString().contains("setOnClickListener")) {
-					InvokeExpr ie = ((Stmt)unit).getInvokeExpr();
+					InvokeExpr ie = ((Stmt) unit).getInvokeExpr();
 					System.out.println("found onClick! " + unit);
 					for (Value arg : ie.getArgs()) {
 						if (inSet.contains(arg)) {
 							if (ie instanceof InstanceInvokeExpr) {
-								Value instance = ((InstanceInvokeExpr)ie).getBase();
+								Value instance = ((InstanceInvokeExpr) ie)
+										.getBase();
 								outSet.add(instance);
 							}
 						}
 					}
 				}
 			}
-			
+
 			return hasTainted;
 		}
-		
+
 		private void addDefBox(Unit unit, FlowSet outSet) {
 			for (ValueBox defBox : unit.getDefBoxes()) {
 				Value value = defBox.getValue();
@@ -163,8 +166,7 @@ public class UiForwardAnalysis {
 
 		@Override
 		protected void copy(Object src, Object dest) {
-			FlowSet srcSet = (FlowSet)src,
-					destSet = (FlowSet)dest;
+			FlowSet srcSet = (FlowSet) src, destSet = (FlowSet) dest;
 			srcSet.copy(destSet);
 		}
 
@@ -175,9 +177,7 @@ public class UiForwardAnalysis {
 
 		@Override
 		protected void merge(Object in1, Object in2, Object out) {
-			FlowSet inSet1 = (FlowSet)in1, 
-					inSet2 = (FlowSet)in2,
-					outSet = (FlowSet)out;
+			FlowSet inSet1 = (FlowSet) in1, inSet2 = (FlowSet) in2, outSet = (FlowSet) out;
 			inSet1.union(inSet2, outSet);
 		}
 
@@ -185,20 +185,19 @@ public class UiForwardAnalysis {
 		protected Object newInitialFlow() {
 			return new ArraySparseSet();
 		}
-		
+
 		/*
-		 * including all related UI components instances 
-		 * and the instances of their event handlers 
+		 * including all related UI components instances and the instances of
+		 * their event handlers
 		 */
 		@SuppressWarnings("unchecked")
 		public List<Local> getAllUILocalsAfter(Unit s) {
 			// ArraySparseSet returns a unbacked list of elements!
 			return ((ArraySparseSet) getFlowAfter(s)).toList();
 		}
-		
+
 		/*
-		 * only including related UI instances, not with 
-		 * handlers instances
+		 * only including related UI instances, not with handlers instances
 		 */
 		public List<Local> getUILocalsAfter(Unit s) {
 			// ArraySparseSet returns a unbacked list of elements!
@@ -210,7 +209,7 @@ public class UiForwardAnalysis {
 			// ArraySparseSet returns a unbacked list of elements!
 			return ((ArraySparseSet) getFlowBefore(s)).toList();
 		}
-		
+
 		public List<Local> getUILocalsBefore(Unit s) {
 			// ArraySparseSet returns a unbacked list of elements!
 			if (!unitToBeforeFlow.containsKey(s)) {

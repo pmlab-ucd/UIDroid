@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,11 @@ import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
 import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
 import soot.jimple.AssignStmt;
+import soot.jimple.InstanceInvokeExpr;
+import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
@@ -81,10 +86,11 @@ public class UiDroidTest extends MyTest {
 			if (!visited.contains(tgtMethod)) {
 				visited.add(tgtMethod);
 			}
-			
+
 			out.println(src + "  -->   " + target);
-			//if (tgtMethod.contains("android.view.View findViewById")) {
-			if (tgtMethod.contains("onCreate") && !activities.contains(tgtMethod)) {
+			// if (tgtMethod.contains("android.view.View findViewById")) {
+			if (tgtMethod.contains("onCreate")
+					&& !activities.contains(tgtMethod)) {
 				out.print("\n");
 				out.println("found an onCreate here!>>>>>>>>>>>>>>>");
 				// get callees inside a method body through icfg
@@ -97,10 +103,10 @@ public class UiDroidTest extends MyTest {
 						out.println(stmt);
 					}
 				}
-				
+
 				activities.add(tgtMethod);
-								
-				out.println("end an onCreate >>>>>>>>>>>>>>>");		
+
+				out.println("end an onCreate >>>>>>>>>>>>>>>");
 				out.print("\n");
 			}
 		}
@@ -109,24 +115,25 @@ public class UiDroidTest extends MyTest {
 		out.close();
 		System.out.println(cg.size());
 	}
-	
+
 	public static void analyzeMethod(SootMethod method) {
 		String sep = File.separator;
 		Body body = method.retrieveActiveBody();
 		// 生成函数的control flow graph
 		UnitGraph cfg = new ExceptionalUnitGraph(body);
 		// 执行我们的分析
-		UiForwardAnalysis.UiForwardVarAnalysis ta = new UiForwardAnalysis.UiForwardVarAnalysis(cfg);
+		UiForwardAnalysis.UiForwardVarAnalysis ta = new UiForwardAnalysis.UiForwardVarAnalysis(
+				cfg);
 		// iterate over the results
 		for (Unit unit : cfg) {
-			//System.out.println(unit);
+			// System.out.println(unit);
 			List<Local> before = ta.getUILocalsBefore(unit);
 			List<Local> after = ta.getUILocalsAfter(unit);
 			UnitPrinter up = new NormalUnitPrinter(body);
 			up.setIndent("");
-			
-			System.out.println("---------------------------------------");		
-			unit.toString(up);			
+
+			System.out.println("---------------------------------------");
+			unit.toString(up);
 			System.out.println(up.output());
 			if (!before.isEmpty()) {
 				if (unit.toString().contains("sink")) {
@@ -147,43 +154,96 @@ public class UiDroidTest extends MyTest {
 				System.out.print(sep);
 				System.out.print(l.getName() + ": " + l.getType());
 				sep = ", ";
-			}			
-			System.out.println("}");			
-			System.out.println("---------------------------------------");
-			
+			}
+			System.out.println("}");
+
 			if (!after.isEmpty()) {
 				for (Local value : after) {
-				// bfs search for last assignment of base
-					Queue<Unit> queue = new LinkedList<>();
-					Set<Unit> visited = new HashSet<>();
-					queue.add(unit);
-					while (!queue.isEmpty()) {
-						int len = queue.size();
-						for (int i = 0; i < len; i++) {
-							Unit node = queue.poll();
-							if (visited.contains(node)) {
-								continue;
-							}
-							visited.add(node);
-							if (node instanceof AssignStmt && 
-									((AssignStmt) node).getLeftOp().equals(value)) {
-								AssignStmt assignStmt = (AssignStmt)node;
-								System.out.println(assignStmt.getRightOp());
-								break;
-							}
-							///System.out.println(">>>>>>");
-							for (Unit prev : cfg.getPredsOf(node)) {
-								//System.out.println(prev);
-								queue.add(prev);
-							}
-							//System.out.println("<<<<<<");
+					Map<Value, Unit> widget = bfs(unit, value, cfg, 0, null);
+					for (Value val : widget.keySet()) {
+						Map<Value, Unit> idWidget = bfs(widget.get(val), null,
+								cfg, 1, val);
+						for (Unit stmt : idWidget.values()) {
+							System.out.println(extractId((Stmt)stmt));
 						}
-					}					
+					}
+				}
+			}
+			System.out.println("---------------------------------------");
+		}
+	}
+
+	public static int extractId(Stmt stmt) {
+		if (stmt.containsInvokeExpr()) {
+			InvokeExpr ie = stmt.getInvokeExpr();
+			for (Value arg : ie.getArgs()) {
+				if (arg.getType().getNumber() == 16) {
+					return Integer.parseInt(arg.toString());
 				}
 			}
 		}
+			
+		return -1;		
 	}
-	
+
+	/*
+	 * breadth-first search for 1. last assignment of base 2. nearest
+	 * findViewById
+	 */
+	private static Map<Value, Unit> bfs(Unit unit, Local value, UnitGraph cfg,
+			int model, Value val) {
+		Value foundValue = null;
+		Unit foundUnit = null;
+		Map<Value, Unit> res = new HashMap<>();
+
+		Queue<Unit> queue = new LinkedList<>();
+		Set<Unit> visited = new HashSet<>();
+		queue.add(unit);
+		while (!queue.isEmpty()) {
+			int len = queue.size();
+			for (int i = 0; i < len; i++) {
+				Unit node = queue.poll();
+				if (visited.contains(node)) {
+					continue;
+				}
+				visited.add(node);
+				switch (model) {
+				case 0:
+					if (node instanceof AssignStmt
+							&& ((AssignStmt) node).getLeftOp().equals(value)) {
+						AssignStmt assignStmt = (AssignStmt) node;
+						for (ValueBox box : assignStmt.getRightOp()
+								.getUseBoxes()) {
+							foundValue = box.getValue();
+							break;
+						}
+						foundUnit = node;
+						res.put(foundValue, foundUnit);
+						System.out.println(foundUnit);
+						return res;
+					}
+					break;
+				case 1:
+					if (node instanceof AssignStmt
+							&& node.toString().contains("findViewById")
+							&& ((AssignStmt) node).getLeftOp().equals(val)) {
+						foundValue = val;
+						foundUnit = node;
+						res.put(foundValue, foundUnit);
+						System.out.println(">>>>>>>>>>>>>>>>" + foundUnit);
+						return res;
+					}
+					break;
+				}
+
+				for (Unit prev : cfg.getPredsOf(node)) {
+					queue.add(prev);
+				}
+			}
+		}
+
+		return res;
+	}
 
 	public static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {

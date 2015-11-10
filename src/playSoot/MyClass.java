@@ -16,14 +16,14 @@ public class MyClass {
 	private void testTaintForwardVar() {
 		int x = source();
 		int y = x, k = 3;
-		//System.out.print("\n");
 		x = k;
 		sink(y);
 		System.out.print("\n");
 	}
 	
 	private int source() {
-		return 21;
+		// ultimate answer of the universe 
+		return 42;
 	}
 	
 	private void sink(int x) {
