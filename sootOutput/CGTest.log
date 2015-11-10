@@ -5,9 +5,9 @@ CG begins==================
 <dummyMainClass: void dummyMainMethod()>  -->   <android.os.Bundle: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.app.Activity: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
-<dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.app.Activity: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1: void <clinit>()>
+<dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.os.Bundle: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.app.Activity: void <clinit>()>
@@ -80,12 +80,12 @@ end an onCreate >>>>>>>>>>>>>>>
 
 <dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.os.Bundle: void <init>()>
+<dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>
+<dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1$2: void onClick(android.view.View)>
+<dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>
 <dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1$1: void onClick(android.view.View)>
-<dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <init>(android.content.Context)>
-<dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>
-<dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1$2: void onClick(android.view.View)>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity2: void <init>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity2: void onCreate(android.os.Bundle)>
@@ -132,12 +132,12 @@ end an onCreate >>>>>>>>>>>>>>>
 <android.os.Bundle: void <init>()>  -->   <java.lang.Object: void <init>()>
 <android.os.Bundle: void <init>()>  -->   <java.lang.RuntimeException: void <init>(java.lang.String)>
 <java.lang.Object: void <init>()>  -->   <java.lang.Object: void finalize()>
+<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>  -->   <java.lang.Object: void <init>()>
+<de.ecspride.Activity1$2: void onClick(android.view.View)>  -->   <de.ecspride.Activity1: void getDevIdWrapper2()>
 <android.view.View: void <init>(android.content.Context)>  -->   <java.lang.Object: void <init>()>
 <android.view.View: void <init>(android.content.Context)>  -->   <java.lang.RuntimeException: void <init>(java.lang.String)>
 <de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>  -->   <java.lang.Object: void <init>()>
 <de.ecspride.Activity1$1: void onClick(android.view.View)>  -->   <de.ecspride.Activity1: void getDevIdWrapperTop()>
-<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>  -->   <java.lang.Object: void <init>()>
-<de.ecspride.Activity1$2: void onClick(android.view.View)>  -->   <de.ecspride.Activity1: void getDevIdWrapper2()>
 <de.ecspride.Activity2: void <init>()>  -->   <android.app.Activity: void <init>()>
 <de.ecspride.Activity2: void onCreate(android.os.Bundle)>  -->   <android.app.Activity: void onCreate(android.os.Bundle)>
 <de.ecspride.Activity2: void onCreate(android.os.Bundle)>  -->   <android.app.Activity: android.content.Intent getIntent()>
@@ -160,10 +160,10 @@ end an onCreate >>>>>>>>>>>>>>>
 <java.lang.RuntimeException: void <init>(java.lang.String)>  -->   <java.lang.Exception: void <init>()>
 <java.lang.RuntimeException: void <init>(java.lang.String)>  -->   <java.lang.RuntimeException: void <init>(java.lang.String)>
 <java.lang.Object: void finalize()>  -->   <java.lang.RuntimeException: void <init>(java.lang.String)>
-<de.ecspride.Activity1: void getDevIdWrapperTop()>  -->   <de.ecspride.Activity1: void getDevIdWrapper2()>
 <de.ecspride.Activity1: void getDevIdWrapper2()>  -->   <de.ecspride.Activity1: void getDevId()>
 <de.ecspride.Activity1: void getDevId()>  -->   <de.ecspride.Activity1: void <clinit>()>
 <de.ecspride.Activity1: void getDevId()>  -->   <android.app.Activity: void <clinit>()>
+<de.ecspride.Activity1: void getDevIdWrapperTop()>  -->   <de.ecspride.Activity1: void getDevIdWrapper2()>
 <android.app.Activity: android.content.Intent getIntent()>  -->   <java.lang.RuntimeException: void <init>(java.lang.String)>
 <android.content.Intent: java.lang.String getStringExtra(java.lang.String)>  -->   <java.lang.RuntimeException: void <init>(java.lang.String)>
 <de.ecspride.Activity2: void sendMessage()>  -->   <android.widget.Toast: void show()>

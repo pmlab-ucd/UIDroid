@@ -33,6 +33,9 @@ import soot.jimple.AssignStmt;
 import soot.jimple.InstanceInvokeExpr;
 import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
+import soot.jimple.infoflow.android.resources.ARSCFileParser;
+import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
+import soot.jimple.infoflow.android.resources.ARSCFileParser.ResourceId;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
@@ -46,6 +49,7 @@ import app.MyTest;
 public class UiDroidTest extends MyTest {
 	private static CallGraph cg;
 	private static JimpleBasedInterproceduralCFG icfg;
+	private static ARSCFileParser fileParser = new ARSCFileParser();
 
 	public static void main(String[] args) {
 		File file = new File(
@@ -53,7 +57,11 @@ public class UiDroidTest extends MyTest {
 		String apkPath = file.getAbsolutePath();
 		String platformPath = "/home/hao/Android/Sdk/platforms";
 		String extraJar = "/home/hao/workspace/AppContext/libs";
-
+		try {
+			fileParser.parse(apkPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		permissionAnalysis(apkPath, platformPath, extraJar);
 	}
 
@@ -159,12 +167,15 @@ public class UiDroidTest extends MyTest {
 
 			if (!after.isEmpty()) {
 				for (Local value : after) {
-					Map<Value, Unit> widget = bfs(unit, value, cfg, 0, null);
-					for (Value val : widget.keySet()) {
-						Map<Value, Unit> idWidget = bfs(widget.get(val), null,
+					Map<Value, Unit> widgetMap = bfs(unit, value, cfg, 0, null);
+					for (Value val : widgetMap.keySet()) {
+						Map<Value, Unit> idMap = bfs(widgetMap.get(val), null,
 								cfg, 1, val);
-						for (Unit stmt : idWidget.values()) {
-							System.out.println(extractId((Stmt)stmt));
+						for (Unit stmt : idMap.values()) {
+							int id = extractId((Stmt)stmt);
+							System.out.println(id);
+							AbstractResource widget = fileParser.findResource(id);
+							System.out.println(widget.getResourceName());
 						}
 					}
 				}
@@ -172,7 +183,10 @@ public class UiDroidTest extends MyTest {
 			System.out.println("---------------------------------------");
 		}
 	}
-
+	
+	/*
+	 * Extract id from stmt, e.g. findViewById(id)
+	 */
 	public static int extractId(Stmt stmt) {
 		if (stmt.containsInvokeExpr()) {
 			InvokeExpr ie = stmt.getInvokeExpr();
@@ -256,7 +270,7 @@ public class UiDroidTest extends MyTest {
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 		}
-
+		
 		// setup
 		G.reset();
 		Options.v().set_src_prec(Options.src_prec_apk);
