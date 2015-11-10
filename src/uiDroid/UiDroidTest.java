@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import playSoot.TaintForwardAnalysis;
 import soot.Body;
 import soot.G;
 import soot.Local;
@@ -21,11 +22,11 @@ import soot.NormalUnitPrinter;
 import soot.PackManager;
 import soot.Scene;
 import soot.SceneTransformer;
-import soot.SootClass;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
 import soot.UnitPrinter;
+import soot.jimple.AssignStmt;
 import soot.jimple.Stmt;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
@@ -119,8 +120,8 @@ public class UiDroidTest extends MyTest {
 		// iterate over the results
 		for (Unit unit : cfg) {
 			//System.out.println(unit);
-			List<Local> before = ta.getLiveLocalsBefore(unit);
-			List<Local> after = ta.getLiveLocalsAfter(unit);
+			List<Local> before = ta.getUILocalsBefore(unit);
+			List<Local> after = ta.getUILocalsAfter(unit);
 			UnitPrinter up = new NormalUnitPrinter(body);
 			up.setIndent("");
 			
@@ -149,8 +150,40 @@ public class UiDroidTest extends MyTest {
 			}			
 			System.out.println("}");			
 			System.out.println("---------------------------------------");
+			
+			if (!after.isEmpty()) {
+				for (Local value : after) {
+				// bfs search for last assignment of base
+					Queue<Unit> queue = new LinkedList<>();
+					Set<Unit> visited = new HashSet<>();
+					queue.add(unit);
+					while (!queue.isEmpty()) {
+						int len = queue.size();
+						for (int i = 0; i < len; i++) {
+							Unit node = queue.poll();
+							if (visited.contains(node)) {
+								continue;
+							}
+							visited.add(node);
+							if (node instanceof AssignStmt && 
+									((AssignStmt) node).getLeftOp().equals(value)) {
+								AssignStmt assignStmt = (AssignStmt)node;
+								System.out.println(assignStmt.getRightOp());
+								break;
+							}
+							///System.out.println(">>>>>>");
+							for (Unit prev : cfg.getPredsOf(node)) {
+								//System.out.println(prev);
+								queue.add(prev);
+							}
+							//System.out.println("<<<<<<");
+						}
+					}					
+				}
+			}
 		}
 	}
+	
 
 	public static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {

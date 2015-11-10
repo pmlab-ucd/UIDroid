@@ -1,5 +1,7 @@
 package uiDroid;
 
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +49,14 @@ public class UiForwardAnalysis {
 	public static class UiForwardVarAnalysis extends
 			ForwardFlowAnalysis<Object, Object> {
 		
+		private Map<Unit, List<Local>> unitToBeforeFlow, unitToAfterFlow; 
+		
 		@SuppressWarnings("unchecked")
 		public UiForwardVarAnalysis(DirectedGraph<?> exceptionalUnitGraph) {
 			// use superclass's constructor
 			super((DirectedGraph<Object>) exceptionalUnitGraph);
+			unitToBeforeFlow = new IdentityHashMap<>(exceptionalUnitGraph.size() * 2 + 1);
+			unitToAfterFlow = new IdentityHashMap<>(exceptionalUnitGraph.size() * 2 + 1);
 			doAnalysis();
 		}
 
@@ -61,10 +67,29 @@ public class UiForwardAnalysis {
 			if (!gen(inSet, unit, outSet)) {
 				kill(unit, outSet);
 			}
+			
+			List<Local> inSetNoHandlers = new ArrayList<>(),
+					outSetNoHandlers = new ArrayList<>();
+			for (Object value : inSet.toList()) {
+				if (((Value) value).getType().toString().startsWith("android.widget")) {
+					inSetNoHandlers.add((Local) value);
+					inSet.remove(value);
+				}
+			}
+			for (Object value : outSet.toList()) {
+				if (((Value) value).getType().toString().startsWith("android.widget")) {
+					outSetNoHandlers.add((Local) value);
+					outSet.remove(value);
+				}
+			}
+			unitToBeforeFlow.put((Unit)node, inSetNoHandlers);
+			unitToAfterFlow.put((Unit)node, outSetNoHandlers);	
+			//System.out.println(unitToBeforeFlow.size());
 		}
 		
 		/*
 		 * rm tainted var who has been assigned value from un-tainted
+		 * x := y, where y has noting to do with interested UI event handler instance
 		 */
 		private void kill(Object node, Object out) {
 			FlowSet	outSet = (FlowSet)out;
@@ -161,16 +186,40 @@ public class UiForwardAnalysis {
 			return new ArraySparseSet();
 		}
 		
+		/*
+		 * including all related UI components instances 
+		 * and the instances of their event handlers 
+		 */
 		@SuppressWarnings("unchecked")
-		public List<Local> getLiveLocalsAfter(Unit s) {
+		public List<Local> getAllUILocalsAfter(Unit s) {
 			// ArraySparseSet returns a unbacked list of elements!
 			return ((ArraySparseSet) getFlowAfter(s)).toList();
 		}
+		
+		/*
+		 * only including related UI instances, not with 
+		 * handlers instances
+		 */
+		public List<Local> getUILocalsAfter(Unit s) {
+			// ArraySparseSet returns a unbacked list of elements!
+			return unitToAfterFlow.get(s);
+		}
 
 		@SuppressWarnings("unchecked")
-		public List<Local> getLiveLocalsBefore(Unit s) {
+		public List<Local> getAllUILocalsBefore(Unit s) {
 			// ArraySparseSet returns a unbacked list of elements!
 			return ((ArraySparseSet) getFlowBefore(s)).toList();
+		}
+		
+		public List<Local> getUILocalsBefore(Unit s) {
+			// ArraySparseSet returns a unbacked list of elements!
+			if (!unitToBeforeFlow.containsKey(s)) {
+				System.out.println("Damn!!");
+				for (Unit str : unitToBeforeFlow.keySet()) {
+					System.out.println(str);
+				}
+			}
+			return unitToBeforeFlow.get(s);
 		}
 	}
 
