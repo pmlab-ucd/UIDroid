@@ -56,6 +56,7 @@ public class UiDroidTest extends MyTest {
 	// sensitive permission related
 	private static List<String> PscoutMethod;
 	private static Map<SootMethod, List<SootMethod>> sensEntries = new HashMap<>();
+	private static List<CSVResult> sensResult;
 
 	public static void main(String[] args) {
 		try {
@@ -80,6 +81,7 @@ public class UiDroidTest extends MyTest {
 		// 读入Pscout
 		PscoutMethod = FileUtils.readLines(new File(
 				"./jellybean_publishedapimapping_parsed.txt"));
+		sensResult = new ArrayList<>();
 		permissionAnalysis(apkPath, platformPath, extraJar);
 	}
 
@@ -154,7 +156,7 @@ public class UiDroidTest extends MyTest {
 		List<SootMethod> allOnCreate = getAllOnCreate();
 		for (List<SootMethod> list : sensEntries.values()) {
 			for (SootMethod method : list) {
-				System.out.println("Start ++++++++" + method.getName());
+				System.out.println("Start ++++++++" + method.getName());			
 				if (method.toString().contains("onClick")) {
 					// iterate over edges of call graph
 					for (SootMethod onCreate : allOnCreate) {
@@ -169,6 +171,8 @@ public class UiDroidTest extends MyTest {
 							analyzeOnCreate(onCreate, method);
 						}
 					}
+				} else {
+					sensResult.add(new CSVResult(method, null));
 				}
 			}
 		}
@@ -253,6 +257,7 @@ public class UiDroidTest extends MyTest {
 							AbstractResource widget = fileParser
 									.findResource(id);
 							System.out.println(widget.getResourceName());
+							sensResult.add(new CSVResult(eventHandler, widget));
 						}
 					}
 				}
