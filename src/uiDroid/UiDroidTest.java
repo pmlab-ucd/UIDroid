@@ -16,6 +16,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
 import soot.Body;
@@ -42,6 +43,7 @@ import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
 import soot.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
+import soot.util.dot.DotGraph;
 import soot.util.queue.QueueReader;
 import uiDroid.UiForwardAnalysis.UiForwardVarAnalysis;
 import app.MySetupApplication;
@@ -49,6 +51,7 @@ import app.MyTest;
 
 public class UiDroidTest extends MyTest {
 	// basics for analysis
+	private static String apkPath;
 	private static CallGraph cg;
 	private static JimpleBasedInterproceduralCFG icfg;
 	private static ARSCFileParser fileParser = new ARSCFileParser();
@@ -58,6 +61,7 @@ public class UiDroidTest extends MyTest {
 	private static Map<SootMethod, List<SootMethod>> sensEntries = new HashMap<>();
 	private static List<CSVResult> sensResult;
 	private static List<WidgetResult> widgetResult;
+	private static DotGraph dot = new DotGraph("callgraph");
 
 	public static void main(String[] args) {
 		try {
@@ -70,7 +74,7 @@ public class UiDroidTest extends MyTest {
 	public static void myTestMain(String[] args) throws IOException {
 		File file = new File(
 				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
-		String apkPath = file.getAbsolutePath();
+		apkPath = file.getAbsolutePath();
 		String platformPath = "/home/hao/Android/Sdk/platforms";
 		String extraJar = "/home/hao/workspace/AppContext/libs";
 		try {
@@ -94,6 +98,7 @@ public class UiDroidTest extends MyTest {
 	 */
 	public static void getEntries() {
 		QueueReader<Edge> edges = cg.listener();
+		Set<String> visited = new HashSet<>();
 
 		File resultFile = new File("./sootOutput/CGTest.log");
 		PrintWriter out = null;
@@ -108,7 +113,15 @@ public class UiDroidTest extends MyTest {
 			Edge edge = (Edge) edges.next();
 			SootMethod target = (SootMethod) edge.getTgt();
 			SootMethod src = edge.getSrc().method();
-
+			if (!visited.contains(src.toString())) {
+				dot.drawNode(src.toString());
+				visited.add(src.toString());
+			}
+			if (!visited.contains(target.toString())) {
+				dot.drawNode(target.toString());
+				visited.add(target.toString());
+			}
+			dot.drawEdge(src.toString(), target.toString());
 			out.println(src + "  -->   " + target);
 			if (PscoutMethod.contains(target.toString())) {
 				bfsCG(target);
@@ -118,6 +131,9 @@ public class UiDroidTest extends MyTest {
 		out.println("CG ends==================");
 		out.close();
 		System.out.println(cg.size());
+		String fileNameWithOutExt = FilenameUtils.removeExtension(apkPath);
+		String destination = "./sootOutput/" + fileNameWithOutExt;
+		dot.plot(destination + dot.DOT_EXTENSION);
 	}
 
 	public static void bfsCG(SootMethod target) {

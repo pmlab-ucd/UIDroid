@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
-import soot.util.dot.DotGraph;
-import playFlowDroid.CallFlowGraphSimplify;
 
 public class HandleResult {	
 	
@@ -23,9 +21,9 @@ public class HandleResult {
 		this.widgetResult = widgetResult;
 		String[] args = new String[1];
 		args[0] = apkPath;
-		CallFlowGraphSimplify.main(args);
+		//CallFlowGraphSimplify.main(args);
 		try {
-			updateCG("./sootOutput/app-debugSimple.dot");
+			updateCG("./sootOutput/app-debug.dot");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,7 +31,7 @@ public class HandleResult {
 	}
 	
 	public static void updateCG(String cgFilePath) throws IOException {
-		File resultFile = new File(cgFilePath.split(".dot")[0] + ("_Simple.dot"));
+		File resultFile = new File(cgFilePath.split(".dot")[0] + ("_UI.dot"));
 		PrintWriter out = null;
 		List<String> onClicks = new ArrayList<>();
 		try {
@@ -51,7 +49,7 @@ public class HandleResult {
 				continue;
 			}
 			if (line.contains("}") || line.contains("java.lang.Object: void registerNatives()")
-					|| line.contains("java.lang.Object: void <clinit>())")
+					|| line.contains("void <clinit>")
 					|| line.contains("void <init>")
 					|| line.contains("void finalize")) {
 				continue;
