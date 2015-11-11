@@ -139,7 +139,7 @@ public class UiForwardAnalysis {
 			} else {
 				// if x.setOnClickLinster(y)
 				if (((Stmt) unit).containsInvokeExpr()
-						&& unit.toString().contains("set" + "OnClick")) {
+						&& unit.toString().contains("setOn" + uiEventHandler.getName().split("on")[1])) {
 					InvokeExpr ie = ((Stmt) unit).getInvokeExpr();
 					System.out.println("found onClick! " + unit);
 					for (Value arg : ie.getArgs()) {

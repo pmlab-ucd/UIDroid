@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,7 +21,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import soot.Body;
 import soot.G;
 import soot.Local;
-import soot.MethodOrMethodContext;
 import soot.NormalUnitPrinter;
 import soot.PackManager;
 import soot.Scene;
@@ -57,8 +55,7 @@ public class UiDroidTest extends MyTest {
 
 	// sensitive permission related
 	private static List<String> PscoutMethod;
-	private static Map<SootMethod, SootMethod> sensEntries = new HashMap<>();
-	private static UnionFind<SootMethod> uf = new UnionFind<>();
+	private static Map<SootMethod, List<SootMethod>> sensEntries = new HashMap<>();
 
 	public static void main(String[] args) {
 		try {
@@ -87,8 +84,8 @@ public class UiDroidTest extends MyTest {
 	}
 
 	/*
-	 * traverse over Call Graph by visit edges one by one
-	 * check whether is a sensitive permission related API call
+	 * traverse over Call Graph by visit edges one by one check whether is a
+	 * sensitive permission related API call
 	 */
 	public static void getEntries() {
 		QueueReader<Edge> edges = cg.listener();
@@ -107,16 +104,10 @@ public class UiDroidTest extends MyTest {
 			SootMethod target = (SootMethod) edge.getTgt();
 			SootMethod src = edge.getSrc().method();
 
-			String tgtMethod = target.toString();
-			if (!src.toString().contains("dummy")
-					&& !tgtMethod.contains("<java.lang.RuntimeException")) {
-				uf.union(src, target);
-			}
-
 			out.println(src + "  -->   " + target);
 			if (PscoutMethod.contains(target.toString())) {
-				sensEntries.put(target, uf.find(target));
-				System.out.println(target + ": " + uf.find(target));
+				bfsCG(target);
+
 			}
 		}
 
@@ -125,29 +116,58 @@ public class UiDroidTest extends MyTest {
 		System.out.println(cg.size());
 	}
 
+	public static void bfsCG(SootMethod target) {
+		Queue<SootMethod> queue = new LinkedList<>();
+		Set<SootMethod> visited = new HashSet<>();
+		queue.add(target);
+		while (!queue.isEmpty()) {
+			int len = queue.size();
+			for (int i = 0; i < len; i++) {
+				SootMethod node = queue.poll();
+				if (visited.contains(node)) {
+					continue;
+				}
+				visited.add(node);
+				Iterator<Edge> iterator = cg.edgesInto(node);
+				while (iterator.hasNext()) {
+					Edge in = iterator.next();
+					if (in.getSrc().method().toString().contains("dummy")) {
+						if (!sensEntries.containsKey(target)) {
+							sensEntries
+									.put(target, new ArrayList<SootMethod>());
+						}
+						List<SootMethod> mList = sensEntries.get(target);
+						mList.add(in.getTgt().method());
+						System.out
+								.println(target + ": " + in.getTgt().method());
+					}
+					queue.add(in.getSrc().method());
+				}
+			}
+		}
+	}
+
 	/*
 	 * get Ui widgets from UI event handlers
 	 */
 	public static void getWidgets() {
-		QueueReader<Edge> edges = cg.listener();
-		for (SootMethod method : sensEntries.values()) {
-			if (method.toString().contains("onClick")) {
-				// iterate over edges of call graph
-				while (edges.hasNext()) {
-					Edge edge = (Edge) edges.next();
-					SootMethod target = (SootMethod) edge.getTgt();
-					SootMethod src = edge.getSrc().method();
-
-					String tgtMethod = target.toString();
-
-					// check whether sensitive whether entry point exists in
-					// onCreate()					
-					String baseClass = method.getDeclaringClass().toString().split("\\$")[0];
-					//System.out.println("Class:++++" + baseClass);
-					if (tgtMethod.contains("onCreate")
-							&& target.getDeclaringClass().toString().contains(baseClass)) {
-						// get callees inside a method body through icfg
-						analyzeOnCreate(target, method);
+		List<SootMethod> allOnCreate = getAllOnCreate();
+		for (List<SootMethod> list : sensEntries.values()) {
+			for (SootMethod method : list) {
+				System.out.println("Start ++++++++" + method.getName());
+				if (method.toString().contains("onClick")) {
+					// iterate over edges of call graph
+					for (SootMethod onCreate : allOnCreate) {
+						// check whether sensitive whether entry point exists in
+						// onCreate()
+						String baseClass = method.getDeclaringClass()
+								.toString().split("\\$")[0];
+						// System.out.println("Class:++++" + baseClass);
+						if (onCreate.getDeclaringClass().toString()
+								.contains(baseClass)) {
+							// get callees inside a method body through icfg
+							analyzeOnCreate(onCreate, method);
+						}
 					}
 				}
 			}
@@ -155,10 +175,29 @@ public class UiDroidTest extends MyTest {
 
 	}
 
+	public static List<SootMethod> getAllOnCreate() {
+		QueueReader<Edge> edges = cg.listener();
+		List<SootMethod> res = new ArrayList<>();
+		while (edges.hasNext()) {
+			Edge edge = (Edge) edges.next();
+			SootMethod target = (SootMethod) edge.getTgt();
+
+			String tgtMethod = target.toString();
+
+			// onCreate()
+			if (tgtMethod.contains("onCreate")) {
+				res.add(target);
+			}
+		}
+
+		return res;
+	}
+
 	/*
 	 * retrieve interested sensitive widgets by parsing onCreate methods
 	 */
-	public static void analyzeOnCreate(SootMethod onCreate, SootMethod eventHandler) {
+	public static void analyzeOnCreate(SootMethod onCreate,
+			SootMethod eventHandler) {
 		String sep = File.separator;
 		Body body = onCreate.retrieveActiveBody();
 		// 生成函数的control flow graph
@@ -203,10 +242,11 @@ public class UiDroidTest extends MyTest {
 
 			if (!after.isEmpty()) {
 				for (Local value : after) {
-					Map<Value, Unit> widgetMap = bfs(unit, value, cfg, 0, null);
+					Map<Value, Unit> widgetMap = bfsCFG(unit, value, cfg, 0,
+							null);
 					for (Value val : widgetMap.keySet()) {
-						Map<Value, Unit> idMap = bfs(widgetMap.get(val), null,
-								cfg, 1, val);
+						Map<Value, Unit> idMap = bfsCFG(widgetMap.get(val),
+								null, cfg, 1, val);
 						for (Unit stmt : idMap.values()) {
 							int id = extractId((Stmt) stmt);
 							System.out.println(id);
@@ -241,8 +281,8 @@ public class UiDroidTest extends MyTest {
 	 * breadth-first search for 1. last assignment of base 2. nearest
 	 * findViewById
 	 */
-	private static Map<Value, Unit> bfs(Unit unit, Local value, UnitGraph cfg,
-			int model, Value val) {
+	private static Map<Value, Unit> bfsCFG(Unit unit, Local value,
+			UnitGraph cfg, int model, Value val) {
 		Value foundValue = null;
 		Unit foundUnit = null;
 		Map<Value, Unit> res = new HashMap<>();
