@@ -57,6 +57,7 @@ public class UiDroidTest extends MyTest {
 	private static List<String> PscoutMethod;
 	private static Map<SootMethod, List<SootMethod>> sensEntries = new HashMap<>();
 	private static List<CSVResult> sensResult;
+	private static List<WidgetResult> widgetResult;
 
 	public static void main(String[] args) {
 		try {
@@ -82,7 +83,9 @@ public class UiDroidTest extends MyTest {
 		PscoutMethod = FileUtils.readLines(new File(
 				"./jellybean_publishedapimapping_parsed.txt"));
 		sensResult = new ArrayList<>();
+		widgetResult = new ArrayList<>();
 		permissionAnalysis(apkPath, platformPath, extraJar);
+		HandleResult handleResult = new HandleResult(apkPath, widgetResult);
 	}
 
 	/*
@@ -109,7 +112,6 @@ public class UiDroidTest extends MyTest {
 			out.println(src + "  -->   " + target);
 			if (PscoutMethod.contains(target.toString())) {
 				bfsCG(target);
-
 			}
 		}
 
@@ -154,7 +156,8 @@ public class UiDroidTest extends MyTest {
 	 */
 	public static void getWidgets() {
 		List<SootMethod> allOnCreate = getAllOnCreate();
-		for (List<SootMethod> list : sensEntries.values()) {
+		for (SootMethod sensitive : sensEntries.keySet()) {
+			List<SootMethod> list = sensEntries.get(sensitive);
 			for (SootMethod method : list) {
 				System.out.println("Start ++++++++" + method.getName());			
 				if (method.toString().contains("onClick")) {
@@ -168,7 +171,7 @@ public class UiDroidTest extends MyTest {
 						if (onCreate.getDeclaringClass().toString()
 								.contains(baseClass)) {
 							// get callees inside a method body through icfg
-							analyzeOnCreate(onCreate, method);
+							analyzeOnCreate(onCreate, method, sensitive);
 						}
 					}
 				} else {
@@ -201,7 +204,7 @@ public class UiDroidTest extends MyTest {
 	 * retrieve interested sensitive widgets by parsing onCreate methods
 	 */
 	public static void analyzeOnCreate(SootMethod onCreate,
-			SootMethod eventHandler) {
+			SootMethod eventHandler, SootMethod senstive) {
 		String sep = File.separator;
 		Body body = onCreate.retrieveActiveBody();
 		// 生成函数的control flow graph
@@ -257,7 +260,8 @@ public class UiDroidTest extends MyTest {
 							AbstractResource widget = fileParser
 									.findResource(id);
 							System.out.println(widget.getResourceName());
-							sensResult.add(new CSVResult(eventHandler, widget));
+							sensResult.add(new CSVResult(senstive, widget));
+							widgetResult.add(new WidgetResult(eventHandler, widget));
 						}
 					}
 				}

@@ -33,8 +33,7 @@ public class CallFlowGraphSimplify {
 	}
 
 	public static void main(String[] args) {
-		File f = new File(
-				"/home/hao/workspace/AppContext/ApkSamples/app-debug.apk");
+		File f = new File(args[0]);
 		String source_apk = f.getAbsolutePath();
 		soot.G.reset();
 
@@ -90,7 +89,7 @@ public class CallFlowGraphSimplify {
 		visit(cg, entryPoint);
 		String dest = f.getName();
 		String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
-		String destination = "./sootOutput/" + fileNameWithOutExt;
+		String destination = "./sootOutput/" + fileNameWithOutExt + "Simple";
 		dot.plot(destination + dot.DOT_EXTENSION);
 		// soot.PhaseOptions.getBoolean(Scene.v().getCallGraph().listener(),"dump_cg");
 		// System.out.println(Scene.v().getCallGraph());
