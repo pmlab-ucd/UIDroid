@@ -39,7 +39,7 @@ import soot.jimple.infoflow.android.resources.ARSCFileParser;
 import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
-import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
+//import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
 import soot.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
@@ -53,7 +53,7 @@ public class UiDroidTest extends MyTest {
 	// basics for analysis
 	private static String apkPath;
 	private static CallGraph cg;
-	private static JimpleBasedInterproceduralCFG icfg;
+	//private static JimpleBasedInterproceduralCFG icfg;
 	private static ARSCFileParser fileParser = new ARSCFileParser();
 
 	// sensitive permission related
@@ -77,24 +77,21 @@ public class UiDroidTest extends MyTest {
 		apkPath = file.getAbsolutePath();
 		String platformPath = "/home/hao/Android/Sdk/platforms";
 		String extraJar = "/home/hao/workspace/AppContext/libs";
-		try {
-			fileParser.parse(apkPath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		
+		fileParser.parse(apkPath);
 		// 读入Pscout
 		PscoutMethod = FileUtils.readLines(new File(
 				"./jellybean_publishedapimapping_parsed.txt"));
 		sensResult = new ArrayList<>();
 		widgetResult = new ArrayList<>();
 		permissionAnalysis(apkPath, platformPath, extraJar);
-		HandleResult handleResult = new HandleResult(apkPath, widgetResult);
+		HandleResult.updateCG(apkPath, widgetResult);
 	}
 
 	/*
 	 * traverse over Call Graph by visit edges one by one check whether is a
-	 * sensitive permission related API call
+	 * sensitive permission related API call.
+	 * if is, get the entry
 	 */
 	public static void getEntries() {
 		QueueReader<Edge> edges = cg.listener();
@@ -136,6 +133,9 @@ public class UiDroidTest extends MyTest {
 		dot.plot(destination + dot.DOT_EXTENSION);
 	}
 
+	/*
+	 * bfs the CG to get the entries of all sensitive methods
+	 */
 	public static void bfsCG(SootMethod target) {
 		Queue<SootMethod> queue = new LinkedList<>();
 		Set<SootMethod> visited = new HashSet<>();
@@ -173,8 +173,7 @@ public class UiDroidTest extends MyTest {
 	public static void getWidgets() {
 		List<SootMethod> allOnCreate = getAllOnCreate();
 		for (SootMethod sensitive : sensEntries.keySet()) {
-			List<SootMethod> list = sensEntries.get(sensitive);
-			for (SootMethod method : list) {
+			for (SootMethod method : sensEntries.get(sensitive)) {
 				System.out.println("Start ++++++++" + method.getName());			
 				if (method.toString().contains("onClick")) {
 					// iterate over edges of call graph
@@ -395,7 +394,7 @@ public class UiDroidTest extends MyTest {
 					protected void internalTransform(String phaseName,
 							Map<String, String> options) {
 						cg = Scene.v().getCallGraph();
-						icfg = new JimpleBasedInterproceduralCFG();
+						//icfg = new JimpleBasedInterproceduralCFG();
 						getEntries();
 						getWidgets();
 					}

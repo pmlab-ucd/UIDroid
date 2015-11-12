@@ -6,9 +6,9 @@ CG begins==================
 <dummyMainClass: void dummyMainMethod()>  -->   <android.app.Activity: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
+<dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.app.Activity: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <de.ecspride.Activity1: void <clinit>()>
-<dummyMainClass: void dummyMainMethod()>  -->   <android.view.View: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.os.Bundle: void <clinit>()>
 <dummyMainClass: void dummyMainMethod()>  -->   <android.app.Activity: void <clinit>()>
 <de.ecspride.Activity1: void <clinit>()>  -->   <de.ecspride.Activity1: void <clinit>()>

@@ -17,15 +17,14 @@ public class HandleResult {
 	
 	static List<WidgetResult> widgetResult;
 	
-	HandleResult(String apkPath, List<WidgetResult> widgetResult) {
-		this.widgetResult = widgetResult;
+	public static void updateCG(String apkPath, List<WidgetResult> widgetRes) {
+		widgetResult = widgetRes;
 		String[] args = new String[1];
 		args[0] = apkPath;
 		//CallFlowGraphSimplify.main(args);
 		try {
 			updateCG("./sootOutput/app-debug.dot");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -51,7 +50,8 @@ public class HandleResult {
 			if (line.contains("}") || line.contains("java.lang.Object: void registerNatives()")
 					|| line.contains("void <clinit>")
 					|| line.contains("void <init>")
-					|| line.contains("void finalize")) {
+					|| line.contains("void finalize")
+					|| line.contains("findViewBy")) {
 				continue;
 			}
 			out.println(line);
