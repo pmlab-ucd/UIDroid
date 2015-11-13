@@ -230,21 +230,21 @@ public class UiDroidTest extends MyTest {
 			for (SootMethod entry : sensEntries.get(sensitive)) {
 				System.out.println("Start ++++++++" + entry.getName());
 				if (entry.toString().contains("onClick")) {
-					// iterate over edges of call graph
+					// iterate over edges of call graph,
+					// check whether sensitive whether entry point exists in
+					// onCreate()
 					for (SootMethod onCreate : allOnCreate) {
-						// check whether sensitive whether entry point exists in
-						// onCreate()
-						String baseClass = entry.getDeclaringClass().toString()
-								.split("\\$")[0];
-						// System.out.println("Class:++++" + baseClass);
-						if (onCreate.getDeclaringClass().toString()
-								.contains(baseClass)) {
-							// get callees inside a method body through icfg
-							analyzeOnCreate(onCreate, entry, sensitive);
-						}
+						// String baseClass =
+						// entry.getDeclaringClass().toString()
+						// .split("\\$")[0];
+						// if (onCreate.getDeclaringClass().toString()
+						// .contains(baseClass)) {
+						// get callees inside a method body through icfg
+						analyzeOnCreate(onCreate, entry, sensitive);
+						// }
 					}
 				} else {
-					widgetResult.add(new WidgetResult(sensitive, entry, null));
+					widgetResult.add(new WidgetResult(sensitive, entry, entry, null));
 				}
 			}
 		}
@@ -329,7 +329,7 @@ public class UiDroidTest extends MyTest {
 							AbstractResource widget = fileParser
 									.findResource(id);
 							System.out.println(widget.getResourceName());
-							widgetResult.add(new WidgetResult(senstive,
+							widgetResult.add(new WidgetResult(senstive, onCreate,
 									eventHandler, widget));
 						}
 					}

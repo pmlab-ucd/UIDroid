@@ -107,18 +107,27 @@ public class HandleResult {
 		}
 		File oldCG = new File(cgFilePath);
 		BufferedReader br = new BufferedReader(new FileReader(oldCG));
+		
+		Map<String, WidgetResult> widgets = new HashMap<>();
+		for (WidgetResult wid : widgetResult) {
+			widgets.put("\"" + wid.eventHandler + "\"", wid);
+		}
 		 
 		String line = null;
 		while ((line = br.readLine()) != null) {
 			if (line.contains("dummy") && line.contains("onClick")) {
-				onClicks.add(line.split("->")[1].split(";")[0]);
-				continue;
+				String onClick = line.split("->")[1].split(";")[0];
+				if (widgets.containsKey(onClick)) {
+					onClicks.add(onClick);
+					continue;
+				}
 			}
 			if (line.contains("}") || line.contains("java.lang.Object: void registerNatives()")
 					|| line.contains("void <clinit>")
 					|| line.contains("void <init>")
 					|| line.contains("void finalize")
-					|| line.contains("findViewBy")) {
+					|| line.contains("findViewBy")
+					|| line.contains("setOnClickListener")) {
 				continue;
 			}
 			out.println(line);
@@ -126,11 +135,8 @@ public class HandleResult {
 		}
 		br.close();
 		
-		Map<String, AbstractResource> widgets = new HashMap<>();
-		for (WidgetResult wid : widgetResult) {
-			widgets.put("\"" + wid.eventHandler.toString() + "\"", wid.widget);
-		}
-		
+
+		/*
 		for (String onClick : onClicks) {
 			if (widgets.containsKey(onClick)) {
 				out.println("    " + onClick.split("\\$")[0] + 
@@ -140,6 +146,11 @@ public class HandleResult {
 			out.println("    " + onClick.split("\\$")[0] + 
 					": void onCreate(android.os.Bundle)>\"->" + onClick + ";");
 			}
+		}*/
+		for (String onClick : onClicks) {
+			out.println("    \"" + widgets.get(onClick).onCreate + 
+					"\"->\"" + widgets.get(onClick).widget.getResourceName() + "\";");
+			out.println("    \"" + widgets.get(onClick).widget.getResourceName() + "\"->" + onClick + ";");
 		}
 		out.println("}");
 		out.close();
@@ -173,7 +184,9 @@ public class HandleResult {
 			}
 			String[] resultArray = (String[]) result
 					.toArray(new String[result.size()]);
-			results.add(resultArray);
+			if (!results.contains(resultArray)) {
+				results.add(resultArray);
+			}
 		}
 		
 		writer.writeAll(results);

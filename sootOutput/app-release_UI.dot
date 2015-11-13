@@ -14,9 +14,6 @@ digraph "callgraph" {
     "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void onCreate(android.os.Bundle)>";
     "<android.app.Activity: void setContentView(int)>"
     "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void setContentView(int)>";
-    "<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>"
-    "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>";
-    "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>";
     "<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>"
     "<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>"->"<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>";
     "<android.app.Activity: void startActivity(android.content.Intent)>"
@@ -48,6 +45,8 @@ digraph "callgraph" {
     "<de.ecspride.Activity1: void c()>"->"<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>";
     "<android.telephony.TelephonyManager: java.lang.String getDeviceId()>"
     "<de.ecspride.Activity1: void c()>"->"<android.telephony.TelephonyManager: java.lang.String getDeviceId()>";
-    "<de.ecspride.b: void onClick(android.view.View)>": void onCreate(android.os.Bundle)>"->"<de.ecspride.b: void onClick(android.view.View)>";
-    "<de.ecspride.a: void onClick(android.view.View)>": void onCreate(android.os.Bundle)>"->"<de.ecspride.a: void onClick(android.view.View)>";
+    "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"button2";
+    "button2"->"<de.ecspride.b: void onClick(android.view.View)>";
+    "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"button1";
+    "button1"->"<de.ecspride.a: void onClick(android.view.View)>";
 }
