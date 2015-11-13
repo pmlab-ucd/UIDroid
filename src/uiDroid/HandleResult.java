@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -23,26 +24,21 @@ public class HandleResult {
 	/*
 	 * main procedure
 	 */
-	@SuppressWarnings("unchecked")
-	public static void storeResult(String cgPath, List<WidgetResult> widgetRes) 
-			throws IOException {
+	public static void storeResult(String cgPath, List<WidgetResult> widgetRes,
+			String decomPath) throws IOException {
 		updateCG(cgPath, widgetRes);
 		String apk = cgPath.split(".dot")[0];
 		
 		Map<String, String> strings;
-		Map<String, Widget> widgets;
-		String xmlPath = "/home/hao/workspace/AppContext/Manifest/Decomplied/ApkSamples/app-debug.apk/res/values/strings.xml";
-		File xmlFile = new File(xmlPath);
-		FileInputStream isXml = new FileInputStream(xmlFile);
-		ParseXML parser = new ParseStringsXML();
-		strings = parser.parseXML(isXml, "utf-8");
+		Map<String, Widget> widgets = new HashMap<>();
+		String xmlPath = decomPath + "/res/values/strings.xml";
+		strings = getStrPool(xmlPath);
 		
-		xmlPath = "/home/hao/workspace/AppContext/Manifest/Decomplied/ApkSamples/app-debug.apk/res/layout/activity_activity1.xml";
-		xmlFile = new File(xmlPath);
-		isXml = new FileInputStream(xmlFile);
-		parser = new ParseLayoutXML();
-		widgets = parser.parseXML(isXml, "utf-8");
-		
+		List<String> layoutXmls = getAllLayoutXmls(decomPath + "/res/layout/");
+		for (String xml : layoutXmls) {
+			xmlPath = decomPath + "/res/layout/" + xml;
+			widgets.putAll(getWidgets(xmlPath));
+		}		
 		updateUIStr(widgets, strings);
 		writeCSV(apk, widgets);
 	}
@@ -54,6 +50,47 @@ public class HandleResult {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/*
+	 * retrieve all strings declared in strings.xml
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String, String> getStrPool(String xmlPath) throws FileNotFoundException {
+		File xmlFile = new File(xmlPath);
+		FileInputStream isXml = new FileInputStream(xmlFile);
+		ParseXML parser = new ParseStringsXML();
+		return parser.parseXML(isXml, "utf-8");
+	}
+	
+	/*
+	 * retrieve all widgets declared in the layout xml
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String, Widget> getWidgets(String xmlPath) throws FileNotFoundException {
+		File xmlFile = new File(xmlPath);
+		FileInputStream isXml = new FileInputStream(xmlFile);
+		ParseXML parser = new ParseLayoutXML();
+		return parser.parseXML(isXml, "utf-8");
+	}
+	
+	public static List<String> getAllLayoutXmls(String layoutPath) {
+		File file = new File(layoutPath);
+		List<String> xmls = new ArrayList<>();
+		if (file.isDirectory()) {
+			String[] dirFiles = file.list(new FilenameFilter() {
+
+				@Override
+				public boolean accept(File dir, String name) {
+					return (name.endsWith(".xml"));
+				}
+
+			});
+			for (String s : dirFiles)
+				xmls.add(s);
+		} 
+		
+		return xmls;
 	}
 	
 	/*
@@ -112,7 +149,8 @@ public class HandleResult {
 	 * write results to csv
 	 */
 	public static void writeCSV(String apk, Map<String, Widget> widgets) throws IOException {
-		String csv = apk + ".csv";
+		//String csv = apk + ".csv";
+		String csv = "./sootOutput/data.csv";
 		String[] tmp = apk.split("/");
 		String apkName = tmp[tmp.length - 1];
 		File csvFile = new File(csv);

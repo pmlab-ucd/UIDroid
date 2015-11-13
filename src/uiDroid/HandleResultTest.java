@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -47,5 +48,13 @@ public class HandleResultTest {
 			System.out.println(widget.getSid() + ": " + widget.getText());
 		}
 	}
-
+	
+	@Test
+	public void testGetAllLayoutXmls() throws FileNotFoundException {
+		String layoutPath = "/home/hao/workspace/AppContext/Manifest/Decomplied/ApkSamples/app-debug.apk/res/layout/";
+		List<String> xmls = HandleResult.getAllLayoutXmls(layoutPath);
+		for (String xml : xmls) {
+			System.out.println(xml);
+		}
+	}
 }

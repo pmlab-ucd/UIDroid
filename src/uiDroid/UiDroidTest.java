@@ -1,8 +1,12 @@
 package uiDroid;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +57,7 @@ public class UiDroidTest extends MyTest {
 	// basics for analysis
 	private static String apkPath;
 	private static CallGraph cg;
-	//private static JimpleBasedInterproceduralCFG icfg;
+	// private static JimpleBasedInterproceduralCFG icfg;
 	private static ARSCFileParser fileParser = new ARSCFileParser();
 
 	// sensitive permission related
@@ -66,31 +70,79 @@ public class UiDroidTest extends MyTest {
 	public static void main(String[] args) {
 		try {
 			myTestMain(args);
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void myTestMain(String[] args) throws IOException {
-		File file = new File(
-				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
-		apkPath = file.getAbsolutePath();
-		String platformPath = "/home/hao/Android/Sdk/platforms";
-		String extraJar = "/home/hao/workspace/AppContext/libs";
-		
-		fileParser.parse(apkPath);
+	public static void myTestMain(String[] args) throws IOException,
+			InterruptedException {
+		// 读入文件并判断是否是apk文件
+		List<String> apkFiles = new ArrayList<>();
+		File apkFile = new File(args[0]);
+		if (apkFile.isDirectory()) {
+			String[] dirFiles = apkFile.list(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return (name.endsWith(".apk"));
+				}
+			});
+			for (String s : dirFiles) {
+				apkFiles.add(s);
+			}
+		} else {
+			// 获得文件类型
+			String extension = apkFile.getName().substring(
+					apkFile.getName().lastIndexOf("."));
+			if (extension.equalsIgnoreCase(".txt")) {
+				BufferedReader rdr = new BufferedReader(new FileReader(apkFile));
+				String line = null;
+				while ((line = rdr.readLine()) != null)
+					apkFiles.add(line);
+				rdr.close();
+			} else if (extension.equalsIgnoreCase(".apk"))
+				apkFiles.add(args[0]);
+			else {
+				System.err.println("Invalid input file format: " + extension);
+				return;
+			}
+		}
+
 		// 读入Pscout
 		PscoutMethod = FileUtils.readLines(new File(
 				"./jellybean_publishedapimapping_parsed.txt"));
-		widgetResult = new ArrayList<>();
-		permissionAnalysis(apkPath, platformPath, extraJar);
-		HandleResult.storeResult(dotPath, widgetResult);
+		String platformPath = "/home/hao/Android/Sdk/platforms";
+		String extraJar = "/home/hao/workspace/AppContext/libs";
+
+		for (final String fileName : apkFiles) {
+			// File file = new File(
+			// "/home/hao/workspace/ApkSamples/app-debug.apk");
+			// apkPath = file.getAbsolutePath();
+			apkPath = args[0] + File.separator + fileName;
+			fileParser.parse(apkPath);
+			widgetResult = new ArrayList<>();
+			permissionAnalysis(apkPath, platformPath, extraJar);
+
+			String decomPath = args[0] + File.separator + "Decompiled"
+					+ File.separator + fileName;
+			String cmd = "apktool d " + apkPath + " -o " + decomPath;
+			Runtime run = Runtime.getRuntime();
+			Process pr = run.exec(cmd);
+			pr.waitFor();
+			BufferedReader buf = new BufferedReader(new InputStreamReader(
+					pr.getInputStream()));
+			String line = "";
+			while ((line = buf.readLine()) != null) {
+				System.out.println(line);
+			}
+
+			HandleResult.storeResult(dotPath, widgetResult, decomPath);
+		}
 	}
 
 	/*
 	 * traverse over Call Graph by visit edges one by one check whether is a
-	 * sensitive permission related API call.
-	 * if is, get the entry
+	 * sensitive permission related API call. if is, get the entry
 	 */
 	@SuppressWarnings("static-access")
 	public static void getEntries() {
@@ -176,14 +228,14 @@ public class UiDroidTest extends MyTest {
 		List<SootMethod> allOnCreate = getAllOnCreate();
 		for (SootMethod sensitive : sensEntries.keySet()) {
 			for (SootMethod entry : sensEntries.get(sensitive)) {
-				System.out.println("Start ++++++++" + entry.getName());			
+				System.out.println("Start ++++++++" + entry.getName());
 				if (entry.toString().contains("onClick")) {
 					// iterate over edges of call graph
 					for (SootMethod onCreate : allOnCreate) {
 						// check whether sensitive whether entry point exists in
 						// onCreate()
-						String baseClass = entry.getDeclaringClass()
-								.toString().split("\\$")[0];
+						String baseClass = entry.getDeclaringClass().toString()
+								.split("\\$")[0];
 						// System.out.println("Class:++++" + baseClass);
 						if (onCreate.getDeclaringClass().toString()
 								.contains(baseClass)) {
@@ -277,7 +329,8 @@ public class UiDroidTest extends MyTest {
 							AbstractResource widget = fileParser
 									.findResource(id);
 							System.out.println(widget.getResourceName());
-							widgetResult.add(new WidgetResult(senstive, eventHandler, widget));
+							widgetResult.add(new WidgetResult(senstive,
+									eventHandler, widget));
 						}
 					}
 				}
@@ -395,7 +448,7 @@ public class UiDroidTest extends MyTest {
 					protected void internalTransform(String phaseName,
 							Map<String, String> options) {
 						cg = Scene.v().getCallGraph();
-						//icfg = new JimpleBasedInterproceduralCFG();
+						// icfg = new JimpleBasedInterproceduralCFG();
 						getEntries();
 						getWidgets();
 					}
