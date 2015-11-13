@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -11,19 +12,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
 
 public class HandleResult {	
 	
 	static List<WidgetResult> widgetResult;
 	
-	public static void updateCG(String apkPath, List<WidgetResult> widgetRes) {
+	public static void storeResult(String cgPath, List<WidgetResult> widgetRes) 
+			throws IOException {
+		updateCG(cgPath, widgetRes);
+		String apk = cgPath.split(".dot")[0];
+		writeCSV(apk);
+	}
+	
+	public static void updateCG(String cgPath, List<WidgetResult> widgetRes) {
 		widgetResult = widgetRes;
-		String[] args = new String[1];
-		args[0] = apkPath;
-		//CallFlowGraphSimplify.main(args);
 		try {
-			updateCG("./sootOutput/app-debug.dot");
+			updateCG(cgPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,7 +61,7 @@ public class HandleResult {
 				continue;
 			}
 			out.println(line);
-			System.out.println(line);
+			//System.out.println(line);
 		}
 		br.close();
 		
@@ -76,6 +82,36 @@ public class HandleResult {
 		}
 		out.println("}");
 		out.close();
+	}
+	
+	public static void writeCSV(String apk) throws IOException {
+		String csv = apk + ".csv";
+		String[] tmp = apk.split("/");
+		String apkName = tmp[tmp.length - 1];
+		File csvFile = new File(csv);
+		System.out.println(csv);
+		if (!csvFile.exists()) {
+			csvFile.createNewFile();
+		}
+		CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+		List<String[]> results = new ArrayList<>();
+		for (WidgetResult res : widgetResult) {
+			List<String> result = new ArrayList<>();
+			result.add(apkName);
+			result.add(res.sensitive.toString());
+			result.add(res.eventHandler.toString());
+			if (res.widget != null) {
+				result.add(res.widget.getResourceName());
+			} else {
+				result.add("");
+			}
+			String[] resultArray = (String[]) result
+					.toArray(new String[result.size()]);
+			results.add(resultArray);
+		}
+		
+		writer.writeAll(results);
+		writer.close();
 	}
 
 }

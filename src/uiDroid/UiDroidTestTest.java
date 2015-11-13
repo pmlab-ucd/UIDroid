@@ -3,10 +3,12 @@ package uiDroid;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -66,29 +68,14 @@ public class UiDroidTestTest {
 		ApkHandler apk = new ApkHandler(file);
 		//InputStream is = apk.getInputStream("AndroidManifest.xml");
 		InputStream is = apk.getInputStream("res/layout/activity_activity1.xml");
-		AXmlHandler xmlHandler = new AXmlHandler(is);
-		System.out.println(xmlHandler.getRoot());
 		
 		String xmlPath = "/home/hao/workspace/AppContext/Manifest/Decomplied/ApkSamples/app-debug.apk/res/layout/activity_activity1.xml";
-		
-		LayoutFileParser layout = new LayoutFileParser(xmlPath, fileParser);
-		Set<String> classes = new HashSet<String>();
-		layout.parseLayoutFile(apkPath, classes);
-		System.out.println(classes);
-		Map<String, Set<String>> callBacks = layout.getCallbackMethods();
-		for (String str : callBacks.keySet()) {
-			System.out.print(str + ": ");
-			for (String s : callBacks.get(str)) {
-				System.out.print(s + ", ");
-			}
-			System.out.println();
-		}
-		
-		Map<Integer, LayoutControl> userContr = layout.getUserControls();
-		System.out.println(userContr);
-		for (Integer i : userContr.keySet()) {
-			System.out.print(i.toString() + ": ");
-			System.out.println(userContr.get(i));
+		File xmlFile = new File(xmlPath);
+		FileInputStream isXml = new FileInputStream(xmlFile);
+		List<Widget> widgets = LayoutXMLParser.parseXML(isXml, "utf-8");
+		System.out.println(widgets);
+		for (Widget widget : widgets) {
+			System.out.println(widget.getSid() + ": " + widget.getText());
 		}
 	}
 

@@ -59,9 +59,9 @@ public class UiDroidTest extends MyTest {
 	// sensitive permission related
 	private static List<String> PscoutMethod;
 	private static Map<SootMethod, List<SootMethod>> sensEntries = new HashMap<>();
-	private static List<CSVResult> sensResult;
 	private static List<WidgetResult> widgetResult;
 	private static DotGraph dot = new DotGraph("callgraph");
+	private static String dotPath = null;
 
 	public static void main(String[] args) {
 		try {
@@ -82,10 +82,9 @@ public class UiDroidTest extends MyTest {
 		// 读入Pscout
 		PscoutMethod = FileUtils.readLines(new File(
 				"./jellybean_publishedapimapping_parsed.txt"));
-		sensResult = new ArrayList<>();
 		widgetResult = new ArrayList<>();
 		permissionAnalysis(apkPath, platformPath, extraJar);
-		HandleResult.updateCG(apkPath, widgetResult);
+		HandleResult.storeResult(dotPath, widgetResult);
 	}
 
 	/*
@@ -128,9 +127,11 @@ public class UiDroidTest extends MyTest {
 		out.println("CG ends==================");
 		out.close();
 		System.out.println(cg.size());
-		String fileNameWithOutExt = FilenameUtils.removeExtension(apkPath);
+		String fileNameWithOutExt = FilenameUtils.getName(apkPath);
+		fileNameWithOutExt = FilenameUtils.removeExtension(fileNameWithOutExt);
 		String destination = "./sootOutput/" + fileNameWithOutExt;
-		dot.plot(destination + dot.DOT_EXTENSION);
+		dotPath = destination + dot.DOT_EXTENSION;
+		dot.plot(dotPath);
 	}
 
 	/*
@@ -173,24 +174,24 @@ public class UiDroidTest extends MyTest {
 	public static void getWidgets() {
 		List<SootMethod> allOnCreate = getAllOnCreate();
 		for (SootMethod sensitive : sensEntries.keySet()) {
-			for (SootMethod method : sensEntries.get(sensitive)) {
-				System.out.println("Start ++++++++" + method.getName());			
-				if (method.toString().contains("onClick")) {
+			for (SootMethod entry : sensEntries.get(sensitive)) {
+				System.out.println("Start ++++++++" + entry.getName());			
+				if (entry.toString().contains("onClick")) {
 					// iterate over edges of call graph
 					for (SootMethod onCreate : allOnCreate) {
 						// check whether sensitive whether entry point exists in
 						// onCreate()
-						String baseClass = method.getDeclaringClass()
+						String baseClass = entry.getDeclaringClass()
 								.toString().split("\\$")[0];
 						// System.out.println("Class:++++" + baseClass);
 						if (onCreate.getDeclaringClass().toString()
 								.contains(baseClass)) {
 							// get callees inside a method body through icfg
-							analyzeOnCreate(onCreate, method, sensitive);
+							analyzeOnCreate(onCreate, entry, sensitive);
 						}
 					}
 				} else {
-					sensResult.add(new CSVResult(method, null));
+					widgetResult.add(new WidgetResult(sensitive, entry, null));
 				}
 			}
 		}
@@ -275,8 +276,7 @@ public class UiDroidTest extends MyTest {
 							AbstractResource widget = fileParser
 									.findResource(id);
 							System.out.println(widget.getResourceName());
-							sensResult.add(new CSVResult(senstive, widget));
-							widgetResult.add(new WidgetResult(eventHandler, widget));
+							widgetResult.add(new WidgetResult(senstive, eventHandler, widget));
 						}
 					}
 				}
