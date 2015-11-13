@@ -23,11 +23,7 @@ public class Widget {
 	}
 	
 	public void setText(String text) {
-		if (text.contains("@string")) {
-			this.text = text.split("@string/")[1];
-		} else {
-			this.text = text;
-		}
+		this.text = text;
 	}
 	
 	public void setType(int type) {

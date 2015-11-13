@@ -2,10 +2,12 @@ package uiDroid;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +34,7 @@ public class UiDroidTestTest {
 	}
 
 	@Test
-	public void testMainStringArray() throws ZipException, IOException {
+	public void testMainStringArray() throws ZipException, IOException, InterruptedException {
 		//UiDroidTest.main(null);
 		ARSCFileParser fileParser = new ARSCFileParser();
 		File file = new File(
@@ -48,7 +50,6 @@ public class UiDroidTestTest {
 			System.out.print(i);
 			System.out.println(": " + strMap.get(i));
 		}
-		
 
 		ZipFile zip = new ZipFile(file);
 		
@@ -69,14 +70,16 @@ public class UiDroidTestTest {
 		//InputStream is = apk.getInputStream("AndroidManifest.xml");
 		InputStream is = apk.getInputStream("res/layout/activity_activity1.xml");
 		
-		String xmlPath = "/home/hao/workspace/AppContext/Manifest/Decomplied/ApkSamples/app-debug.apk/res/layout/activity_activity1.xml";
-		File xmlFile = new File(xmlPath);
-		FileInputStream isXml = new FileInputStream(xmlFile);
-		List<Widget> widgets = LayoutXMLParser.parseXML(isXml, "utf-8");
-		System.out.println(widgets);
-		for (Widget widget : widgets) {
-			System.out.println(widget.getSid() + ": " + widget.getText());
+		String cmd = "ls -al";
+		Runtime run = Runtime.getRuntime();
+		Process pr = run.exec(cmd);
+		pr.waitFor();
+		BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+		String line = "";
+		while ((line=buf.readLine())!=null) {
+		System.out.println(line);
 		}
+
 	}
 
 	@Test

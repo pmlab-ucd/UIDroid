@@ -92,6 +92,7 @@ public class UiDroidTest extends MyTest {
 	 * sensitive permission related API call.
 	 * if is, get the entry
 	 */
+	@SuppressWarnings("static-access")
 	public static void getEntries() {
 		QueueReader<Edge> edges = cg.listener();
 		Set<String> visited = new HashSet<>();

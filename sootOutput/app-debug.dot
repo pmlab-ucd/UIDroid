@@ -9,10 +9,10 @@ digraph "callgraph" {
     "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <clinit>()>";
     "<android.app.Activity: void <clinit>()>"
     "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1: void <clinit>()>";
-    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
-    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
@@ -76,11 +76,11 @@ digraph "callgraph" {
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1$1: void onClick(android.view.View)>";
     "<android.view.View: void <init>(android.content.Context)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
     "<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>";
     "<de.ecspride.Activity1$2: void onClick(android.view.View)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1$2: void onClick(android.view.View)>";
-    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
     "<de.ecspride.Activity2: void <init>()>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity2: void <init>()>";

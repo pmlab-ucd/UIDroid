@@ -2,6 +2,7 @@ package uiDroid;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,13 +18,33 @@ import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
 
 public class HandleResult {	
 	
-	static List<WidgetResult> widgetResult;
+	private static List<WidgetResult> widgetResult;
 	
+	/*
+	 * main procedure
+	 */
+	@SuppressWarnings("unchecked")
 	public static void storeResult(String cgPath, List<WidgetResult> widgetRes) 
 			throws IOException {
 		updateCG(cgPath, widgetRes);
 		String apk = cgPath.split(".dot")[0];
-		writeCSV(apk);
+		
+		Map<String, String> strings;
+		Map<String, Widget> widgets;
+		String xmlPath = "/home/hao/workspace/AppContext/Manifest/Decomplied/ApkSamples/app-debug.apk/res/values/strings.xml";
+		File xmlFile = new File(xmlPath);
+		FileInputStream isXml = new FileInputStream(xmlFile);
+		ParseXML parser = new ParseStringsXML();
+		strings = parser.parseXML(isXml, "utf-8");
+		
+		xmlPath = "/home/hao/workspace/AppContext/Manifest/Decomplied/ApkSamples/app-debug.apk/res/layout/activity_activity1.xml";
+		xmlFile = new File(xmlPath);
+		isXml = new FileInputStream(xmlFile);
+		parser = new ParseLayoutXML();
+		widgets = parser.parseXML(isXml, "utf-8");
+		
+		updateUIStr(widgets, strings);
+		writeCSV(apk, widgets);
 	}
 	
 	public static void updateCG(String cgPath, List<WidgetResult> widgetRes) {
@@ -35,6 +56,9 @@ public class HandleResult {
 		}
 	}
 	
+	/*
+	 * update call graph with UI info
+	 */
 	public static void updateCG(String cgFilePath) throws IOException {
 		File resultFile = new File(cgFilePath.split(".dot")[0] + ("_UI.dot"));
 		PrintWriter out = null;
@@ -84,7 +108,10 @@ public class HandleResult {
 		out.close();
 	}
 	
-	public static void writeCSV(String apk) throws IOException {
+	/*
+	 * write results to csv
+	 */
+	public static void writeCSV(String apk, Map<String, Widget> widgets) throws IOException {
 		String csv = apk + ".csv";
 		String[] tmp = apk.split("/");
 		String apkName = tmp[tmp.length - 1];
@@ -102,6 +129,7 @@ public class HandleResult {
 			result.add(res.eventHandler.toString());
 			if (res.widget != null) {
 				result.add(res.widget.getResourceName());
+				result.add(widgets.get("@id/" + res.widget.getResourceName()).getText());
 			} else {
 				result.add("");
 			}
@@ -112,6 +140,19 @@ public class HandleResult {
 		
 		writer.writeAll(results);
 		writer.close();
+	}
+	
+	/*
+	 * update text who have @string/ to their real values
+	 */
+	public static void updateUIStr(Map<String, Widget> widgets, Map<String, String> strPool) {
+		for (Widget widget : widgets.values()) {
+			String text = widget.getText();
+			if (text.contains("@string")) {
+				text = text.split("@string/")[1];
+				widget.setText(strPool.get(text));
+			}
+		}
 	}
 
 }
