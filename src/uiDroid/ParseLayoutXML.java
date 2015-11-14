@@ -38,16 +38,20 @@ public class ParseLayoutXML implements ParseXML {
 				case XmlPullParser.START_TAG:
 					//String name = parser.getName();
 					//System.out.println(name);
-					if(parser.getName().equals("Button")){
+					//if(parser.getName().equals("Button")){
+						String sid = parser.getAttributeValue(null, "android:id");
+						if (sid == null) {
+							break;
+						}
 						widget = new Widget();
 						widget.setType(1);
 						//获取该节点的内容
-						String sid = parser.getAttributeValue(0);
+						
 						widget.setSid(sid);
 						String text = parser.getAttributeValue(null, "android:text");
 						widget.setText(text);
 						res.put(sid, widget);
-					}
+					//}
 					break;
 				case XmlPullParser.END_TAG:					
 					break;

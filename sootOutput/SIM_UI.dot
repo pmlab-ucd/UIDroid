@@ -1,0 +1,51 @@
+digraph "callgraph" {
+    "<dummyMainClass: void dummyMainMethod()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onClick(android.content.DialogInterface,int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity: void onClick(android.content.DialogInterface,int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.content.SharedPreferences access$0(pt.oxinarf.simnumberchanger.MainActivity)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<pt.oxinarf.simnumberchanger.MainActivity: android.content.SharedPreferences access$0(pt.oxinarf.simnumberchanger.MainActivity)>";
+    "<android.app.Activity: void onCreate(android.os.Bundle)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void onCreate(android.os.Bundle)>";
+    "<android.app.Activity: android.content.SharedPreferences getPreferences(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: android.content.SharedPreferences getPreferences(int)>";
+    "<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>";
+    "<android.app.Activity: void setContentView(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void setContentView(int)>";
+    "<android.telephony.TelephonyManager: java.lang.String getLine1Number()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.telephony.TelephonyManager: java.lang.String getLine1Number()>";
+    "<java.lang.String: boolean isEmpty()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.String: boolean isEmpty()>";
+    "<java.lang.String: java.lang.String trim()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.String: java.lang.String trim()>";
+    "<java.lang.String: boolean equals(java.lang.Object)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.String: boolean equals(java.lang.Object)>";
+    "<android.widget.TextView: void setText(java.lang.CharSequence)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<android.widget.TextView: void setTypeface(android.graphics.Typeface,int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setTypeface(android.graphics.Typeface,int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<android.app.Dialog: void dismiss()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onClick(android.content.DialogInterface,int)>"->"<android.app.Dialog: void dismiss()>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(int)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNeutralButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNeutralButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog create()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNeutralButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<android.app.Activity: void showDialog(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.app.Activity: void showDialog(int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.app.Activity: void showDialog(int)>";
+    "<android.widget.EditText: android.text.Editable getText()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.widget.EditText: android.text.Editable getText()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<java.lang.String: java.lang.String trim()>";
+}

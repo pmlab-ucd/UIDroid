@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
 
 public class HandleResult {	
 	
@@ -32,7 +31,12 @@ public class HandleResult {
 		Map<String, String> strings;
 		Map<String, Widget> widgets = new HashMap<>();
 		String xmlPath = decomPath + "/res/values/strings.xml";
-		strings = getStrPool(xmlPath);
+		File xmlFile = new File(xmlPath);
+		if (!xmlFile.isFile()) {
+			xmlPath = decomPath + "/res/values-uk/strings.xml";
+			xmlFile = new File(xmlPath);
+		}
+		strings = getStrPool(xmlFile);
 		
 		List<String> layoutXmls = getAllLayoutXmls(decomPath + "/res/layout/");
 		for (String xml : layoutXmls) {
@@ -56,9 +60,14 @@ public class HandleResult {
 	 * retrieve all strings declared in strings.xml
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, String> getStrPool(String xmlPath) throws FileNotFoundException {
-		File xmlFile = new File(xmlPath);
-		FileInputStream isXml = new FileInputStream(xmlFile);
+	public static Map<String, String> getStrPool(File xmlFile) {
+		FileInputStream isXml = null;
+		try {
+			isXml = new FileInputStream(xmlFile);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ParseXML parser = new ParseStringsXML();
 		return parser.parseXML(isXml, "utf-8");
 	}
@@ -148,9 +157,11 @@ public class HandleResult {
 			}
 		}*/
 		for (String onClick : onClicks) {
-			out.println("    \"" + widgets.get(onClick).onCreate + 
-					"\"->\"" + widgets.get(onClick).widget.getResourceName() + "\";");
-			out.println("    \"" + widgets.get(onClick).widget.getResourceName() + "\"->" + onClick + ";");
+			if (widgets.get(onClick) != null && widgets.get(onClick).widget != null) {
+				out.println("    \"" + widgets.get(onClick).onCreate + 
+						"\"->\"" + widgets.get(onClick).widget.getResourceName() + "\";");
+				out.println("    \"" + widgets.get(onClick).widget.getResourceName() + "\"->" + onClick + ";");
+			}
 		}
 		out.println("}");
 		out.close();
@@ -160,13 +171,16 @@ public class HandleResult {
 	 * write results to csv
 	 */
 	public static void writeCSV(String apk, Map<String, Widget> widgets) throws IOException {
-		//String csv = apk + ".csv";
-		String csv = "./sootOutput/data.csv";
+		//String csv = "./sootOutput/data.csv";
+		String csv = apk + ".csv";
 		String[] tmp = apk.split("/");
 		String apkName = tmp[tmp.length - 1];
 		File csvFile = new File(csv);
 		System.out.println(csv);
 		if (!csvFile.exists()) {
+			csvFile.createNewFile();
+		} else {
+			csvFile.delete();
 			csvFile.createNewFile();
 		}
 		CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
@@ -178,15 +192,19 @@ public class HandleResult {
 			result.add(res.eventHandler.toString());
 			if (res.widget != null) {
 				result.add(res.widget.getResourceName());
-				result.add(widgets.get("@id/" + res.widget.getResourceName()).getText());
+				if (widgets.get("@id/" + res.widget.getResourceName()) == null) {
+					result.add("");
+				} else {
+					result.add(widgets.get("@id/" + res.widget.getResourceName()).getText());
+				}
 			} else {
 				result.add("");
 			}
 			String[] resultArray = (String[]) result
 					.toArray(new String[result.size()]);
-			if (!results.contains(resultArray)) {
+			//if (!results.contains(resultArray)) {
 				results.add(resultArray);
-			}
+			//}
 		}
 		
 		writer.writeAll(results);
@@ -199,7 +217,7 @@ public class HandleResult {
 	public static void updateUIStr(Map<String, Widget> widgets, Map<String, String> strPool) {
 		for (Widget widget : widgets.values()) {
 			String text = widget.getText();
-			if (text.contains("@string")) {
+			if (text != null && text.contains("@string")) {
 				text = text.split("@string/")[1];
 				widget.setText(strPool.get(text));
 			}

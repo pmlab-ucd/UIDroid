@@ -31,7 +31,7 @@ public class UiForwardAnalysis {
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.myTransform", new BodyTransformer() {
 					protected void internalTransform(Body body, String phase,
-							Map options) {
+							@SuppressWarnings("rawtypes") Map options) {
 						new UiForwardVarAnalysis(new ExceptionalUnitGraph(body));
 						// use G.v().out instead of System.out so that Soot can
 						// redirect this output to the Eclipse console
@@ -74,15 +74,15 @@ public class UiForwardAnalysis {
 
 			List<Local> inSetNoHandlers = new ArrayList<>(), outSetNoHandlers = new ArrayList<>();
 			for (Object value : inSet.toList()) {
-				if (((Value) value).getType().toString()
-						.startsWith("android.widget")) {
+				String type = ((Value) value).getType().toString();
+				if (type.startsWith("android") && type.contains("widget")) {
 					inSetNoHandlers.add((Local) value);
 					inSet.remove(value);
 				}
 			}
 			for (Object value : outSet.toList()) {
-				if (((Value) value).getType().toString()
-						.startsWith("android.widget")) {
+				String type = ((Value) value).getType().toString();
+				if (type.startsWith("android") && type.contains("widget")) {
 					outSetNoHandlers.add((Local) value);
 					outSet.remove(value);
 				}
@@ -139,11 +139,13 @@ public class UiForwardAnalysis {
 			} else {
 				// if x.setOnClickLinster(y)
 				if (((Stmt) unit).containsInvokeExpr()
-						&& unit.toString().contains("setOn" + uiEventHandler.getName().split("on")[1])) {
+						&& unit.toString().contains("setOn") && unit.toString().contains("Listener")) {
+					//+ uiEventHandler.getName().split("on")[1])) {
 					InvokeExpr ie = ((Stmt) unit).getInvokeExpr();
-					System.out.println("found onClick! " + unit);
+					System.out.println("found setEventHandlers! " + unit);
 					for (Value arg : ie.getArgs()) {
 						if (inSet.contains(arg)) {
+							System.out.println("found arg of setEventHandlers! " + unit);
 							if (ie instanceof InstanceInvokeExpr) {
 								Value instance = ((InstanceInvokeExpr) ie)
 										.getBase();

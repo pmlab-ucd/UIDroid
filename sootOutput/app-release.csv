@@ -1,0 +1,3 @@
+"app-release","<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>","<de.ecspride.Activity2: void sendMessageWrapper(android.view.View)>",""
+"app-release","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","<de.ecspride.b: void onClick(android.view.View)>","button2","Button2"
+"app-release","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","<de.ecspride.a: void onClick(android.view.View)>","button1","Button"

@@ -66,6 +66,8 @@ public class UiDroidTest extends MyTest {
 	private static List<WidgetResult> widgetResult;
 	private static DotGraph dot = new DotGraph("callgraph");
 	private static String dotPath = null;
+	private static List<String> eventHandlerTemps;// = new ArrayList<>();
+	private static List<SootMethod> allOnCreate;
 
 	public static void main(String[] args) {
 		try {
@@ -111,6 +113,10 @@ public class UiDroidTest extends MyTest {
 		// 读入Pscout
 		PscoutMethod = FileUtils.readLines(new File(
 				"./jellybean_publishedapimapping_parsed.txt"));
+		// 读入所有可能的event handlers
+		eventHandlerTemps = FileUtils
+				.readLines(new File("./EventHandlerTemps"));
+		// System.out.println(eventHandlerTemps);
 		String platformPath = "/home/hao/Android/Sdk/platforms";
 		String extraJar = "/home/hao/workspace/AppContext/libs";
 
@@ -121,22 +127,30 @@ public class UiDroidTest extends MyTest {
 			apkPath = args[0] + File.separator + fileName;
 			fileParser.parse(apkPath);
 			widgetResult = new ArrayList<>();
+
 			permissionAnalysis(apkPath, platformPath, extraJar);
 
 			String decomPath = args[0] + File.separator + "Decompiled"
 					+ File.separator + fileName;
-			String cmd = "apktool d " + apkPath + " -o " + decomPath;
-			Runtime run = Runtime.getRuntime();
-			Process pr = run.exec(cmd);
-			pr.waitFor();
-			BufferedReader buf = new BufferedReader(new InputStreamReader(
-					pr.getInputStream()));
-			String line = "";
-			while ((line = buf.readLine()) != null) {
-				System.out.println(line);
-			}
-
+			decompile(decomPath);
 			HandleResult.storeResult(dotPath, widgetResult, decomPath);
+		}
+	}
+
+	/*
+	 * run apktool to decompiled the apk
+	 */
+	public static void decompile(String decomPath) throws IOException,
+			InterruptedException {
+		String cmd = "apktool d " + apkPath + " -o " + decomPath;
+		Runtime run = Runtime.getRuntime();
+		Process pr = run.exec(cmd);
+		pr.waitFor();
+		BufferedReader buf = new BufferedReader(new InputStreamReader(
+				pr.getInputStream()));
+		String line = "";
+		while ((line = buf.readLine()) != null) {
+			System.out.println(line);
 		}
 	}
 
@@ -147,6 +161,7 @@ public class UiDroidTest extends MyTest {
 	@SuppressWarnings("static-access")
 	public static void getEntries() {
 		QueueReader<Edge> edges = cg.listener();
+		allOnCreate = getAllOnCreate();
 		Set<String> visited = new HashSet<>();
 
 		File resultFile = new File("./sootOutput/CGTest.log");
@@ -225,14 +240,15 @@ public class UiDroidTest extends MyTest {
 	 * get Ui widgets from UI event handlers
 	 */
 	public static void getWidgets() {
-		List<SootMethod> allOnCreate = getAllOnCreate();
 		for (SootMethod sensitive : sensEntries.keySet()) {
 			for (SootMethod entry : sensEntries.get(sensitive)) {
 				System.out.println("Start ++++++++" + entry.getName());
-				if (entry.toString().contains("onClick")) {
+				if (eventHandlerTemps.contains(entry.getName())) {
 					// iterate over edges of call graph,
 					// check whether sensitive whether entry point exists in
 					// onCreate()
+					System.out.println(entry);
+					WidgetResult widgetRes = null;
 					for (SootMethod onCreate : allOnCreate) {
 						// String baseClass =
 						// entry.getDeclaringClass().toString()
@@ -240,17 +256,27 @@ public class UiDroidTest extends MyTest {
 						// if (onCreate.getDeclaringClass().toString()
 						// .contains(baseClass)) {
 						// get callees inside a method body through icfg
-						analyzeOnCreate(onCreate, entry, sensitive);
-						// }
+						analyzeOnCreate(onCreate, entry, sensitive, widgetRes);
+						if (widgetRes != null) {
+							break;
+						}
+					}
+					if (widgetRes == null) {
+						widgetResult.add(new WidgetResult(sensitive, entry,
+								entry, null));
 					}
 				} else {
-					widgetResult.add(new WidgetResult(sensitive, entry, entry, null));
+					widgetResult.add(new WidgetResult(sensitive, entry, entry,
+							null));
 				}
 			}
 		}
 
 	}
 
+	/*
+	 * get all onCreate()
+	 */
 	public static List<SootMethod> getAllOnCreate() {
 		QueueReader<Edge> edges = cg.listener();
 		List<SootMethod> res = new ArrayList<>();
@@ -273,53 +299,79 @@ public class UiDroidTest extends MyTest {
 	 * retrieve interested sensitive widgets by parsing onCreate methods
 	 */
 	public static void analyzeOnCreate(SootMethod onCreate,
-			SootMethod eventHandler, SootMethod senstive) {
-		String sep = File.separator;
+			SootMethod eventHandler, SootMethod senstive, WidgetResult widgetRes) {
 		Body body = onCreate.retrieveActiveBody();
 		// 生成函数的control flow graph
 		UnitGraph cfg = new ExceptionalUnitGraph(body);
+		boolean runAnalysis = false;
+		for (Unit unit : cfg) {
+			if (unit.toString().contains("new")
+					&& unit.toString().contains(
+							eventHandler.getDeclaringClass().toString())) {
+				runAnalysis = true;
+				break;
+			}
+		}
+
+		if (!runAnalysis) {
+			return;
+		}
+
 		// 执行我们的分析
 		UiForwardVarAnalysis.uiEventHandler = eventHandler;
 		UiForwardAnalysis.UiForwardVarAnalysis ta = new UiForwardAnalysis.UiForwardVarAnalysis(
 				cfg);
 
+		boolean print = true;
 		// iterate over the results
 		for (Unit unit : cfg) {
 			// System.out.println(unit);
 			List<Local> before = ta.getUILocalsBefore(unit);
 			List<Local> after = ta.getUILocalsAfter(unit);
-			UnitPrinter up = new NormalUnitPrinter(body);
-			up.setIndent("");
 
-			System.out.println("---------------------------------------");
-			unit.toString(up);
-			System.out.println(up.output());
-			if (!before.isEmpty()) {
-				if (unit.toString().contains("sink")) {
-					System.out.println("found a sink!");
+			if (print) {
+				String sep = File.separator;
+				UnitPrinter up = new NormalUnitPrinter(body);
+				up.setIndent("");
+				System.out.println("---------------------------------------");
+				unit.toString(up);
+				System.out.println(up.output());
+				if (!before.isEmpty()) {
+					if (unit.toString().contains("sink")) {
+						System.out.println("found a sink!");
+					}
 				}
+				System.out.print("Ui event handlers in: {");
+				sep = "";
+				for (Local l : before) {
+					System.out.print(sep);
+					System.out.print(l.getName() + ": " + l.getType());
+					sep = ", ";
+				}
+				System.out.println("}");
+				System.out.print("Ui event handlers out: {");
+				sep = "";
+				for (Local l : after) {
+					System.out.print(sep);
+					System.out.print(l.getName() + ": " + l.getType());
+					sep = ", ";
+				}
+				System.out.println("}");
+				System.out.println("---------------------------------------");
 			}
-			System.out.print("Ui event handlers in: {");
-			sep = "";
-			for (Local l : before) {
-				System.out.print(sep);
-				System.out.print(l.getName() + ": " + l.getType());
-				sep = ", ";
-			}
-			System.out.println("}");
-			System.out.print("Ui event handlers out: {");
-			sep = "";
-			for (Local l : after) {
-				System.out.print(sep);
-				System.out.print(l.getName() + ": " + l.getType());
-				sep = ", ";
-			}
-			System.out.println("}");
 
 			if (!after.isEmpty()) {
 				for (Local value : after) {
 					Map<Value, Unit> widgetMap = bfsCFG(unit, value, cfg, 0,
 							null);
+					for (Value val : widgetMap.keySet()) {
+						Map<Value, Unit> actionMap = bfsCFG(widgetMap.get(val),
+								null, cfg, 2, val);
+						if (!actionMap.isEmpty()) {
+							widgetMap = actionMap;
+							break;
+						}
+					}
 					for (Value val : widgetMap.keySet()) {
 						Map<Value, Unit> idMap = bfsCFG(widgetMap.get(val),
 								null, cfg, 1, val);
@@ -329,13 +381,13 @@ public class UiDroidTest extends MyTest {
 							AbstractResource widget = fileParser
 									.findResource(id);
 							System.out.println(widget.getResourceName());
-							widgetResult.add(new WidgetResult(senstive, onCreate,
-									eventHandler, widget));
+							widgetRes = new WidgetResult(senstive, onCreate,
+									eventHandler, widget);
+							widgetResult.add(widgetRes);
 						}
 					}
 				}
 			}
-			System.out.println("---------------------------------------");
 		}
 	}
 
@@ -346,6 +398,7 @@ public class UiDroidTest extends MyTest {
 		if (stmt.containsInvokeExpr()) {
 			InvokeExpr ie = stmt.getInvokeExpr();
 			for (Value arg : ie.getArgs()) {
+				System.out.println(arg.getType().getNumber());
 				if (arg.getType().getNumber() == 16) {
 					return Integer.parseInt(arg.toString());
 				}
@@ -356,7 +409,7 @@ public class UiDroidTest extends MyTest {
 	}
 
 	/*
-	 * breadth-first search for 1. last assignment of base 2. nearest
+	 * breadth-first search for 1. last assignment of the base class 2. nearest
 	 * findViewById
 	 */
 	private static Map<Value, Unit> bfsCFG(Unit unit, Local value,
@@ -377,6 +430,7 @@ public class UiDroidTest extends MyTest {
 				}
 				visited.add(node);
 				switch (model) {
+				// r3 = Button(r2)
 				case 0:
 					if (node instanceof AssignStmt
 							&& ((AssignStmt) node).getLeftOp().equals(value)) {
@@ -388,23 +442,41 @@ public class UiDroidTest extends MyTest {
 						}
 						foundUnit = node;
 						res.put(foundValue, foundUnit);
-						System.out.println(foundUnit);
+						System.out.println("0: " + foundUnit);
 						return res;
 					}
 					break;
+				// r2 = findViewById(21...)
 				case 1:
 					if (node instanceof AssignStmt
-							&& node.toString().contains("findViewById")
+							&& (node.toString().contains("findViewById") || node
+									.toString().contains("findItem"))
 							&& ((AssignStmt) node).getLeftOp().equals(val)) {
 						foundValue = val;
 						foundUnit = node;
 						res.put(foundValue, foundUnit);
-						System.out.println(">>>>>>>>>>>>>>>>" + foundUnit);
+						System.out.println("1: " + foundUnit);
 						return res;
 					}
 					break;
+				// r3 = getActionView(r7)
+				case 2:
+					if (node instanceof AssignStmt
+							&& (node.toString().contains("getActionView"))) {
+						AssignStmt stmt = (AssignStmt) node;
+						if (stmt.getLeftOp().equals(val)) {
+							InvokeExpr invStmt = ((Stmt) node).getInvokeExpr();
+							for (Value arg : invStmt.getArgs()) {
+								foundValue = arg;
+								foundUnit = node;
+								res.put(foundValue, foundUnit);
+								System.out.println("2: " + foundUnit);
+								return res;
+							}
+						}
+					}
+					break;
 				}
-
 				for (Unit prev : cfg.getPredsOf(node)) {
 					queue.add(prev);
 				}
@@ -455,6 +527,12 @@ public class UiDroidTest extends MyTest {
 				});
 
 		PackManager.v().getPack("wjtp").add(CGtransform);
-		PackManager.v().runPacks();
+		try {
+			System.out
+					.println("RUN PACKSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS!");
+			PackManager.v().runPacks();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
 }

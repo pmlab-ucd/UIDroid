@@ -1,0 +1,7 @@
+"Xposed","<java.net.URL: java.net.URLConnection openConnection()>","<de.robv.android.xposed.installer.XposedInstallerActivity: void onCreate(android.os.Bundle)>",""
+"Xposed","<java.net.URL: java.net.URLConnection openConnection()>","<de.robv.android.xposed.installer.XposedInstallerActivity: void onCreate(android.os.Bundle)>",""
+"Xposed","<java.net.URL: java.net.URLConnection openConnection()>","<de.robv.android.xposed.installer.XposedInstallerActivity: void onCreate(android.os.Bundle)>",""
+"Xposed","<java.net.URL: java.net.URLConnection openConnection()>","<de.robv.android.xposed.installer.XposedInstallerActivity: void onCreate(android.os.Bundle)>",""
+"Xposed","<java.net.URL: java.io.InputStream openStream()>","<de.robv.android.xposed.installer.XposedInstallerActivity: void onCreate(android.os.Bundle)>",""
+"Xposed","<java.net.URL: java.io.InputStream openStream()>","<de.robv.android.xposed.installer.XposedInstallerActivity: void onCreate(android.os.Bundle)>",""
+"Xposed","<android.app.NotificationManager: void notify(java.lang.String,int,android.app.Notification)>","<de.robv.android.xposed.installer.PackageChangeReceiver: void onReceive(android.content.Context,android.content.Intent)>",""

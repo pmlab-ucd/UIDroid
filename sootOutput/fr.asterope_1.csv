@@ -1,0 +1,2 @@
+"fr.asterope_1","<android.location.LocationManager: boolean isProviderEnabled(java.lang.String)>","<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>",""
+"fr.asterope_1","<android.location.LocationManager: void requestLocationUpdates(java.lang.String,long,float,android.location.LocationListener)>","<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>",""

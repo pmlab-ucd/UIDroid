@@ -1,0 +1,454 @@
+digraph "callgraph" {
+    "<dummyMainClass: void dummyMainMethod()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>";
+    "<fr.asterope.MainActivity: void onStart()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onStart()>";
+    "<fr.asterope.MainActivity: void onResume()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onResume()>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void reset(android.view.View)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void startResume(android.view.View)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onBackPressed()>";
+    "<fr.asterope.MainActivity: void onProviderEnabled(java.lang.String)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onProviderEnabled(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>";
+    "<fr.asterope.MainActivity: void onProviderDisabled(java.lang.String)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onProviderDisabled(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onPause()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onPause()>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>";
+    "<fr.asterope.MainActivity: void onStop()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onStop()>";
+    "<fr.asterope.MainActivity: void onRestart()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onRestart()>";
+    "<fr.asterope.MainActivity: void onDestroy()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity: void onDestroy()>";
+    "<fr.asterope.MainActivity$8: void onClick(android.content.DialogInterface,int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity$8: void onClick(android.content.DialogInterface,int)>";
+    "<fr.asterope.MainActivity$3: void onClick(android.content.DialogInterface,int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity$3: void onClick(android.content.DialogInterface,int)>";
+    "<fr.asterope.MainActivity$6: void onClick(android.content.DialogInterface,int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity$6: void onClick(android.content.DialogInterface,int)>";
+    "<fr.asterope.MainActivity$9: void onClick(android.content.DialogInterface,int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<fr.asterope.MainActivity$9: void onClick(android.content.DialogInterface,int)>";
+    "<fr.asterope.ExternalFileLogger: boolean isExternalStorageWritable()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.ExternalFileLogger: boolean isExternalStorageWritable()>";
+    "<android.os.Environment: java.io.File getExternalStorageDirectory()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Environment: java.io.File getExternalStorageDirectory()>";
+    "<android.widget.Toast: android.widget.Toast makeText(android.content.Context,java.lang.CharSequence,int)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.Toast: android.widget.Toast makeText(android.content.Context,java.lang.CharSequence,int)>";
+    "<java.lang.String: java.lang.String format(java.lang.String,java.lang.Object[])>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.String: java.lang.String format(java.lang.String,java.lang.Object[])>";
+    "<java.lang.Long: java.lang.Long valueOf(long)>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Long: java.lang.Long valueOf(long)>";
+    "<java.lang.Integer: java.lang.Integer valueOf(int)>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Integer: java.lang.Integer valueOf(int)>";
+    "<java.lang.Float: java.lang.Float valueOf(float)>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<java.lang.Double: java.lang.Double valueOf(double)>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Double: java.lang.Double valueOf(double)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Double: java.lang.Double valueOf(double)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Double: java.lang.Double valueOf(double)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Double: java.lang.Double valueOf(double)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Double: java.lang.Double valueOf(double)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.WGS84: double vincentyDistance(fr.asterope.WGS84Point,fr.asterope.WGS84Point)>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<fr.asterope.WGS84: double vincentyDistance(fr.asterope.WGS84Point,fr.asterope.WGS84Point)>";
+    "<fr.asterope.MainActivity: void access$400(fr.asterope.MainActivity)>"
+    "<fr.asterope.MainActivity$6: void onClick(android.content.DialogInterface,int)>"->"<fr.asterope.MainActivity: void access$400(fr.asterope.MainActivity)>";
+    "<android.os.Environment: java.lang.String getExternalStorageState()>"
+    "<fr.asterope.ExternalFileLogger: boolean isExternalStorageWritable()>"->"<android.os.Environment: java.lang.String getExternalStorageState()>";
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(fr.asterope.WGS84Point,fr.asterope.WGS84Point)>"->"<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>";
+    "<java.lang.Math: double abs(double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double abs(double)>";
+    "<java.lang.Double: boolean isNaN(double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Double: boolean isNaN(double)>";
+    "<java.lang.Math: double atan2(double,double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double atan2(double,double)>";
+    "<java.lang.Math: double sqrt(double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double sqrt(double)>";
+    "<java.lang.Math: double cos(double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double cos(double)>";
+    "<java.lang.Math: double sin(double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double sin(double)>";
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double sqrt(double)>";
+    "<java.lang.Math: double tan(double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double tan(double)>";
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double sqrt(double)>";
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<java.lang.Math: double tan(double)>";
+    "<fr.asterope.WGS84: double toRadian(double)>"
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<fr.asterope.WGS84: double toRadian(double)>";
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<fr.asterope.WGS84: double toRadian(double)>";
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<fr.asterope.WGS84: double toRadian(double)>";
+    "<fr.asterope.WGS84: double vincentyDistance(double,double,double,double)>"->"<fr.asterope.WGS84: double toRadian(double)>";
+    "<android.app.Activity: void onCreate(android.os.Bundle)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void onCreate(android.os.Bundle)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.MainActivity: void checkForAvailableGPS()>";
+    "<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>";
+    "<android.app.Activity: void setContentView(int)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void setContentView(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.MainActivity: void updateUI()>";
+    "<android.content.Context: java.lang.String getString(int)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void setContentView(int)>";
+    "<android.location.LocationManager: void requestLocationUpdates(java.lang.String,long,float,android.location.LocationListener)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.location.LocationManager: void requestLocationUpdates(java.lang.String,long,float,android.location.LocationListener)>";
+    "<android.os.Bundle: double getDouble(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: double getDouble(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: double getDouble(java.lang.String)>";
+    "<android.os.Bundle: int getInt(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: int getInt(java.lang.String)>";
+    "<android.os.Bundle: android.os.Parcelable getParcelable(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: android.os.Parcelable getParcelable(java.lang.String)>";
+    "<android.os.Bundle: boolean getBoolean(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: boolean getBoolean(java.lang.String)>";
+    "<android.os.Bundle: float getFloat(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: float getFloat(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: float getFloat(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: float getFloat(java.lang.String)>";
+    "<android.os.Bundle: long getLong(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: long getLong(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: float getFloat(java.lang.String)>";
+    "<android.os.Bundle: java.lang.String getString(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: java.lang.String getString(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: java.lang.String getString(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: boolean getBoolean(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: float getFloat(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: float getFloat(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.os.Bundle: float getFloat(java.lang.String)>";
+    "<android.view.View: void setEnabled(boolean)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.view.View: void setEnabled(boolean)>";
+    "<android.widget.TextView: void setText(java.lang.CharSequence)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<android.widget.Toast: void show()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.Toast: void show()>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.String toString()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(int)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(int)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(float)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(float)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(float)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<java.io.File: java.lang.String getPath()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.io.File: java.lang.String getPath()>";
+    "<java.io.File: boolean exists()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.io.File: boolean exists()>";
+    "<java.io.File: boolean mkdir()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.io.File: boolean mkdir()>";
+    "<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(java.lang.CharSequence)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(java.lang.CharSequence)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setPositiveButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setPositiveButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog create()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<android.app.Dialog: void show()>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Dialog: void show()>";
+    "<java.text.DateFormat: java.lang.String format(java.util.Date)>"
+    "<fr.asterope.MainActivity: void onCreate(android.os.Bundle)>"->"<java.text.DateFormat: java.lang.String format(java.util.Date)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.String: java.lang.String format(java.lang.String,java.lang.Object[])>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.String: java.lang.String format(java.lang.String,java.lang.Object[])>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.String: java.lang.String format(java.lang.String,java.lang.Object[])>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.Integer: java.lang.Integer valueOf(int)>";
+    "<android.location.Location: java.lang.String convert(double,int)>"
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.location.Location: java.lang.String convert(double,int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.location.Location: java.lang.String convert(double,int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.String: java.lang.String format(java.lang.String,java.lang.Object[])>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.String: java.lang.String format(java.lang.String,java.lang.Object[])>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.Float: java.lang.Float valueOf(float)>";
+    "<android.app.Activity: void onStart()>"
+    "<fr.asterope.MainActivity: void onStart()>"->"<android.app.Activity: void onStart()>";
+    "<android.app.Activity: void onResume()>"
+    "<fr.asterope.MainActivity: void onResume()>"->"<android.app.Activity: void onResume()>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<fr.asterope.MainActivity: void updateUI()>";
+    "<android.text.format.Time: void setToNow()>"
+    "<fr.asterope.MainActivity: void onResume()>"->"<android.text.format.Time: void setToNow()>";
+    "<android.text.format.Time: long toMillis(boolean)>"
+    "<fr.asterope.MainActivity: void onResume()>"->"<android.text.format.Time: long toMillis(boolean)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(long)>"
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(long)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(long)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onResume()>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<java.util.Timer: void schedule(java.util.TimerTask,long,long)>"
+    "<fr.asterope.MainActivity: void onResume()>"->"<java.util.Timer: void schedule(java.util.TimerTask,long,long)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setPositiveButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNegativeButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>"
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNegativeButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void reset(android.view.View)>"->"<android.app.Dialog: void show()>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void startResume(android.view.View)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setPositiveButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNegativeButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onBackPressed()>"->"<android.app.Dialog: void show()>";
+    "<fr.asterope.MainActivity: void onProviderEnabled(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onProviderEnabled(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onProviderEnabled(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onProviderEnabled(java.lang.String)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onProviderEnabled(java.lang.String)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<android.location.Location: float getAccuracy()>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: float getAccuracy()>";
+    "<android.location.Location: double getLatitude()>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: double getLatitude()>";
+    "<android.location.Location: double getLongitude()>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: double getLongitude()>";
+    "<android.location.Location: android.os.Bundle getExtras()>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: android.os.Bundle getExtras()>";
+    "<android.location.Location: float getSpeed()>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: float getSpeed()>";
+    "<android.location.Location: double getAltitude()>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: double getAltitude()>";
+    "<android.location.Location: float getBearing()>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: float getBearing()>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: double getLatitude()>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: double getLongitude()>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void computeElevationGain(double,float)>"
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<fr.asterope.MainActivity: void computeElevationGain(double,float)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<fr.asterope.MainActivity: void updateUI()>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.view.View: void setEnabled(boolean)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.os.Bundle: int getInt(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: double getLatitude()>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<android.location.Location: double getLongitude()>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onLocationChanged(android.location.Location)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void computeElevationGain(double,float)>"->"<java.lang.Math: double abs(double)>";
+    "<fr.asterope.MainActivity: void computeElevationGain(double,float)>"->"<java.lang.Double: boolean isNaN(double)>";
+    "<java.lang.Double: boolean isInfinite(double)>"
+    "<fr.asterope.MainActivity: void computeElevationGain(double,float)>"->"<java.lang.Double: boolean isInfinite(double)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onStatusChanged(java.lang.String,int,android.os.Bundle)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onProviderDisabled(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onProviderDisabled(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onProviderDisabled(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onProviderDisabled(java.lang.String)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void onProviderDisabled(java.lang.String)>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<android.app.Activity: void onPause()>"
+    "<fr.asterope.MainActivity: void onPause()>"->"<android.app.Activity: void onPause()>";
+    "<fr.asterope.MainActivity: void onPause()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<java.util.Timer: void cancel()>"
+    "<fr.asterope.MainActivity: void onPause()>"->"<java.util.Timer: void cancel()>";
+    "<fr.asterope.MainActivity: void onPause()>"->"<android.text.format.Time: void setToNow()>";
+    "<fr.asterope.MainActivity: void onPause()>"->"<android.text.format.Time: long toMillis(boolean)>";
+    "<fr.asterope.MainActivity: void onPause()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void onPause()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(long)>";
+    "<fr.asterope.MainActivity: void onPause()>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void onPause()>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<android.app.Activity: void onSaveInstanceState(android.os.Bundle)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.app.Activity: void onSaveInstanceState(android.os.Bundle)>";
+    "<android.os.Bundle: void putBoolean(java.lang.String,boolean)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putBoolean(java.lang.String,boolean)>";
+    "<android.os.Bundle: void putFloat(java.lang.String,float)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putFloat(java.lang.String,float)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putFloat(java.lang.String,float)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putFloat(java.lang.String,float)>";
+    "<android.os.Bundle: void putLong(java.lang.String,long)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putLong(java.lang.String,long)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putFloat(java.lang.String,float)>";
+    "<android.os.Bundle: void putString(java.lang.String,java.lang.String)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putString(java.lang.String,java.lang.String)>";
+    "<android.os.Bundle: void putParcelable(java.lang.String,android.os.Parcelable)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putParcelable(java.lang.String,android.os.Parcelable)>";
+    "<android.os.Bundle: void putDouble(java.lang.String,double)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putDouble(java.lang.String,double)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putDouble(java.lang.String,double)>";
+    "<android.os.Bundle: void putInt(java.lang.String,int)>"
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putInt(java.lang.String,int)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putString(java.lang.String,java.lang.String)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putBoolean(java.lang.String,boolean)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putDouble(java.lang.String,double)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putFloat(java.lang.String,float)>";
+    "<fr.asterope.MainActivity: void onSaveInstanceState(android.os.Bundle)>"->"<android.os.Bundle: void putFloat(java.lang.String,float)>";
+    "<android.app.Activity: void onStop()>"
+    "<fr.asterope.MainActivity: void onStop()>"->"<android.app.Activity: void onStop()>";
+    "<android.app.Activity: void onRestart()>"
+    "<fr.asterope.MainActivity: void onRestart()>"->"<android.app.Activity: void onRestart()>";
+    "<android.app.Activity: void onDestroy()>"
+    "<fr.asterope.MainActivity: void onDestroy()>"->"<android.app.Activity: void onDestroy()>";
+    "<android.location.LocationManager: void removeUpdates(android.location.LocationListener)>"
+    "<fr.asterope.MainActivity: void onDestroy()>"->"<android.location.LocationManager: void removeUpdates(android.location.LocationListener)>";
+    "<fr.asterope.MainActivity: void onDestroy()>"->"<java.util.Timer: void cancel()>";
+    "<android.app.Activity: void startActivity(android.content.Intent)>"
+    "<fr.asterope.MainActivity$8: void onClick(android.content.DialogInterface,int)>"->"<android.app.Activity: void startActivity(android.content.Intent)>";
+    "<android.app.Activity: void finish()>"
+    "<fr.asterope.MainActivity$3: void onClick(android.content.DialogInterface,int)>"->"<android.app.Activity: void finish()>";
+    "<android.widget.TextView: void setText(int)>"
+    "<fr.asterope.MainActivity$6: void onClick(android.content.DialogInterface,int)>"->"<android.widget.TextView: void setText(int)>";
+    "<fr.asterope.MainActivity$9: void onClick(android.content.DialogInterface,int)>"->"<android.app.Activity: void finish()>";
+    "<java.lang.String: boolean equals(java.lang.Object)>"
+    "<fr.asterope.ExternalFileLogger: boolean isExternalStorageWritable()>"->"<java.lang.String: boolean equals(java.lang.Object)>";
+    "<fr.asterope.WGS84Point: double getLatitude()>"
+    "<fr.asterope.WGS84: double vincentyDistance(fr.asterope.WGS84Point,fr.asterope.WGS84Point)>"->"<fr.asterope.WGS84Point: double getLatitude()>";
+    "<fr.asterope.WGS84Point: double getLongitude()>"
+    "<fr.asterope.WGS84: double vincentyDistance(fr.asterope.WGS84Point,fr.asterope.WGS84Point)>"->"<fr.asterope.WGS84Point: double getLongitude()>";
+    "<fr.asterope.WGS84: double vincentyDistance(fr.asterope.WGS84Point,fr.asterope.WGS84Point)>"->"<fr.asterope.WGS84Point: double getLatitude()>";
+    "<fr.asterope.WGS84: double vincentyDistance(fr.asterope.WGS84Point,fr.asterope.WGS84Point)>"->"<fr.asterope.WGS84Point: double getLongitude()>";
+    "<fr.asterope.MainActivity: void reset()>"
+    "<fr.asterope.MainActivity: void access$400(fr.asterope.MainActivity)>"->"<fr.asterope.MainActivity: void reset()>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<android.location.LocationManager: boolean isProviderEnabled(java.lang.String)>"
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.location.LocationManager: boolean isProviderEnabled(java.lang.String)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setPositiveButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNegativeButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<fr.asterope.MainActivity: void checkForAvailableGPS()>"->"<android.app.Dialog: void show()>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<android.widget.TextView: void setTextColor(int)>"
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setTextColor(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setTextColor(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setTextColor(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setTextColor(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setTextColor(int)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.MainActivity: void updateUI()>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<fr.asterope.ExternalFileLogger: void generateLogFile()>"
+    "<fr.asterope.ExternalFileLogger: void generateLogFile()>"->"<android.os.Environment: java.io.File getExternalStorageDirectory()>";
+    "<fr.asterope.ExternalFileLogger: void generateLogFile()>"->"<fr.asterope.ExternalFileLogger: boolean isExternalStorageWritable()>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"
+    "<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>"->"<fr.asterope.ExternalFileLogger: void write(java.lang.String)>";
+    "<fr.asterope.MainActivity: void reset()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void reset()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<fr.asterope.MainActivity: void reset()>"->"<fr.asterope.ExternalFileLogger: boolean safeWrite(java.lang.String)>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<fr.asterope.ExternalFileLogger: void generateLogFile()>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.text.DateFormat: java.lang.String format(java.util.Date)>";
+    "<java.io.Writer: void write(java.lang.String)>"
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.io.Writer: void write(java.lang.String)>";
+    "<java.io.OutputStreamWriter: void close()>"
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.io.OutputStreamWriter: void close()>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<fr.asterope.ExternalFileLogger: void write(java.lang.String)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+}

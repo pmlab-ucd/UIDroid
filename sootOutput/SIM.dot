@@ -1,0 +1,173 @@
+digraph "callgraph" {
+    "<dummyMainClass: void dummyMainMethod()>"
+    "<android.app.Activity: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
+    "<android.os.Bundle: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <clinit>()>";
+    "<android.app.Activity: void <clinit>()>"->"<android.app.Activity: void <clinit>()>";
+    "<android.os.Bundle: void <clinit>()>"->"<android.os.Bundle: void <clinit>()>";
+    "<android.os.Bundle: void <clinit>()>"->"<android.os.Bundle: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void <init>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity: void <init>()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onClick(android.content.DialogInterface,int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity: void onClick(android.content.DialogInterface,int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>";
+    "<android.os.Bundle: void <init>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <init>()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void <init>(pt.oxinarf.simnumberchanger.MainActivity)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity$1: void <init>(pt.oxinarf.simnumberchanger.MainActivity)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>";
+    "<android.view.View: void <init>(android.content.Context)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <init>()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.app.Activity: void <clinit>()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.content.SharedPreferences access$0(pt.oxinarf.simnumberchanger.MainActivity)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<pt.oxinarf.simnumberchanger.MainActivity: android.content.SharedPreferences access$0(pt.oxinarf.simnumberchanger.MainActivity)>";
+    "<android.app.Activity: void <init>()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void <init>()>"->"<android.app.Activity: void <init>()>";
+    "<android.app.Activity: void onCreate(android.os.Bundle)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void onCreate(android.os.Bundle)>";
+    "<android.app.Activity: android.content.SharedPreferences getPreferences(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: android.content.SharedPreferences getPreferences(int)>";
+    "<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>";
+    "<android.app.Activity: void setContentView(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void setContentView(int)>";
+    "<android.app.Activity: android.view.View findViewById(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: android.view.View findViewById(int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: android.view.View findViewById(int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: android.view.View findViewById(int)>";
+    "<android.telephony.TelephonyManager: java.lang.String getLine1Number()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.telephony.TelephonyManager: java.lang.String getLine1Number()>";
+    "<java.lang.String: boolean isEmpty()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.String: boolean isEmpty()>";
+    "<java.lang.String: java.lang.String trim()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.String: java.lang.String trim()>";
+    "<java.lang.String: boolean equals(java.lang.Object)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<java.lang.String: boolean equals(java.lang.Object)>";
+    "<android.widget.TextView: void setText(java.lang.CharSequence)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<android.widget.TextView: void setTypeface(android.graphics.Typeface,int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setTypeface(android.graphics.Typeface,int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.widget.TextView: void setText(java.lang.CharSequence)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<pt.oxinarf.simnumberchanger.MainActivity$1: void <init>(pt.oxinarf.simnumberchanger.MainActivity)>";
+    "<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onCreate(android.os.Bundle)>"->"<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>";
+    "<android.app.Dialog: void dismiss()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: void onClick(android.content.DialogInterface,int)>"->"<android.app.Dialog: void dismiss()>";
+    "<android.app.AlertDialog$Builder: void <init>(android.content.Context)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: void <init>(android.content.Context)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(int)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNeutralButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNeutralButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog create()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: void <init>(android.content.Context)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNeutralButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity: android.app.Dialog onCreateDialog(int,android.os.Bundle)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<java.lang.Object: void <init>()>"
+    "<android.os.Bundle: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<java.lang.RuntimeException: void <init>(java.lang.String)>"
+    "<android.os.Bundle: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Object: void finalize()>"
+    "<java.lang.Object: void <init>()>"->"<java.lang.Object: void finalize()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void <init>(pt.oxinarf.simnumberchanger.MainActivity)>"->"<java.lang.Object: void <init>()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.app.Activity: android.view.View findViewById(int)>";
+    "<android.app.Activity: void showDialog(int)>"
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.app.Activity: void showDialog(int)>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.app.Activity: void showDialog(int)>";
+    "<android.widget.EditText: android.text.Editable getText()>"
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<android.widget.EditText: android.text.Editable getText()>";
+    "<pt.oxinarf.simnumberchanger.MainActivity$1: void onClick(android.view.View)>"->"<java.lang.String: java.lang.String trim()>";
+    "<android.view.View: void <init>(android.content.Context)>"->"<java.lang.Object: void <init>()>";
+    "<android.view.View: void <init>(android.content.Context)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.ContextThemeWrapper: void <init>()>"
+    "<android.app.Activity: void <init>()>"->"<android.view.ContextThemeWrapper: void <init>()>";
+    "<android.app.Activity: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void onCreate(android.os.Bundle)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: android.content.SharedPreferences getPreferences(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void setContentView(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: android.view.View findViewById(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.telephony.TelephonyManager: java.lang.String getLine1Number()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.String: java.lang.String trim()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.widget.TextView: void setText(java.lang.CharSequence)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.widget.TextView: void setTypeface(android.graphics.Typeface,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Dialog: void dismiss()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: void <init>(android.content.Context)>"->"<java.lang.Object: void <init>()>";
+    "<android.app.AlertDialog$Builder: void <init>(android.content.Context)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setMessage(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setNeutralButton(java.lang.CharSequence,android.content.DialogInterface$OnClickListener)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog create()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Object: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Exception: void <init>()>"
+    "<java.lang.RuntimeException: void <init>(java.lang.String)>"->"<java.lang.Exception: void <init>()>";
+    "<java.lang.RuntimeException: void <init>(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Object: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void showDialog(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.widget.EditText: android.text.Editable getText()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: void <init>(android.content.Context)>"
+    "<android.view.ContextThemeWrapper: void <init>()>"->"<android.content.ContextWrapper: void <init>(android.content.Context)>";
+    "<android.view.ContextThemeWrapper: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Throwable: void <init>()>"
+    "<java.lang.Exception: void <init>()>"->"<java.lang.Throwable: void <init>()>";
+    "<java.lang.Exception: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Context: void <init>()>"
+    "<android.content.ContextWrapper: void <init>(android.content.Context)>"->"<android.content.Context: void <init>()>";
+    "<android.content.ContextWrapper: void <init>(android.content.Context)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Throwable: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<java.lang.Throwable: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Context: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<android.content.Context: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+}
