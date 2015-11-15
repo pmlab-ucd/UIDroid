@@ -64,6 +64,7 @@ public class UiDroidTest extends MyTest {
 	private static String dotPath = null;
 	private static List<String> eventHandlerTemps;// = new ArrayList<>();
 	private static List<SootMethod> allOnCreate;
+	private static Map<String, AbstractResource> activities;
 
 	public static void main(String[] args) {
 		try {
@@ -123,13 +124,14 @@ public class UiDroidTest extends MyTest {
 			apkPath = args[0] + File.separator + fileName;
 			fileParser.parse(apkPath);
 			widgetResult = new ArrayList<>();
-
+			activities = new HashMap<>();
 			permissionAnalysis(apkPath, platformPath, extraJar);
 
 			String decomPath = args[0] + File.separator + "Decompiled"
 					+ File.separator + fileName;
 			decompile(decomPath);
-			HandleResult.storeResult(dotPath, widgetResult, decomPath, eventHandlerTemps);
+			HandleResult.storeResult(dotPath, widgetResult, decomPath,
+					eventHandlerTemps, activities);
 		}
 	}
 
@@ -252,12 +254,12 @@ public class UiDroidTest extends MyTest {
 						// if (onCreate.getDeclaringClass().toString()
 						// .contains(baseClass)) {
 						// get callees inside a method body through icfg
-						
+
 						analyzeOnCreate(onCreate, entry, sensitive);
 					}
 					if (widgetResult.size() == wsize) {
-						widgetResult.add(new WidgetResult(sensitive, entry, entry,
-								null));
+						widgetResult.add(new WidgetResult(sensitive, entry,
+								entry, null));
 					}
 				} else {
 					widgetResult.add(new WidgetResult(sensitive, entry, entry,
@@ -304,6 +306,16 @@ public class UiDroidTest extends MyTest {
 							eventHandler.getDeclaringClass().toString())) {
 				runAnalysis = true;
 				break;
+			} else if (unit.toString().contains("void setContentView")) {
+				// if met new id
+				int id = extractId((Stmt) unit);
+				AbstractResource activity = fileParser.findResource(id);
+				InvokeExpr stmt = ((Stmt) unit).getInvokeExpr();
+				//activities.put(stmt.getMethod().getDeclaringClass().toString(),
+						//activity);
+				activities.put(unit.toString().split(": ")[0].split("<")[1], 
+						activity);
+				System.out.println(unit + "CCCCCCCCCCCCCCCCCCCCCCCCCCC");
 			}
 		}
 
@@ -320,49 +332,36 @@ public class UiDroidTest extends MyTest {
 		for (Unit unit : cfg) {
 			// System.out.println(unit);
 			List<Local> after = ta.getUILocalsAfter(unit);
-			
-			if (!after.isEmpty()) {			
+
+			if (!after.isEmpty()) {
 				UiBackwardAnalysis ba = new UiBackwardAnalysis(cfg);
-				ba.setEventHandler((Stmt)unit);
+				ba.setEventHandler((Stmt) unit);
 				ba.run();
-				//PrintFlowResult.print(cfg, body, ba);
+				PrintFlowResult.print(cfg, body, ba);
 				for (Stmt idStmt : ba.getIdStmt()) {
 					int id = extractId((Stmt) idStmt);
 					System.out.println(id);
-					AbstractResource widget = fileParser
-							.findResource(id);
+					AbstractResource widget = fileParser.findResource(id);
 					System.out.println(widget.getResourceName());
-					WidgetResult widgetRes = new WidgetResult(senstive, onCreate,
-							eventHandler, widget);
+					WidgetResult widgetRes = new WidgetResult(senstive,
+							onCreate, eventHandler, widget);
 					widgetResult.add(widgetRes);
 				}
 				/*
-				for (Local value : after) {
-					Map<Value, Unit> widgetMap = bfsCFG(unit, value, cfg, 0,
-							null);
-					for (Value val : widgetMap.keySet()) {
-						Map<Value, Unit> actionMap = bfsCFG(widgetMap.get(val),
-								null, cfg, 2, val);
-						if (!actionMap.isEmpty()) {
-							widgetMap = actionMap;
-							break;
-						}
-					}
-					for (Value val : widgetMap.keySet()) {
-						Map<Value, Unit> idMap = bfsCFG(widgetMap.get(val),
-								null, cfg, 1, val);
-						for (Unit stmt : idMap.values()) {
-							int id = extractId((Stmt) stmt);
-							System.out.println(id);
-							AbstractResource widget = fileParser
-									.findResource(id);
-							System.out.println(widget.getResourceName());
-							widgetRes = new WidgetResult(senstive, onCreate,
-									eventHandler, widget);
-							widgetResult.add(widgetRes);
-						}
-					}
-				}*/
+				 * for (Local value : after) { Map<Value, Unit> widgetMap =
+				 * bfsCFG(unit, value, cfg, 0, null); for (Value val :
+				 * widgetMap.keySet()) { Map<Value, Unit> actionMap =
+				 * bfsCFG(widgetMap.get(val), null, cfg, 2, val); if
+				 * (!actionMap.isEmpty()) { widgetMap = actionMap; break; } }
+				 * for (Value val : widgetMap.keySet()) { Map<Value, Unit> idMap
+				 * = bfsCFG(widgetMap.get(val), null, cfg, 1, val); for (Unit
+				 * stmt : idMap.values()) { int id = extractId((Stmt) stmt);
+				 * System.out.println(id); AbstractResource widget = fileParser
+				 * .findResource(id);
+				 * System.out.println(widget.getResourceName()); widgetRes = new
+				 * WidgetResult(senstive, onCreate, eventHandler, widget);
+				 * widgetResult.add(widgetRes); } } }
+				 */
 			}
 		}
 	}
@@ -389,79 +388,35 @@ public class UiDroidTest extends MyTest {
 	 * findViewById
 	 */
 	/*
-	private static Map<Value, Unit> bfsCFG(Unit unit, Local value,
-			UnitGraph cfg, int model, Value val) {
-		Value foundValue = null;
-		Unit foundUnit = null;
-		Map<Value, Unit> res = new HashMap<>();
-
-		Queue<Unit> queue = new LinkedList<>();
-		Set<Unit> visited = new HashSet<>();
-		queue.add(unit);
-		while (!queue.isEmpty()) {
-			int len = queue.size();
-			for (int i = 0; i < len; i++) {
-				Unit node = queue.poll();
-				if (visited.contains(node)) {
-					continue;
-				}
-				visited.add(node);
-				switch (model) {
-				// r3 = Button(r2)
-				case 0:
-					if (node instanceof AssignStmt
-							&& ((AssignStmt) node).getLeftOp().equals(value)) {
-						AssignStmt assignStmt = (AssignStmt) node;
-						for (ValueBox box : assignStmt.getRightOp()
-								.getUseBoxes()) {
-							foundValue = box.getValue();
-							break;
-						}
-						foundUnit = node;
-						res.put(foundValue, foundUnit);
-						System.out.println("0: " + foundUnit);
-						return res;
-					}
-					break;
-				// r2 = findViewById(21...)
-				case 1:
-					if (node instanceof AssignStmt
-							&& (node.toString().contains("findViewById") || node
-									.toString().contains("findItem"))
-							&& ((AssignStmt) node).getLeftOp().equals(val)) {
-						foundValue = val;
-						foundUnit = node;
-						res.put(foundValue, foundUnit);
-						System.out.println("1: " + foundUnit);
-						return res;
-					}
-					break;
-				// r3 = getActionView(r7)
-				case 2:
-					if (node instanceof AssignStmt
-							&& (node.toString().contains("getActionView"))) {
-						AssignStmt stmt = (AssignStmt) node;
-						if (stmt.getLeftOp().equals(val)) {
-							InvokeExpr invStmt = ((Stmt) node).getInvokeExpr();
-							for (Value arg : invStmt.getArgs()) {
-								foundValue = arg;
-								foundUnit = node;
-								res.put(foundValue, foundUnit);
-								System.out.println("2: " + foundUnit);
-								return res;
-							}
-						}
-					}
-					break;
-				}
-				for (Unit prev : cfg.getPredsOf(node)) {
-					queue.add(prev);
-				}
-			}
-		}
-
-		return res;
-	}*/
+	 * private static Map<Value, Unit> bfsCFG(Unit unit, Local value, UnitGraph
+	 * cfg, int model, Value val) { Value foundValue = null; Unit foundUnit =
+	 * null; Map<Value, Unit> res = new HashMap<>();
+	 * 
+	 * Queue<Unit> queue = new LinkedList<>(); Set<Unit> visited = new
+	 * HashSet<>(); queue.add(unit); while (!queue.isEmpty()) { int len =
+	 * queue.size(); for (int i = 0; i < len; i++) { Unit node = queue.poll();
+	 * if (visited.contains(node)) { continue; } visited.add(node); switch
+	 * (model) { // r3 = Button(r2) case 0: if (node instanceof AssignStmt &&
+	 * ((AssignStmt) node).getLeftOp().equals(value)) { AssignStmt assignStmt =
+	 * (AssignStmt) node; for (ValueBox box : assignStmt.getRightOp()
+	 * .getUseBoxes()) { foundValue = box.getValue(); break; } foundUnit = node;
+	 * res.put(foundValue, foundUnit); System.out.println("0: " + foundUnit);
+	 * return res; } break; // r2 = findViewById(21...) case 1: if (node
+	 * instanceof AssignStmt && (node.toString().contains("findViewById") ||
+	 * node .toString().contains("findItem")) && ((AssignStmt)
+	 * node).getLeftOp().equals(val)) { foundValue = val; foundUnit = node;
+	 * res.put(foundValue, foundUnit); System.out.println("1: " + foundUnit);
+	 * return res; } break; // r3 = getActionView(r7) case 2: if (node
+	 * instanceof AssignStmt && (node.toString().contains("getActionView"))) {
+	 * AssignStmt stmt = (AssignStmt) node; if (stmt.getLeftOp().equals(val)) {
+	 * InvokeExpr invStmt = ((Stmt) node).getInvokeExpr(); for (Value arg :
+	 * invStmt.getArgs()) { foundValue = arg; foundUnit = node;
+	 * res.put(foundValue, foundUnit); System.out.println("2: " + foundUnit);
+	 * return res; } } } break; } for (Unit prev : cfg.getPredsOf(node)) {
+	 * queue.add(prev); } } }
+	 * 
+	 * return res; }
+	 */
 
 	public static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {

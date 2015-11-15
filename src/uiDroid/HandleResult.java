@@ -14,23 +14,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
 import au.com.bytecode.opencsv.CSVWriter;
 
-public class HandleResult {	
-	
+public class HandleResult {
+
 	private static List<WidgetResult> widgetResult;
-	
+
 	/*
 	 * main procedure
 	 */
 	public static void storeResult(String cgPath, List<WidgetResult> widgetRes,
-			String decomPath,  List<String> eventHandlerTemps) throws IOException {
+			String decomPath, List<String> eventHandlerTemps,
+			Map<String, AbstractResource> activities) throws IOException {
 		updateCG(cgPath, widgetRes);
 		String apk = cgPath.split(".dot")[0];
-		
+
 		Map<String, String> strings;
 		Map<String, Widget> widgets = new HashMap<>();
-		Map<String, Map<String, Widget>> activities = new HashMap<>();
+		Map<String, Map<String, Widget>> activityWid = new HashMap<>();
 		String xmlPath = decomPath + "/res/values/strings.xml";
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.isFile()) {
@@ -38,22 +40,23 @@ public class HandleResult {
 			xmlFile = new File(xmlPath);
 		}
 		strings = getStrPool(xmlFile);
-		
+
 		List<String> layoutXmls = getAllLayoutXmls(decomPath + "/res/layout/");
 		for (String xml : layoutXmls) {
 			xmlPath = decomPath + "/res/layout/" + xml;
-			Map<String, Widget> nowWidgets = getWidgets(xmlPath, eventHandlerTemps);
+			Map<String, Widget> nowWidgets = getWidgets(xmlPath,
+					eventHandlerTemps);
+			updateUIStr(nowWidgets, strings);
 			widgets.putAll(nowWidgets);
-			activities.put(xml.split(".xml")[0], nowWidgets);
-		}		
+			activityWid.put(xml.split(".xml")[0], nowWidgets);
+		}
+
+		// xmlPath = decomPath + "/AndroidManifest.xml";
+		// Map<String, String> manifest = getActivities(xmlPath);
 		
-		xmlPath = decomPath + "/AndroidManifest.xml";
-		Map<String, String> manifest = getActivities(xmlPath);
-		
-		updateUIStr(widgets, strings);
-		writeCSV(apk, widgets, manifest, activities, strings);
+		writeCSV(apk, widgets, activities, activityWid, strings);
 	}
-	
+
 	public static void updateCG(String cgPath, List<WidgetResult> widgetRes) {
 		widgetResult = widgetRes;
 		try {
@@ -62,7 +65,7 @@ public class HandleResult {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 * retrieve all strings declared in strings.xml
 	 */
@@ -78,26 +81,28 @@ public class HandleResult {
 		ParseXML parser = new ParseStringsXML();
 		return parser.parseXML(isXml, "utf-8");
 	}
-	
+
 	/*
 	 * retrieve all widgets declared in the layout xml
 	 */
-	public static Map<String, Widget> getWidgets(String xmlPath,  List<String>  eventHandlerTemps) throws FileNotFoundException {
+	public static Map<String, Widget> getWidgets(String xmlPath,
+			List<String> eventHandlerTemps) throws FileNotFoundException {
 		File xmlFile = new File(xmlPath);
 		FileInputStream isXml = new FileInputStream(xmlFile);
 		ParseLayoutXML parser = new ParseLayoutXML();
 		parser.setEventHandlerTemp(eventHandlerTemps);
 		return parser.parseXML(isXml, "utf-8");
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public static Map<String, String> getActivities(String xmlPath) throws FileNotFoundException {
+	public static Map<String, String> getActivities(String xmlPath)
+			throws FileNotFoundException {
 		File xmlFile = new File(xmlPath);
 		FileInputStream isXml = new FileInputStream(xmlFile);
 		ParseXML parser = new ParseManifestXML();
 		return parser.parseXML(isXml, "utf-8");
 	}
-	
+
 	public static List<String> getAllLayoutXmls(String layoutPath) {
 		File file = new File(layoutPath);
 		List<String> xmls = new ArrayList<>();
@@ -112,11 +117,11 @@ public class HandleResult {
 			});
 			for (String s : dirFiles)
 				xmls.add(s);
-		} 
-		
+		}
+
 		return xmls;
 	}
-	
+
 	/*
 	 * update call graph with UI info
 	 */
@@ -131,12 +136,12 @@ public class HandleResult {
 		}
 		File oldCG = new File(cgFilePath);
 		BufferedReader br = new BufferedReader(new FileReader(oldCG));
-		
+
 		Map<String, WidgetResult> widgets = new HashMap<>();
 		for (WidgetResult wid : widgetResult) {
 			widgets.put("\"" + wid.eventHandler + "\"", wid);
 		}
-		 
+
 		String line = null;
 		while ((line = br.readLine()) != null) {
 			if (line.contains("dummy") && line.contains("onClick")) {
@@ -146,7 +151,8 @@ public class HandleResult {
 					continue;
 				}
 			}
-			if (line.contains("}") || line.contains("java.lang.Object: void registerNatives()")
+			if (line.contains("}")
+					|| line.contains("java.lang.Object: void registerNatives()")
 					|| line.contains("void <clinit>")
 					|| line.contains("void <init>")
 					|| line.contains("void finalize")
@@ -155,40 +161,41 @@ public class HandleResult {
 				continue;
 			}
 			out.println(line);
-			//System.out.println(line);
+			// System.out.println(line);
 		}
 		br.close();
-		
 
 		/*
+		 * for (String onClick : onClicks) { if (widgets.containsKey(onClick)) {
+		 * out.println("    " + onClick.split("\\$")[0] +
+		 * ": void onCreate(android.os.Bundle)>\"->\"" +
+		 * widgets.get(onClick).getResourceName() + "\";"); out.println("\"" +
+		 * widgets.get(onClick).getResourceName() + "\"->" + onClick + ";"); }
+		 * else { out.println("    " + onClick.split("\\$")[0] +
+		 * ": void onCreate(android.os.Bundle)>\"->" + onClick + ";"); } }
+		 */
 		for (String onClick : onClicks) {
-			if (widgets.containsKey(onClick)) {
-				out.println("    " + onClick.split("\\$")[0] + 
-						": void onCreate(android.os.Bundle)>\"->\"" + widgets.get(onClick).getResourceName() + "\";");
-				out.println("\"" + widgets.get(onClick).getResourceName() + "\"->" + onClick + ";");
-			} else {
-			out.println("    " + onClick.split("\\$")[0] + 
-					": void onCreate(android.os.Bundle)>\"->" + onClick + ";");
-			}
-		}*/
-		for (String onClick : onClicks) {
-			if (widgets.get(onClick) != null && widgets.get(onClick).widget != null) {
-				out.println("    \"" + widgets.get(onClick).onCreate + 
-						"\"->\"" + widgets.get(onClick).widget.getResourceName() + "\";");
-				out.println("    \"" + widgets.get(onClick).widget.getResourceName() + "\"->" + onClick + ";");
+			if (widgets.get(onClick) != null
+					&& widgets.get(onClick).widget != null) {
+				out.println("    \"" + widgets.get(onClick).onCreate + "\"->\""
+						+ widgets.get(onClick).widget.getResourceName() + "\";");
+				out.println("    \""
+						+ widgets.get(onClick).widget.getResourceName()
+						+ "\"->" + onClick + ";");
 			}
 		}
 		out.println("}");
 		out.close();
 	}
-	
+
 	/*
 	 * write results to csv
 	 */
 	public static void writeCSV(String apk, Map<String, Widget> widgets,
-			Map<String, String> manifest, Map<String, Map<String, Widget>> activities,
+			Map<String, AbstractResource> activities,
+			Map<String, Map<String, Widget>> activityWid,
 			Map<String, String> strings) throws IOException {
-		//String csv = "./sootOutput/data.csv";
+		// String csv = "./sootOutput/data.csv";
 		String csv = apk + ".csv";
 		String[] tmp = apk.split("/");
 		String apkName = tmp[tmp.length - 1];
@@ -212,15 +219,25 @@ public class HandleResult {
 				if (widgets.get("@id/" + res.widget.getResourceName()) == null) {
 					result.add("");
 				} else {
-					result.add(widgets.get("@id/" + res.widget.getResourceName()).getText());
+					result.add(widgets.get(
+							"@id/" + res.widget.getResourceName()).getText());
 				}
-			} else if (res.eventHandler.toString().contains("android.view.View")) {
-				String activity = res.eventHandler.toString().split(": ")[0].split("<")[1];
-				String mname = res.eventHandler.toString().split(": ")[1];
-				String act = manifest.get(activity);
-				Map<String, Widget> nowWidgets = activities.get(act);
-				act = act.split("@string/")[1];
-				act = strings.get(act);
+			} else if (res.eventHandler.toString()
+					.contains("android.view.View")) {
+				// String activity =
+				// res.eventHandler.toString().split(": ")[0].split("<")[1];
+				// String mname = res.eventHandler.toString().split(": ")[1];
+				String activity = res.eventHandler.getDeclaringClass()
+						.toString();
+				System.out.println(activity);
+				for (String resour : activities.keySet()) {
+					System.out.println(resour);
+				}
+				String act = activities.get(activity).getResourceName();
+				String mname = res.eventHandler.getSubSignature();
+				Map<String, Widget> nowWidgets = activityWid.get(act);
+				//act = act.split("@string/")[1];
+				//act = strings.get(act);
 				System.out.println(act);
 				for (Widget widget : nowWidgets.values()) {
 					for (String callback : widget.getCallback()) {
@@ -234,21 +251,22 @@ public class HandleResult {
 			} else {
 				result.add("");
 			}
-			String[] resultArray = (String[]) result
-					.toArray(new String[result.size()]);
-			//if (!results.contains(resultArray)) {
-				results.add(resultArray);
-			//}
+			String[] resultArray = (String[]) result.toArray(new String[result
+					.size()]);
+			// if (!results.contains(resultArray)) {
+			results.add(resultArray);
+			// }
 		}
-		
+
 		writer.writeAll(results);
 		writer.close();
 	}
-	
+
 	/*
 	 * update text who have @string/ to their real values
 	 */
-	public static void updateUIStr(Map<String, Widget> widgets, Map<String, String> strPool) {
+	public static void updateUIStr(Map<String, Widget> widgets,
+			Map<String, String> strPool) {
 		for (Widget widget : widgets.values()) {
 			String text = widget.getText();
 			if (text != null && text.contains("@string")) {
