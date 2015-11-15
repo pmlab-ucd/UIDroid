@@ -48,7 +48,7 @@ public class UiForwardAnalysis {
 	 * element: the set of possibly uninit vars
 	 */
 	public static class UiForwardVarAnalysis extends
-			ForwardFlowAnalysis<Object, Object> {
+			ForwardFlowAnalysis<Object, Object> implements UiFlowAnalysis {
 		public static SootMethod uiEventHandler = null; // e.g. "Activity1$"
 
 		private Map<Unit, List<Local>> unitToBeforeFlow, unitToAfterFlow;

@@ -1,0 +1,3 @@
+"app-debug","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","<de.ecspride.Activity1$2: void onClick(android.view.View)>","button2","Button2"
+"app-debug","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","<de.ecspride.Activity1$1: void onClick(android.view.View)>","button1","Button"
+"app-debug","<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>","<de.ecspride.Activity2: void sendMessageWrapper(android.view.View)>",""

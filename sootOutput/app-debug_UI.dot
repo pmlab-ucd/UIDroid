@@ -4,8 +4,8 @@ digraph "callgraph" {
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1: void onCreate(android.os.Bundle)>";
     "<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>";
-    "<de.ecspride.Activity1$1: void onClick(android.view.View)>"
     "<de.ecspride.Activity1$2: void onClick(android.view.View)>"
+    "<de.ecspride.Activity1$1: void onClick(android.view.View)>"
     "<de.ecspride.Activity2: void onCreate(android.os.Bundle)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity2: void onCreate(android.os.Bundle)>";
     "<de.ecspride.Activity2: void sendMessageWrapper(android.view.View)>"
@@ -18,10 +18,10 @@ digraph "callgraph" {
     "<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>"->"<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>";
     "<android.app.Activity: void startActivity(android.content.Intent)>"
     "<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>"->"<android.app.Activity: void startActivity(android.content.Intent)>";
-    "<de.ecspride.Activity1: void getDevIdWrapperTop()>"
-    "<de.ecspride.Activity1$1: void onClick(android.view.View)>"->"<de.ecspride.Activity1: void getDevIdWrapperTop()>";
     "<de.ecspride.Activity1: void getDevIdWrapper2()>"
     "<de.ecspride.Activity1$2: void onClick(android.view.View)>"->"<de.ecspride.Activity1: void getDevIdWrapper2()>";
+    "<de.ecspride.Activity1: void getDevIdWrapperTop()>"
+    "<de.ecspride.Activity1$1: void onClick(android.view.View)>"->"<de.ecspride.Activity1: void getDevIdWrapperTop()>";
     "<de.ecspride.Activity2: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void onCreate(android.os.Bundle)>";
     "<android.app.Activity: android.content.Intent getIntent()>"
     "<de.ecspride.Activity2: void onCreate(android.os.Bundle)>"->"<android.app.Activity: android.content.Intent getIntent()>";
@@ -34,9 +34,9 @@ digraph "callgraph" {
     "<de.ecspride.Activity2: void sendMessage()>"->"<android.widget.Toast: android.widget.Toast makeText(android.content.Context,java.lang.CharSequence,int)>";
     "<android.telephony.SmsManager: android.telephony.SmsManager getDefault()>"
     "<de.ecspride.Activity2: void sendMessage()>"->"<android.telephony.SmsManager: android.telephony.SmsManager getDefault()>";
-    "<de.ecspride.Activity1: void getDevIdWrapperTop()>"->"<de.ecspride.Activity1: void getDevIdWrapper2()>";
     "<de.ecspride.Activity1: void getDevId()>"
     "<de.ecspride.Activity1: void getDevIdWrapper2()>"->"<de.ecspride.Activity1: void getDevId()>";
+    "<de.ecspride.Activity1: void getDevIdWrapperTop()>"->"<de.ecspride.Activity1: void getDevIdWrapper2()>";
     "<android.widget.Toast: void show()>"
     "<de.ecspride.Activity2: void sendMessage()>"->"<android.widget.Toast: void show()>";
     "<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>"
@@ -45,8 +45,8 @@ digraph "callgraph" {
     "<de.ecspride.Activity1: void getDevId()>"->"<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>";
     "<android.telephony.TelephonyManager: java.lang.String getDeviceId()>"
     "<de.ecspride.Activity1: void getDevId()>"->"<android.telephony.TelephonyManager: java.lang.String getDeviceId()>";
-    "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"button1";
-    "button1"->"<de.ecspride.Activity1$1: void onClick(android.view.View)>";
     "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"button2";
     "button2"->"<de.ecspride.Activity1$2: void onClick(android.view.View)>";
+    "<de.ecspride.Activity1: void onCreate(android.os.Bundle)>"->"button1";
+    "button1"->"<de.ecspride.Activity1$1: void onClick(android.view.View)>";
 }

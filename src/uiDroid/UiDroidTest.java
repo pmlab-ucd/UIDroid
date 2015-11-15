@@ -26,17 +26,13 @@ import org.xmlpull.v1.XmlPullParserException;
 import soot.Body;
 import soot.G;
 import soot.Local;
-import soot.NormalUnitPrinter;
 import soot.PackManager;
 import soot.Scene;
 import soot.SceneTransformer;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
-import soot.UnitPrinter;
 import soot.Value;
-import soot.ValueBox;
-import soot.jimple.AssignStmt;
 import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 import soot.jimple.infoflow.android.resources.ARSCFileParser;
@@ -248,7 +244,7 @@ public class UiDroidTest extends MyTest {
 					// check whether sensitive whether entry point exists in
 					// onCreate()
 					System.out.println(entry);
-					WidgetResult widgetRes = null;
+					int wsize = widgetResult.size();
 					for (SootMethod onCreate : allOnCreate) {
 						// String baseClass =
 						// entry.getDeclaringClass().toString()
@@ -256,14 +252,12 @@ public class UiDroidTest extends MyTest {
 						// if (onCreate.getDeclaringClass().toString()
 						// .contains(baseClass)) {
 						// get callees inside a method body through icfg
-						analyzeOnCreate(onCreate, entry, sensitive, widgetRes);
-						if (widgetRes != null) {
-							break;
-						}
+						
+						analyzeOnCreate(onCreate, entry, sensitive);
 					}
-					if (widgetRes == null) {
-						widgetResult.add(new WidgetResult(sensitive, entry,
-								entry, null));
+					if (widgetResult.size() == wsize) {
+						widgetResult.add(new WidgetResult(sensitive, entry, entry,
+								null));
 					}
 				} else {
 					widgetResult.add(new WidgetResult(sensitive, entry, entry,
@@ -299,7 +293,7 @@ public class UiDroidTest extends MyTest {
 	 * retrieve interested sensitive widgets by parsing onCreate methods
 	 */
 	public static void analyzeOnCreate(SootMethod onCreate,
-			SootMethod eventHandler, SootMethod senstive, WidgetResult widgetRes) {
+			SootMethod eventHandler, SootMethod senstive) {
 		Body body = onCreate.retrieveActiveBody();
 		// 生成函数的control flow graph
 		UnitGraph cfg = new ExceptionalUnitGraph(body);
@@ -322,45 +316,27 @@ public class UiDroidTest extends MyTest {
 		UiForwardAnalysis.UiForwardVarAnalysis ta = new UiForwardAnalysis.UiForwardVarAnalysis(
 				cfg);
 
-		boolean print = true;
 		// iterate over the results
 		for (Unit unit : cfg) {
 			// System.out.println(unit);
-			List<Local> before = ta.getUILocalsBefore(unit);
 			List<Local> after = ta.getUILocalsAfter(unit);
-
-			if (print) {
-				String sep = File.separator;
-				UnitPrinter up = new NormalUnitPrinter(body);
-				up.setIndent("");
-				System.out.println("---------------------------------------");
-				unit.toString(up);
-				System.out.println(up.output());
-				if (!before.isEmpty()) {
-					if (unit.toString().contains("sink")) {
-						System.out.println("found a sink!");
-					}
+			
+			if (!after.isEmpty()) {			
+				UiBackwardAnalysis ba = new UiBackwardAnalysis(cfg);
+				ba.setEventHandler((Stmt)unit);
+				ba.run();
+				//PrintFlowResult.print(cfg, body, ba);
+				for (Stmt idStmt : ba.getIdStmt()) {
+					int id = extractId((Stmt) idStmt);
+					System.out.println(id);
+					AbstractResource widget = fileParser
+							.findResource(id);
+					System.out.println(widget.getResourceName());
+					WidgetResult widgetRes = new WidgetResult(senstive, onCreate,
+							eventHandler, widget);
+					widgetResult.add(widgetRes);
 				}
-				System.out.print("Ui event handlers in: {");
-				sep = "";
-				for (Local l : before) {
-					System.out.print(sep);
-					System.out.print(l.getName() + ": " + l.getType());
-					sep = ", ";
-				}
-				System.out.println("}");
-				System.out.print("Ui event handlers out: {");
-				sep = "";
-				for (Local l : after) {
-					System.out.print(sep);
-					System.out.print(l.getName() + ": " + l.getType());
-					sep = ", ";
-				}
-				System.out.println("}");
-				System.out.println("---------------------------------------");
-			}
-
-			if (!after.isEmpty()) {
+				/*
 				for (Local value : after) {
 					Map<Value, Unit> widgetMap = bfsCFG(unit, value, cfg, 0,
 							null);
@@ -386,7 +362,7 @@ public class UiDroidTest extends MyTest {
 							widgetResult.add(widgetRes);
 						}
 					}
-				}
+				}*/
 			}
 		}
 	}
@@ -412,6 +388,7 @@ public class UiDroidTest extends MyTest {
 	 * breadth-first search for 1. last assignment of the base class 2. nearest
 	 * findViewById
 	 */
+	/*
 	private static Map<Value, Unit> bfsCFG(Unit unit, Local value,
 			UnitGraph cfg, int model, Value val) {
 		Value foundValue = null;
@@ -484,7 +461,7 @@ public class UiDroidTest extends MyTest {
 		}
 
 		return res;
-	}
+	}*/
 
 	public static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {
