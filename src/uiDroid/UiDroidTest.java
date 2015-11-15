@@ -129,7 +129,7 @@ public class UiDroidTest extends MyTest {
 			String decomPath = args[0] + File.separator + "Decompiled"
 					+ File.separator + fileName;
 			decompile(decomPath);
-			HandleResult.storeResult(dotPath, widgetResult, decomPath);
+			HandleResult.storeResult(dotPath, widgetResult, decomPath, eventHandlerTemps);
 		}
 	}
 

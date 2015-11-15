@@ -4,14 +4,19 @@
 
 package uiDroid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Widget {
 	private String sid, text;
+	private List<String> callbacks;
 	private int type;
 	
 	Widget() {
 		sid = null;
 		type = -1;
 		text = null;
+		callbacks = new ArrayList<>();
 	}
 	
 	public void setSid(String sid) {
@@ -40,6 +45,14 @@ public class Widget {
 	
 	public String getSid() {
 		return sid;
+	}
+	
+	public void setCallback(String callback) {
+		callbacks.add(callback); 
+	}
+	
+	public List<String> getCallback() {
+		return callbacks;
 	}
 
 }

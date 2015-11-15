@@ -31,7 +31,7 @@ public class ParseStringsXML implements ParseXML {
 				case XmlPullParser.START_DOCUMENT:
 					break;
 				case XmlPullParser.START_TAG:
-					String name = parser.getName();
+					//String name = parser.getName();
 					//System.out.println(name);
 					if(parser.getName().equals("string")){
 						//获取该节点的内容

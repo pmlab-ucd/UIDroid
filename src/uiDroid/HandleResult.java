@@ -24,12 +24,13 @@ public class HandleResult {
 	 * main procedure
 	 */
 	public static void storeResult(String cgPath, List<WidgetResult> widgetRes,
-			String decomPath) throws IOException {
+			String decomPath,  List<String> eventHandlerTemps) throws IOException {
 		updateCG(cgPath, widgetRes);
 		String apk = cgPath.split(".dot")[0];
 		
 		Map<String, String> strings;
 		Map<String, Widget> widgets = new HashMap<>();
+		Map<String, Map<String, Widget>> activities = new HashMap<>();
 		String xmlPath = decomPath + "/res/values/strings.xml";
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.isFile()) {
@@ -41,10 +42,16 @@ public class HandleResult {
 		List<String> layoutXmls = getAllLayoutXmls(decomPath + "/res/layout/");
 		for (String xml : layoutXmls) {
 			xmlPath = decomPath + "/res/layout/" + xml;
-			widgets.putAll(getWidgets(xmlPath));
+			Map<String, Widget> nowWidgets = getWidgets(xmlPath, eventHandlerTemps);
+			widgets.putAll(nowWidgets);
+			activities.put(xml.split(".xml")[0], nowWidgets);
 		}		
+		
+		xmlPath = decomPath + "/AndroidManifest.xml";
+		Map<String, String> manifest = getActivities(xmlPath);
+		
 		updateUIStr(widgets, strings);
-		writeCSV(apk, widgets);
+		writeCSV(apk, widgets, manifest, activities, strings);
 	}
 	
 	public static void updateCG(String cgPath, List<WidgetResult> widgetRes) {
@@ -75,11 +82,19 @@ public class HandleResult {
 	/*
 	 * retrieve all widgets declared in the layout xml
 	 */
-	@SuppressWarnings("unchecked")
-	public static Map<String, Widget> getWidgets(String xmlPath) throws FileNotFoundException {
+	public static Map<String, Widget> getWidgets(String xmlPath,  List<String>  eventHandlerTemps) throws FileNotFoundException {
 		File xmlFile = new File(xmlPath);
 		FileInputStream isXml = new FileInputStream(xmlFile);
-		ParseXML parser = new ParseLayoutXML();
+		ParseLayoutXML parser = new ParseLayoutXML();
+		parser.setEventHandlerTemp(eventHandlerTemps);
+		return parser.parseXML(isXml, "utf-8");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Map<String, String> getActivities(String xmlPath) throws FileNotFoundException {
+		File xmlFile = new File(xmlPath);
+		FileInputStream isXml = new FileInputStream(xmlFile);
+		ParseXML parser = new ParseManifestXML();
 		return parser.parseXML(isXml, "utf-8");
 	}
 	
@@ -170,7 +185,9 @@ public class HandleResult {
 	/*
 	 * write results to csv
 	 */
-	public static void writeCSV(String apk, Map<String, Widget> widgets) throws IOException {
+	public static void writeCSV(String apk, Map<String, Widget> widgets,
+			Map<String, String> manifest, Map<String, Map<String, Widget>> activities,
+			Map<String, String> strings) throws IOException {
 		//String csv = "./sootOutput/data.csv";
 		String csv = apk + ".csv";
 		String[] tmp = apk.split("/");
@@ -196,6 +213,23 @@ public class HandleResult {
 					result.add("");
 				} else {
 					result.add(widgets.get("@id/" + res.widget.getResourceName()).getText());
+				}
+			} else if (res.eventHandler.toString().contains("android.view.View")) {
+				String activity = res.eventHandler.toString().split(": ")[0].split("<")[1];
+				String mname = res.eventHandler.toString().split(": ")[1];
+				String act = manifest.get(activity);
+				Map<String, Widget> nowWidgets = activities.get(act);
+				act = act.split("@string/")[1];
+				act = strings.get(act);
+				System.out.println(act);
+				for (Widget widget : nowWidgets.values()) {
+					for (String callback : widget.getCallback()) {
+						if (mname.contains(callback)) {
+							result.add(widget.getSid());
+							result.add(widget.getText());
+							break;
+						}
+					}
 				}
 			} else {
 				result.add("");

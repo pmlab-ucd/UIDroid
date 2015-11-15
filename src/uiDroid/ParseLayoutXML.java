@@ -7,6 +7,7 @@ package uiDroid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -14,6 +15,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 public class ParseLayoutXML implements ParseXML {
+	private List<String> eventHandlerTemps;
+	
 	/**
 	 * @param inputStream 获取xml文件，以流的形式返回
 	 * @param encode 编码格式
@@ -46,11 +49,14 @@ public class ParseLayoutXML implements ParseXML {
 						widget = new Widget();
 						widget.setType(1);
 						//获取该节点的内容
-						
 						widget.setSid(sid);
 						String text = parser.getAttributeValue(null, "android:text");
 						widget.setText(text);
 						res.put(sid, widget);
+						for (String eventHandler : eventHandlerTemps) {
+							String callback = parser.getAttributeValue(null, "android:" + eventHandler);
+							widget.setCallback(callback);
+						}
 					//}
 					break;
 				case XmlPullParser.END_TAG:					
@@ -65,6 +71,10 @@ public class ParseLayoutXML implements ParseXML {
 		}
 		
 		return res;
+	}
+	
+	public void setEventHandlerTemp(List<String> eventHandlerTemp) {
+		eventHandlerTemps = eventHandlerTemp;
 	}
 
 }

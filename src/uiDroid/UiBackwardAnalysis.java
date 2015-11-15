@@ -45,7 +45,8 @@ public class UiBackwardAnalysis extends BackwardFlowAnalysis<Object, Object>
 			Value instance = ((InstanceInvokeExpr) ie).getBase();
 			outSet.add(instance);
 		} else if (stmt instanceof AssignStmt
-				&& stmt.toString().contains("findView")) {
+				&& (stmt.toString().contains("findView")
+						|| stmt.toString().contains("findItem"))) {
 			// kill: sink
 			if (inSet.contains(((AssignStmt) stmt).getLeftOp())) {
 				System.out.println("B: found view id stmt");
