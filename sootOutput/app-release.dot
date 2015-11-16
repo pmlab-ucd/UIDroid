@@ -10,9 +10,9 @@ digraph "callgraph" {
     "<android.app.Activity: void <clinit>()>"
     "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1: void <clinit>()>";
-    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <clinit>()>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
@@ -70,10 +70,6 @@ digraph "callgraph" {
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>";
     "<android.os.Bundle: void <init>()>"
     "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <init>()>";
-    "<de.ecspride.a: void <init>(de.ecspride.Activity1)>"
-    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.a: void <init>(de.ecspride.Activity1)>";
-    "<de.ecspride.a: void onClick(android.view.View)>"
-    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.a: void onClick(android.view.View)>";
     "<android.view.View: void <init>(android.content.Context)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
     "<de.ecspride.b: void <init>(de.ecspride.Activity1)>"
@@ -81,6 +77,10 @@ digraph "callgraph" {
     "<de.ecspride.b: void onClick(android.view.View)>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.b: void onClick(android.view.View)>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
+    "<de.ecspride.a: void <init>(de.ecspride.Activity1)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.a: void <init>(de.ecspride.Activity1)>";
+    "<de.ecspride.a: void onClick(android.view.View)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.a: void onClick(android.view.View)>";
     "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
     "<de.ecspride.Activity2: void <init>()>"
     "<dummyMainClass: void dummyMainMethod()>"->"<de.ecspride.Activity2: void <init>()>";
@@ -121,14 +121,14 @@ digraph "callgraph" {
     "<android.os.Bundle: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
     "<java.lang.Object: void finalize()>"
     "<java.lang.Object: void <init>()>"->"<java.lang.Object: void finalize()>";
-    "<de.ecspride.a: void <init>(de.ecspride.Activity1)>"->"<java.lang.Object: void <init>()>";
-    "<de.ecspride.Activity1: void a()>"
-    "<de.ecspride.a: void onClick(android.view.View)>"->"<de.ecspride.Activity1: void a()>";
     "<android.view.View: void <init>(android.content.Context)>"->"<java.lang.Object: void <init>()>";
     "<android.view.View: void <init>(android.content.Context)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
     "<de.ecspride.b: void <init>(de.ecspride.Activity1)>"->"<java.lang.Object: void <init>()>";
     "<de.ecspride.Activity1: void b()>"
     "<de.ecspride.b: void onClick(android.view.View)>"->"<de.ecspride.Activity1: void b()>";
+    "<de.ecspride.a: void <init>(de.ecspride.Activity1)>"->"<java.lang.Object: void <init>()>";
+    "<de.ecspride.Activity1: void a()>"
+    "<de.ecspride.a: void onClick(android.view.View)>"->"<de.ecspride.Activity1: void a()>";
     "<de.ecspride.Activity2: void <init>()>"->"<android.app.Activity: void <init>()>";
     "<de.ecspride.Activity2: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void onCreate(android.os.Bundle)>";
     "<android.app.Activity: android.content.Intent getIntent()>"
@@ -158,11 +158,11 @@ digraph "callgraph" {
     "<java.lang.RuntimeException: void <init>(java.lang.String)>"->"<java.lang.Exception: void <init>()>";
     "<java.lang.RuntimeException: void <init>(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
     "<java.lang.Object: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
-    "<de.ecspride.Activity1: void a()>"->"<de.ecspride.Activity1: void b()>";
     "<de.ecspride.Activity1: void c()>"
     "<de.ecspride.Activity1: void b()>"->"<de.ecspride.Activity1: void c()>";
     "<de.ecspride.Activity1: void c()>"->"<de.ecspride.Activity1: void <clinit>()>";
     "<de.ecspride.Activity1: void c()>"->"<android.app.Activity: void <clinit>()>";
+    "<de.ecspride.Activity1: void a()>"->"<de.ecspride.Activity1: void b()>";
     "<android.app.Activity: android.content.Intent getIntent()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
     "<android.content.Intent: java.lang.String getStringExtra(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
     "<android.widget.Toast: void show()>"
