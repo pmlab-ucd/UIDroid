@@ -59,12 +59,13 @@ public class UiDroidTest extends MyTest {
 	// sensitive permission related
 	private static List<String> PscoutMethod;
 	private static Map<SootMethod, List<SootMethod>> sensEntries = new HashMap<>();
-	private static List<WidgetResult> widgetResult;
+	private static List<WidgetResult> widgetResults;
 	private static DotGraph dot = new DotGraph("callgraph");
 	private static String dotPath = null;
 	private static List<String> eventHandlerTemps;// = new ArrayList<>();
 	private static List<SootMethod> allOnCreate;
 	private static Map<String, AbstractResource> activities;
+	private static Map<SootMethod, WidgetResult> found;
 
 	public static void main(String[] args) {
 		try {
@@ -123,14 +124,15 @@ public class UiDroidTest extends MyTest {
 			// apkPath = file.getAbsolutePath();
 			apkPath = args[0] + File.separator + fileName;
 			fileParser.parse(apkPath);
-			widgetResult = new ArrayList<>();
+			widgetResults = new ArrayList<>();
 			activities = new HashMap<>();
+			found = new HashMap<>();
 			permissionAnalysis(apkPath, platformPath, extraJar);
 
 			String decomPath = args[0] + File.separator + "Decompiled"
 					+ File.separator + fileName;
 			decompile(decomPath);
-			HandleResult.storeResult(dotPath, widgetResult, decomPath,
+			HandleResult.storeResult(dotPath, widgetResults, decomPath,
 					eventHandlerTemps, activities);
 		}
 	}
@@ -240,13 +242,19 @@ public class UiDroidTest extends MyTest {
 	public static void getWidgets() {
 		for (SootMethod sensitive : sensEntries.keySet()) {
 			for (SootMethod entry : sensEntries.get(sensitive)) {
+				if (found.containsKey(entry)) {
+					WidgetResult widRes = found.get(entry);
+					WidgetResult newWidRes = new WidgetResult(sensitive, entry, widRes.eventHandler,widRes.widget);
+					widgetResults.add(newWidRes);
+					continue;
+				}
 				System.out.println("Start ++++++++" + entry.getName());
 				if (eventHandlerTemps.contains(entry.getName())) {
 					// iterate over edges of call graph,
 					// check whether sensitive whether entry point exists in
 					// onCreate()
 					System.out.println(entry);
-					int wsize = widgetResult.size();
+					int wsize = widgetResults.size();
 					for (SootMethod onCreate : allOnCreate) {
 						// String baseClass =
 						// entry.getDeclaringClass().toString()
@@ -257,14 +265,15 @@ public class UiDroidTest extends MyTest {
 
 						analyzeOnCreate(onCreate, entry, sensitive);
 					}
-					if (widgetResult.size() == wsize) {
-						widgetResult.add(new WidgetResult(sensitive, entry,
+					if (widgetResults.size() == wsize) {
+						widgetResults.add(new WidgetResult(sensitive, entry,
 								entry, null));
 					}
 				} else {
-					widgetResult.add(new WidgetResult(sensitive, entry, entry,
+					widgetResults.add(new WidgetResult(sensitive, entry, entry,
 							null));
 				}
+				found.put(entry, widgetResults.get(widgetResults.size() - 1));
 			}
 		}
 
@@ -310,12 +319,12 @@ public class UiDroidTest extends MyTest {
 				// if met new id
 				int id = extractId((Stmt) unit);
 				AbstractResource activity = fileParser.findResource(id);
-				InvokeExpr stmt = ((Stmt) unit).getInvokeExpr();
+				//InvokeExpr stmt = ((Stmt) unit).getInvokeExpr();
 				//activities.put(stmt.getMethod().getDeclaringClass().toString(),
 						//activity);
 				activities.put(unit.toString().split(": ")[0].split("<")[1], 
 						activity);
-				System.out.println(unit + "CCCCCCCCCCCCCCCCCCCCCCCCCCC");
+				//System.out.println(unit + "CCCCCCCCCCCCCCCCCCCCCCCCCCC");
 			}
 		}
 
@@ -345,7 +354,7 @@ public class UiDroidTest extends MyTest {
 					System.out.println(widget.getResourceName());
 					WidgetResult widgetRes = new WidgetResult(senstive,
 							onCreate, eventHandler, widget);
-					widgetResult.add(widgetRes);
+					widgetResults.add(widgetRes);
 				}
 				/*
 				 * for (Local value : after) { Map<Value, Unit> widgetMap =
@@ -373,7 +382,7 @@ public class UiDroidTest extends MyTest {
 		if (stmt.containsInvokeExpr()) {
 			InvokeExpr ie = stmt.getInvokeExpr();
 			for (Value arg : ie.getArgs()) {
-				System.out.println(arg.getType().getNumber());
+				//System.out.println(arg.getType().getNumber());
 				if (arg.getType().getNumber() == 16) {
 					return Integer.parseInt(arg.toString());
 				}

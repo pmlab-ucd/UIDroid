@@ -26,35 +26,40 @@ public class HandleResult {
 	 */
 	public static void storeResult(String cgPath, List<WidgetResult> widgetRes,
 			String decomPath, List<String> eventHandlerTemps,
-			Map<String, AbstractResource> activities) throws IOException {
-		updateCG(cgPath, widgetRes);
-		String apk = cgPath.split(".dot")[0];
+			Map<String, AbstractResource> activities) {
+		try {
+			updateCG(cgPath, widgetRes);
+			String apk = cgPath.split(".dot")[0];
 
-		Map<String, String> strings;
-		Map<String, Widget> widgets = new HashMap<>();
-		Map<String, Map<String, Widget>> activityWid = new HashMap<>();
-		String xmlPath = decomPath + "/res/values/strings.xml";
-		File xmlFile = new File(xmlPath);
-		if (!xmlFile.isFile()) {
-			xmlPath = decomPath + "/res/values-uk/strings.xml";
-			xmlFile = new File(xmlPath);
+			Map<String, String> strings;
+			Map<String, Widget> widgets = new HashMap<>();
+			Map<String, Map<String, Widget>> activityWid = new HashMap<>();
+			String xmlPath = decomPath + "/res/values/strings.xml";
+			File xmlFile = new File(xmlPath);
+			if (!xmlFile.isFile()) {
+				xmlPath = decomPath + "/res/values-uk/strings.xml";
+				xmlFile = new File(xmlPath);
+			}
+			strings = getStrPool(xmlFile);
+
+			List<String> layoutXmls = getAllLayoutXmls(decomPath
+					+ "/res/layout/");
+			for (String xml : layoutXmls) {
+				xmlPath = decomPath + "/res/layout/" + xml;
+				Map<String, Widget> nowWidgets = getWidgets(xmlPath,
+						eventHandlerTemps);
+				updateUIStr(nowWidgets, strings);
+				widgets.putAll(nowWidgets);
+				activityWid.put(xml.split(".xml")[0], nowWidgets);
+			}
+
+			// xmlPath = decomPath + "/AndroidManifest.xml";
+			// Map<String, String> manifest = getActivities(xmlPath);
+
+			writeCSV(apk, widgets, activities, activityWid, strings);
+		} catch (IOException e) {
+			System.err.println(e.getStackTrace());
 		}
-		strings = getStrPool(xmlFile);
-
-		List<String> layoutXmls = getAllLayoutXmls(decomPath + "/res/layout/");
-		for (String xml : layoutXmls) {
-			xmlPath = decomPath + "/res/layout/" + xml;
-			Map<String, Widget> nowWidgets = getWidgets(xmlPath,
-					eventHandlerTemps);
-			updateUIStr(nowWidgets, strings);
-			widgets.putAll(nowWidgets);
-			activityWid.put(xml.split(".xml")[0], nowWidgets);
-		}
-
-		// xmlPath = decomPath + "/AndroidManifest.xml";
-		// Map<String, String> manifest = getActivities(xmlPath);
-		
-		writeCSV(apk, widgets, activities, activityWid, strings);
 	}
 
 	public static void updateCG(String cgPath, List<WidgetResult> widgetRes) {
@@ -75,10 +80,12 @@ public class HandleResult {
 		try {
 			isXml = new FileInputStream(xmlFile);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getStackTrace());
 		}
 		ParseXML parser = new ParseStringsXML();
+		if (isXml == null) {
+			return null;
+		}
 		return parser.parseXML(isXml, "utf-8");
 	}
 
@@ -233,11 +240,16 @@ public class HandleResult {
 				for (String resour : activities.keySet()) {
 					System.out.println(resour);
 				}
-				String act = activities.get(activity).getResourceName();
+				String act = null;
+				Map<String, Widget> nowWidgets = null;
+				if (activity != null && activities != null && activities.containsKey(activity)){
+					act = activities.get(activity).getResourceName();
+					nowWidgets = activityWid.get(act);
+				}
 				String mname = res.eventHandler.getSubSignature();
-				Map<String, Widget> nowWidgets = activityWid.get(act);
-				//act = act.split("@string/")[1];
-				//act = strings.get(act);
+				
+				// act = act.split("@string/")[1];
+				// act = strings.get(act);
 				System.out.println(act);
 				for (Widget widget : nowWidgets.values()) {
 					for (String callback : widget.getCallback()) {
