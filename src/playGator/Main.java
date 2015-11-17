@@ -50,8 +50,8 @@ public class Main {
 			String[] sootArgs) {
 		// create the phase and add it to the pack
 		Pack pack = PackManager.v().getPack(packName);
-		pack.add(new Transform(phaseName, new SceneTransformer()) {
+		/*pack.add(new Transform(phaseName, new SceneTransformer()) {
 			
-		};
+		};*/
 	}
 }
