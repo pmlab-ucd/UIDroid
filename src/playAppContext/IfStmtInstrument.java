@@ -1,7 +1,5 @@
 /*
- * Location:           /home/hao/workspace/AppContext/Instrument/IfInstrument.jar
- * Qualified Name:     app.IfStmtInstrument
- * Java Class Version: 7 (51.0)
+ * reference: app.IfStmtInstrument
  * 用于在要分析的app里所有if语句前嵌入某函数（来源于app.DummyClass）
  */
 
@@ -9,7 +7,6 @@ package playAppContext;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +17,6 @@ import soot.Body;
 import soot.BodyTransformer;
 import soot.BooleanType;
 import soot.Local;
-import soot.Pack;
 import soot.PackManager;
 import soot.PatchingChain;
 import soot.PrimType;
@@ -36,12 +32,9 @@ import soot.jimple.AbstractStmtSwitch;
 import soot.jimple.IfStmt;
 import soot.jimple.Jimple;
 import soot.jimple.LookupSwitchStmt;
-import soot.jimple.StmtSwitch;
 import soot.jimple.TableSwitchStmt;
 import soot.jimple.internal.JimpleLocal;
 import soot.options.Options;
-import soot.util.Chain;
-import soot.util.Switch;
 
 public class IfStmtInstrument {
 	public static void main(String[] args) {

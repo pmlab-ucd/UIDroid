@@ -37,6 +37,7 @@ import soot.ValueBox;
 import soot.jimple.BinopExpr;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.scalar.BackwardFlowAnalysis;
 import soot.toolkits.scalar.FlowSet;
 
@@ -145,7 +146,7 @@ public class MyVeryBusyExprAnalysis {
 		protected Object newInitialFlow() {
 			// 2 diff occurrences of same expr will be diff instances of same
 			// class implementation
-			return new ValueArraySparseSet<Object>();
+			return new ArraySparseSet();
 		}
 
 		/*
@@ -156,7 +157,7 @@ public class MyVeryBusyExprAnalysis {
 		 */
 		@Override
 		protected Object entryInitialFlow() {
-			return new ValueArraySparseSet<Object>();
+			return new ArraySparseSet();
 		}
 
 		/*

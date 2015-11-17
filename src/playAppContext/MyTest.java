@@ -539,6 +539,7 @@ public class MyTest extends Test {
 			List<Stmt> conditionalStmt = new ArrayList();
 			ctx.setEntrypoint(m);
 			Iterator localIterator;
+			/*
 			for (set =  set.iterator(); set.hasNext(); localIterator.hasNext()) {
 				SootMethod method = (SootMethod) set.next();
 				localIterator = contexts.entrySet().iterator();
@@ -547,7 +548,7 @@ public class MyTest extends Test {
 				if (((SootMethod) entry.getValue()).equals(method)) {
 					conditionalStmt.add((Stmt) entry.getKey());
 				}
-			}
+			}*/
 
 			ctx.setConditionalStmt(conditionalStmt);
 			permInvoc.addContext(ctx);

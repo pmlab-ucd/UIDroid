@@ -242,23 +242,29 @@ public class HandleResult {
 				}
 				String act = null;
 				Map<String, Widget> nowWidgets = null;
-				if (activity != null && activities != null && activities.containsKey(activity)){
-					act = activities.get(activity).getResourceName();
-					nowWidgets = activityWid.get(act);
-				}
-				String mname = res.eventHandler.getSubSignature();
-				
-				// act = act.split("@string/")[1];
-				// act = strings.get(act);
-				System.out.println(act);
-				for (Widget widget : nowWidgets.values()) {
-					for (String callback : widget.getCallback()) {
-						if (mname.contains(callback)) {
-							result.add(widget.getSid());
-							result.add(widget.getText());
-							break;
+				try {
+					if (activity != null && activities != null
+							&& activities.containsKey(activity)) {
+						act = activities.get(activity).getResourceName();
+						nowWidgets = activityWid.get(act);
+					}
+
+					String mname = res.eventHandler.getSubSignature();
+
+					// act = act.split("@string/")[1];
+					// act = strings.get(act);
+					System.out.println(act);
+					for (Widget widget : nowWidgets.values()) {
+						for (String callback : widget.getCallback()) {
+							if (mname.contains(callback)) {
+								result.add(widget.getSid());
+								result.add(widget.getText());
+								break;
+							}
 						}
 					}
+				} catch (Exception e) {
+					System.err.println(e.getStackTrace());
 				}
 			} else {
 				result.add("");
