@@ -1,8 +1,6 @@
 package playGator;
 
 import static org.junit.Assert.*;
-import presto.android.Configs;
-import sun.security.krb5.Config;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,14 +1,10 @@
 package playGator;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Properties;
 
 import org.xmlpull.v1.XmlPullParserException;
-
-import app.MySetupApplication;
 
 import com.google.common.collect.Lists;
 
@@ -16,7 +12,6 @@ import presto.android.Configs;
 import soot.G;
 import soot.Scene;
 import soot.SootClass;
-import soot.SootMethod;
 import soot.jimple.infoflow.android.SetupApplication;
 import soot.options.Options;
 
@@ -31,12 +26,12 @@ public class Config extends Configs{
 		bytecodes = project + "/bin/classes";
 		System.out.println(bytecodes);
 		
-		String sep = File.separator;
-		String pathSep = File.pathSeparator;
-		String classpath = System.getProperty("java.home") + sep + "lib" + sep
-				+ "rt.jar";
+		//String sep = File.separator;
+		//String pathSep = File.pathSeparator;
+		//String classpath = System.getProperty("java.home") + sep + "lib" + sep
+				//+ "rt.jar";
 		String platformDir = "/home/hao/Android/Sdk/platforms";// /android-17/android.jar";
-		classpath += pathSep + platformDir;
+		//classpath += pathSep + platformDir;
 		String apkDir = "/home/hao/workspace/ApkSamples/app-debug.apk";
 		
 		//Options.v().set_soot_classpath(classpath);
@@ -73,13 +68,14 @@ public class Config extends Configs{
 		Options.v().set_whole_program(true);
 		Options.v().set_allow_phantom_refs(true);
 		Options.v().set_output_format(13);
+		// This statement is necessary to make XMLParser in gator to run correcly
 		Scene.v().addBasicClass("android.widget.RelativeLayout", SootClass.SIGNATURES);
 		Scene.v().loadNecessaryClasses();
 
 		// 创建dummy main并作为app的main函数(分析入口)
-		SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
+/*		SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
 		Options.v().set_main_class(entryPoint.getSignature());
-		Scene.v().setEntryPoints(Collections.singletonList(entryPoint));
+		Scene.v().setEntryPoints(Collections.singletonList(entryPoint));*/
 		
 	    numericApiLevel = Integer.parseInt(apiLevel.substring("android-".length()));
 	    sysProj = Configs.sdkDir + "/platforms/" + Configs.apiLevel + "/data";
