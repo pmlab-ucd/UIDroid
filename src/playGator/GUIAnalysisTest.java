@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import presto.android.xml.AndroidView;
+
 public class GUIAnalysisTest {
 	GUIAnalysis ga;
 	
@@ -26,10 +28,14 @@ public class GUIAnalysisTest {
 	@Test
 	public void testRetrieveIds() {
 		ga.retrieveIds();
+		AndroidView view = ga.xmlParser.findViewById(2131230720);
+		assertNotEquals(view, null);
+		System.out.println("text:" + view.getText());
 	}
 
 	@Test
 	public void testRun() {
+		//ga.run();
 	}
 
 }

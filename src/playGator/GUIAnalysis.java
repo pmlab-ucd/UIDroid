@@ -8,11 +8,15 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import presto.android.Hierarchy;
+import presto.android.gui.Flowgraph;
+import presto.android.xml.AndroidView;
 import presto.android.xml.XMLParser;
 
 
 public class GUIAnalysis {
-	private XMLParser xmlParser;
+	public XMLParser xmlParser;
+	public Hierarchy hier;
 	
 	public Set<Integer> allLayoutIds = Sets.newHashSet();
 	public Set<Integer> allMenuIds = Sets.newHashSet();
@@ -21,7 +25,7 @@ public class GUIAnalysis {
 	
 	// The nested class to implement singleton
 	private static class SingletonHolder {
-		private static final GUIAnalysis instance = new GUIAnalysis(XMLParser.Factory.getXMLParser());
+		private static final GUIAnalysis instance = new GUIAnalysis(Hierarchy.v(), XMLParser.Factory.getXMLParser());
 	}
 	
 	// Get THE instance
@@ -29,7 +33,8 @@ public class GUIAnalysis {
 		return SingletonHolder.instance;
 	}
 	
-	public GUIAnalysis(XMLParser xmlParser) {
+	public GUIAnalysis(Hierarchy hier, XMLParser xmlParser) {
+		this.hier = hier;
 		this.xmlParser = xmlParser;
 	}
 	
@@ -79,9 +84,12 @@ public class GUIAnalysis {
 		System.out.println("[GUIAnalysis] Start");
 		//long startTime = System.nanoTime();
 		
-		// 0. retrieve ui ids 
+		// 0. Retrieve ui ids 
 		retrieveIds();
 		
 		// 1. 
+	    Flowgraph flowgraph = new Flowgraph(hier, allLayoutIds, allMenuIds, allWidgetIds,
+	            allStringIds);
+	    flowgraph.build();
 	}
 }
