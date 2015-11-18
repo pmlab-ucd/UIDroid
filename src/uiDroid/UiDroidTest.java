@@ -138,7 +138,7 @@ public class UiDroidTest extends MyTest {
 	}
 
 	/*
-	 * run apktool to decompiled the apk
+	 * run apktool to decompile the apk
 	 */
 	public static void decompile(String decomPath) throws IOException,
 			InterruptedException {
