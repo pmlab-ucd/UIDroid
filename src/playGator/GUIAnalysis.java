@@ -9,8 +9,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import presto.android.Hierarchy;
-import presto.android.gui.Flowgraph;
-import presto.android.xml.AndroidView;
 import presto.android.xml.XMLParser;
 
 
@@ -40,21 +38,21 @@ public class GUIAnalysis {
 	
 	public void retrieveIds() {
 		// the layout ids 
-		System.out.println("Activities: ");
+		//System.out.println("Activities: ");
 		for (int id : xmlParser.getApplicationLayoutIdValues()) {
-			System.out.println(id);
+			//System.out.println(id);
 			allLayoutIds.add(id);
 		}
 		
 		for (int id : xmlParser.getSystemLayoutIdValues()) {
-			System.out.println(id);
+			//System.out.println(id);
 			allLayoutIds.add(id);
 		}
 		
 		// The menu ids
-		System.out.println("Menus: ");
+		//System.out.println("Menus: ");
 		for (int id : xmlParser.getApplicationMenuIdValues()) {
-			System.out.println(id);
+			//System.out.println(id);
 			allMenuIds.add(id);
 		}
 	    for (int id : xmlParser.getSystemMenuIdValues()) {
@@ -62,9 +60,9 @@ public class GUIAnalysis {
 	    }
 		
 		// The widget ids
-		System.out.println("Widgets: ");
+		//System.out.println("Widgets: ");
 		for (int id : xmlParser.getApplicationRIdValues()) {
-			System.out.println(id);
+			//System.out.println(id);
 			allWidgetIds.add(id);
 		}
 	    for (int id : xmlParser.getSystemRIdValues()) {
@@ -80,6 +78,11 @@ public class GUIAnalysis {
 		    System.out.println("[XML] MainActivity: " + xmlParser.getMainActivity());
 	}
 	
+	public Flowgraph flowgraph;
+	public FixpointSolver fixpointSolver;
+	public DemandVariableValueQuery variableValueQueryInterface;
+	public DefaultGUIAnalysisOutput output;
+	
 	public void run() {
 		System.out.println("[GUIAnalysis] Start");
 		//long startTime = System.nanoTime();
@@ -87,9 +90,22 @@ public class GUIAnalysis {
 		// 0. Retrieve ui ids 
 		retrieveIds();
 		
-		// 1. 
-	    Flowgraph flowgraph = new Flowgraph(hier, allLayoutIds, allMenuIds, allWidgetIds,
+		// 1. Construct constraint flow graph 
+	    flowgraph = new Flowgraph(hier, allLayoutIds, allMenuIds, allWidgetIds,
 	            allStringIds);
 	    flowgraph.build();
+	    flowgraph.printNodes();
+	    
+	    // 2. Fix-point computation
+	    fixpointSolver = new FixpointSolver(flowgraph);
+	    fixpointSolver.solve();
+	    
+	    // 3. Variable value query interface
+	    variableValueQueryInterface = DemandVariableValueQuery.v(flowgraph, fixpointSolver);
+
+	    // 4. Construct the output
+	    output = new DefaultGUIAnalysisOutput(this);
+	    System.out.println(output.getAppPackageName());
 	}
+	
 }
