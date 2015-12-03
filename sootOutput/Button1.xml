@@ -1,0 +1,54 @@
+<GUIHierarchy app="Button1">
+  <Activity name="de.ecspride.Activity1">
+    <View type="android.widget.RelativeLayout" id="-1" idName="NO_ID">
+      <View type="android.widget.Button" id="2131230722" idName="button3">
+      </View>
+      <View type="android.widget.Button" id="2131230720" idName="button1">
+        <EventAndHandler event="click" handler="&lt;de.ecspride.Activity1$2: void onClick(android.view.View)&gt;" />
+        <EventAndHandler event="click" handler="&lt;de.ecspride.Activity1$1: void onClick(android.view.View)&gt;" />
+      </View>
+      <View type="android.widget.Button" id="2131230721" idName="button2">
+        <EventAndHandler event="click" handler="&lt;de.ecspride.Activity1$2: void onClick(android.view.View)&gt;" />
+        <EventAndHandler event="click" handler="&lt;de.ecspride.Activity1$1: void onClick(android.view.View)&gt;" />
+      </View>
+    </View>
+  </Activity>
+  <Activity name="android.support.v4.app.FragmentActivity">
+  </Activity>
+  <Activity name="de.ecspride.Activity2">
+    <View type="android.widget.RelativeLayout" id="-1" idName="NO_ID">
+      <View type="android.widget.Button" id="2131230722" idName="button3">
+      </View>
+    </View>
+  </Activity>
+  <Dialog name="android.app.Dialog" allocLineNumber="337" allocStmt="$r2 = new android.app.Dialog" allocMethod="&lt;android.support.v4.app.DialogFragment: android.app.Dialog onCreateDialog(android.os.Bundle)&gt;">
+    <View type="android.widget.FrameLayout" id="-1" idName="NO_ID">
+      <View type="android.widget.FrameLayout" id="-1" idName="NO_ID">
+        <View type="android.widget.TextView" id="-1" idName="NO_ID">
+        </View>
+        <View type="android.widget.ListView" id="-1" idName="NO_ID">
+        </View>
+      </View>
+      <View type="android.support.v4.app.NoSaveStateFrameLayout" id="-1" idName="NO_ID">
+      </View>
+      <View type="android.widget.LinearLayout" id="-1" idName="NO_ID">
+        <View type="android.widget.ProgressBar" id="-1" idName="NO_ID">
+        </View>
+      </View>
+    </View>
+    <View type="android.support.v4.app.NoSaveStateFrameLayout" id="-1" idName="NO_ID">
+      <View type="android.widget.FrameLayout" id="-1" idName="NO_ID">
+        <View type="android.widget.FrameLayout" id="-1" idName="NO_ID">
+          <View type="android.widget.TextView" id="-1" idName="NO_ID">
+          </View>
+          <View type="android.widget.ListView" id="-1" idName="NO_ID">
+          </View>
+        </View>
+        <View type="android.widget.LinearLayout" id="-1" idName="NO_ID">
+          <View type="android.widget.ProgressBar" id="-1" idName="NO_ID">
+          </View>
+        </View>
+      </View>
+    </View>
+  </Dialog>
+</GUIHierarchy>
