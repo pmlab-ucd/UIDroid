@@ -49,7 +49,8 @@ public class StaticGUIHierarchy extends GUIHierarchy {
     buildActivities();
     buildDialogs();
   }
-
+  
+  // @param parent: act, roots: infl, view
   void traverseRootViewAndHierarchy(ViewContainer parent, Set<NNode> roots) {
     // Roots & view hierarchy
     if (roots != null && !roots.isEmpty()) {
@@ -212,16 +213,20 @@ public class StaticGUIHierarchy extends GUIHierarchy {
     // Explicit
     Map<EventType, Set<SootMethod>> explicitEventsAndHandlers =
         analysisOutput.getExplicitEventsAndTheirHandlers(guiObject);
+    System.out.print("\n");
+    System.out.print(view + ":: ");
     for (Map.Entry<EventType, Set<SootMethod>> entry : explicitEventsAndHandlers.entrySet()) {
       EventType event = entry.getKey();
       for (SootMethod m : entry.getValue()) {
         EventAndHandler eventAndHandler = new EventAndHandler();
         eventAndHandler.event = event.toString();
         eventAndHandler.handler = m.getSignature();
+        System.out.print(eventAndHandler.handler);
         view.addEventAndHandlerPair(eventAndHandler);
         handlerMethods.add(m);
       }
     }
+    
     // Context menus
     Set<NContextMenuNode> contextMenus =
         analysisOutput.getContextMenus(guiObject);

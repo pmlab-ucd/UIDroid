@@ -59,35 +59,13 @@ public class GUIAnalysisTest {
 		System.out.println("Size: " + listeners.size());
 	}
 
-	public void getViewIds() {
-		for (Entry<NOpNode, Set<NIdNode>> entry : solver.reachingViewIds
-				.entrySet()) {
-			for (NIdNode node : entry.getValue()) {
-				System.out.print(tag + entry + ":: ");
-				System.out.println(node);
-				// System.out.println(output.getExplicitEventsAndTheirHandlers(node);
-			}
-		}
-	}
-
 	public void getViews() {
-		for (Entry<NOpNode, Set<NOpNode>> entry : solver.reachedReceiverViews
+		for (Entry<NOpNode, Set<NNode>> entry : solver.solutionResults
 				.entrySet()) {
-			if (entry.getKey().artificial) {
-				continue;
-			}
 			for (NNode node : entry.getValue()) {
-				// if (node instanceof NObjectNode) {
 				System.out.print(tag + entry + ":: ");
 				System.out.println(node);
-				try {
-					System.out
-							.println(output
-									.getExplicitEventsAndTheirHandlers((NObjectNode) node));
-				} catch (Exception e) {
-					System.err.println(e.getStackTrace());
-				}
-				// }
+				System.out.println(output.getExplicitEventsAndTheirHandlers((NObjectNode) node));
 			}
 		}
 	}
@@ -240,7 +218,7 @@ public class GUIAnalysisTest {
 		assertNotEquals(output, null);
 		assertNotEquals(solver, null);
 		// getListener();
-		// getViews();
-		getHier();
+		 getViews();
+		// getHier();
 	}
 }
