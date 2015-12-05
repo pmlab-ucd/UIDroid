@@ -217,8 +217,8 @@ public class GUIAnalysisTest {
 		solver = output.getSolver();
 		assertNotEquals(output, null);
 		assertNotEquals(solver, null);
-		// getListener();
-		 getViews();
+		getListener();
+		getViews();
 		// getHier();
 	}
 }
