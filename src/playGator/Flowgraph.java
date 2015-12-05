@@ -400,9 +400,9 @@ public class Flowgraph implements MethodNames {
 							((AssignStmt) currentStmt).setRightOp(renames
 									.get(right));
 						}
-						if (currentStmt.toString().contains("de.ecspride.Activity1")) {
-							print = true;
-						}
+						//if (currentStmt.toString().contains("de.ecspride.Activity1")) {
+						//	print = true;
+						//}
 						if (print)
 						System.out.println(currentStmt + ":: " + ((AssignStmt)currentStmt).getRightOp());
 					}

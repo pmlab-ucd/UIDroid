@@ -28,6 +28,7 @@ public class Main {
 	public static void parseArgs(String[] args) {
 		String pathSep = File.pathSeparator;
 		args = new String[] {
+				// resource(xml) folder
 				"-project", "/home/hao/workspace/ApkSamples/Decompiled/app-debug",
 				"-sdk", "/home/hao/Android/Sdk",
 				"-android", "/home/hao/workspace/gator-3.0/AndroidBench/platform/android-17/framework.jar"

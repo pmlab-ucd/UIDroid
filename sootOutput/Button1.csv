@@ -1,0 +1,3 @@
+"Button1","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","Button2"
+"Button1","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","Button"
+"Button1","<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>"," "

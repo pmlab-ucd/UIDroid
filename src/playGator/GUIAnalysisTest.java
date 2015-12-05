@@ -13,11 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import presto.android.Configs;
-import presto.android.gui.graph.NIdNode;
 import presto.android.gui.graph.NNode;
 import presto.android.gui.graph.NObjectNode;
 import presto.android.gui.graph.NOpNode;
-//import presto.android.xml.AndroidView;
+import presto.android.xml.AndroidView;
 import presto.android.gui.rep.GUIHierarchy.Activity;
 import presto.android.gui.rep.GUIHierarchy.Dialog;
 import presto.android.gui.rep.GUIHierarchy.EventAndHandler;
@@ -65,7 +64,8 @@ public class GUIAnalysisTest {
 			for (NNode node : entry.getValue()) {
 				System.out.print(tag + entry + ":: ");
 				System.out.println(node);
-				System.out.println(output.getExplicitEventsAndTheirHandlers((NObjectNode) node));
+				System.out.println(output
+						.getExplicitEventsAndTheirHandlers((NObjectNode) node));
 			}
 		}
 	}
@@ -79,7 +79,7 @@ public class GUIAnalysisTest {
 		// Init the file io
 		try {
 			File file = new File("sootOutput/" + Configs.benchmarkName + ".xml");
-					// File.createTempFile(Configs.benchmarkName + "-", ".xml");
+			// File.createTempFile(Configs.benchmarkName + "-", ".xml");
 			log("XML file: " + file.getAbsolutePath());
 			out = new PrintStream(file);
 		} catch (Exception e) {
@@ -204,11 +204,12 @@ public class GUIAnalysisTest {
 				+ "\033[0m");
 	}
 
-	/*
-	 * @Test public void testRetrieveIds() { ga.retrieveIds(); AndroidView view
-	 * = ga.xmlParser.findViewById(2131230720); assertNotEquals(view, null);
-	 * System.out.println("text:" + view.getText()); }
-	 */
+	public void testRetrieveIds() {
+		ga.retrieveIds();
+		AndroidView view = ga.xmlParser.findViewById(2131230720);
+		assertNotEquals(view, null);
+		System.out.println("text:" + view.getText());
+	}
 
 	@Test
 	public void testRun() {
@@ -217,7 +218,7 @@ public class GUIAnalysisTest {
 		solver = output.getSolver();
 		assertNotEquals(output, null);
 		assertNotEquals(solver, null);
-		getListener();
+		// getListener();
 		getViews();
 		// getHier();
 	}

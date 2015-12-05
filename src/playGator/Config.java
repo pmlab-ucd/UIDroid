@@ -1,3 +1,6 @@
+/*
+ * Using FlowDroid to load class files of the apk
+ */
 package playGator;
 
 import java.io.File;
@@ -5,6 +8,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.xmlpull.v1.XmlPullParserException;
+
+//import app.MySetupApplication;
 
 import com.google.common.collect.Lists;
 
@@ -16,6 +21,9 @@ import soot.jimple.infoflow.android.SetupApplication;
 import soot.options.Options;
 
 public class Config extends Configs{
+	
+	public static String apkPath = "/home/hao/workspace/ApkSamples/app-debug.apk";
+	
 	public static void processing() {
 		File projectFile = new File(project);
 		if (projectFile.isFile()) {
@@ -23,8 +31,8 @@ public class Config extends Configs{
 			return;
 		}
 		
-		bytecodes = project + "/bin/classes";
-		System.out.println(bytecodes);
+		bytecodes = "";//project + "/bin/classes";
+		//System.out.println(bytecodes);
 		
 		//String sep = File.separator;
 		//String pathSep = File.pathSeparator;
@@ -32,7 +40,7 @@ public class Config extends Configs{
 				//+ "rt.jar";
 		String platformDir = "/home/hao/Android/Sdk/platforms";// /android-17/android.jar";
 		//classpath += pathSep + platformDir;
-		String apkDir = "/home/hao/workspace/ApkSamples/app-debug.apk";
+		String apkDir = apkPath;
 		
 		//Options.v().set_soot_classpath(classpath);
 		//Scene.v().loadNecessaryClasses();
@@ -51,7 +59,10 @@ public class Config extends Configs{
 	              "-cp", classpath,
 	          };
 	      soot.Main.main(sootArgs);*/
+		//String extraJar = "/home/hao/workspace/AppContext/libs";
 		SetupApplication app = new SetupApplication(platformDir, apkDir);
+		//MySetupApplication app = new MySetupApplication(platformDir, apkDir,
+				//extraJar);
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
 		} catch (IOException e) {
@@ -72,8 +83,8 @@ public class Config extends Configs{
 		Scene.v().addBasicClass("android.widget.RelativeLayout", SootClass.SIGNATURES);
 		Scene.v().loadNecessaryClasses();
 
-		// 创建dummy main并作为app的main函数(分析入口)
-/*		SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
+		// 创建dummy main并作为app的main函数(分析入口), 非GuiAnalysis所需
+		/*SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
 		Options.v().set_main_class(entryPoint.getSignature());
 		Scene.v().setEntryPoints(Collections.singletonList(entryPoint));*/
 		
