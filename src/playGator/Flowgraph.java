@@ -1024,7 +1024,16 @@ public class Flowgraph implements MethodNames {
 			return null;
 		}
 		NNode layoutIdNode = simpleNode(layoutIdVal);
+		if (layoutIdNode == null) {
+			Integer integerConstant = new Integer(
+					((IntConstant) layoutIdVal).value);
+			layoutIdNode = layoutIdNode(integerConstant);
+		}
+		//System.out.println(layoutIdVal);
 		NVarNode receiverNode = varNode(jimpleUtil.receiver(ie));
+		System.out.println(allLayoutIds);
+		System.out.println(layoutIdNode);
+		System.out.println(Configs.project);
 		NInflate2OpNode inflate2 = new NInflate2OpNode(layoutIdNode,
 				receiverNode, new Pair<Stmt, SootMethod>(s,
 						jimpleUtil.lookup(s)), false);
@@ -2081,9 +2090,13 @@ public class Flowgraph implements MethodNames {
 				Local listView = Jimple.v().newLocal(nextFakeName(),
 						listViewClass.getType());
 				NVarNode listViewNode = varNode(listView);
+				try {
 				NOpNode findView2 = new NFindView2OpNode(idNode, receiverNode,
 						listViewNode, null, true);
 				allNNodes.add(findView2);
+				} catch (Exception e) {
+					System.err.println(e.getStackTrace());					
+				}
 
 				Local listItem = Jimple.v().newLocal(nextFakeName(),
 						RefType.v("android.view.View"));
@@ -3488,6 +3501,7 @@ public class Flowgraph implements MethodNames {
 				listenerObject.addEdgeTo(listenerLocal, s);
 
 				// 3. button.setOnClickListener(listener)
+				try {
 				NSetListenerOpNode setListener = createSetListenerAndProcessFlow(
 						button.l,
 						fakeListenerLocal,
@@ -3500,6 +3514,9 @@ public class Flowgraph implements MethodNames {
 								"android.view.View$OnClickListener"), true,
 						EventType.click, true);
 				allNNodes.add(setListener);
+				} catch (Exception e) {
+					System.err.println(e.getStackTrace());
+				}
 			}
 		}
 	}
@@ -3668,6 +3685,9 @@ public class Flowgraph implements MethodNames {
 				.getSystemRLayoutValue("alert_dialog"));
 		SootMethod caller = jimpleUtil.lookup(s);
 		Pair<Stmt, SootMethod> callSite = new Pair<Stmt, SootMethod>(s, caller);
+		if (layoutIdNode == null) {
+			return;
+		}
 		NInflate2OpNode inflate2 = new NInflate2OpNode(layoutIdNode,
 				receiverNode, callSite, true);
 		allNNodes.add(inflate2);
@@ -3760,7 +3780,9 @@ public class Flowgraph implements MethodNames {
 		Local fakeLhsLocal = Jimple.v().newLocal(fakeLhsName,
 				RefType.v(viewClassName));
 		NVarNode lhsNode = varNode(fakeLhsLocal);
-
+		if (idNode == null) {
+			return null;
+		}
 		NFindView2OpNode findView2 = new NFindView2OpNode(idNode, receiverNode,
 				lhsNode, callSite, true);
 		allNNodes.add(findView2);
@@ -4767,10 +4789,14 @@ public class Flowgraph implements MethodNames {
 	}
 
 	public NLayoutIdNode layoutIdNode(Integer i) {
+		if (i == null) {
+			return null;
+		}
 		NLayoutIdNode x = allNLayoutIdNodes.get(i);
 		if (x != null) {
 			return x;
 		}
+		
 		x = new NLayoutIdNode(i);
 		allNLayoutIdNodes.put(i, x);
 		allNNodes.add(x);
@@ -4789,6 +4815,9 @@ public class Flowgraph implements MethodNames {
 	}
 
 	public NWidgetIdNode widgetIdNode(Integer i) {
+		if (i == null) {
+			return null;
+		}
 		Preconditions.checkNotNull(i);
 		NWidgetIdNode x = allNWidgetIdNodes.get(i);
 		if (x != null) {

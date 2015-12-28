@@ -22,7 +22,8 @@ import soot.options.Options;
 
 public class Config extends Configs{
 	
-	public static String apkPath = "/home/hao/workspace/ApkSamples/app-debug.apk";
+	public static String apkPath = null;
+	public static String platformDir = null;
 	
 	public static void processing() {
 		File projectFile = new File(project);
@@ -38,7 +39,7 @@ public class Config extends Configs{
 		//String pathSep = File.pathSeparator;
 		//String classpath = System.getProperty("java.home") + sep + "lib" + sep
 				//+ "rt.jar";
-		String platformDir = "/home/hao/Android/Sdk/platforms";// /android-17/android.jar";
+		platformDir = Config.sdkDir + "/platforms";// /android-17/android.jar";
 		//classpath += pathSep + platformDir;
 		String apkDir = apkPath;
 		
@@ -81,6 +82,8 @@ public class Config extends Configs{
 		Options.v().set_output_format(13);
 		// This statement is necessary to make XMLParser in gator to run correcly
 		Scene.v().addBasicClass("android.widget.RelativeLayout", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.TableLayout", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.TableRow", SootClass.SIGNATURES);
 		Scene.v().loadNecessaryClasses();
 
 		// 创建dummy main并作为app的main函数(分析入口), 非GuiAnalysis所需

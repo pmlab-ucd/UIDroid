@@ -880,7 +880,9 @@ public class FixpointSolver {
     if (res != null) {
       return res;
     }
-    throw new RuntimeException("Cannot find root for id - " + i);
+    //throw new RuntimeException("Cannot find root for id - " + i);
+    System.err.println("Cannot find root for id - " + i);
+    return res;
   }
 
   /**

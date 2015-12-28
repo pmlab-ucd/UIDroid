@@ -1,3 +1,8 @@
+/*
+ * Sensitive Permission Analysis
+ * --- Copyright Hao Fu 2015. All rights reserved. -----------------
+ */
+
 package uiDroid;
 
 import java.io.File;
@@ -19,6 +24,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
+import playGator.Config;
 import presto.android.Configs;
 import soot.G;
 import soot.PackManager;
@@ -74,7 +80,7 @@ public class PermissionAnalysis {
 	}
 
 	/*
-	 * traverse over Call Graph by visit edges one by one check whether is a
+	 * Traverse over Call Graph by visit edges one by one check whether is a
 	 * sensitive permission related API call. if is, get the entry
 	 */
 	@SuppressWarnings("static-access")
@@ -155,11 +161,8 @@ public class PermissionAnalysis {
 	}
 
 	public void run() {
-		String platformDir = "/home/hao/Android/Sdk/platforms";// /android-17/android.jar";
-		//classpath += pathSep + platformDir;
-		String apkDir = "/home/hao/workspace/ApkSamples/app-debug.apk";
 
-		SetupApplication app = new SetupApplication(platformDir, apkDir);
+		SetupApplication app = new SetupApplication(Config.platformDir, Config.apkPath);
 		//MySetupApplication app = new MySetupApplication(platformDir, apkDir,
 				//extraJar);
 		try {
@@ -173,8 +176,8 @@ public class PermissionAnalysis {
 		// setup
 		G.reset();
 		Options.v().set_src_prec(Options.src_prec_apk);
-		Options.v().set_process_dir(Collections.singletonList(apkDir));
-		Options.v().set_android_jars(platformDir);
+		Options.v().set_process_dir(Collections.singletonList(Config.apkPath));
+		Options.v().set_android_jars(Config.platformDir);
 		Options.v().set_whole_program(true);
 		Options.v().set_allow_phantom_refs(true);
 		Options.v().set_output_format(13);

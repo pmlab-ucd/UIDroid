@@ -1,0 +1,3 @@
+"app-release.apk","<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>"," "
+"app-release.apk","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","Button2"
+"app-release.apk","<android.telephony.TelephonyManager: java.lang.String getDeviceId()>","Button"

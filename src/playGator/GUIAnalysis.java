@@ -15,6 +15,7 @@ import presto.android.xml.XMLParser;
 public class GUIAnalysis {
 	public XMLParser xmlParser;
 	public Hierarchy hier;
+	public boolean debug = true;
 	
 	public Set<Integer> allLayoutIds = Sets.newHashSet();
 	public Set<Integer> allMenuIds = Sets.newHashSet();
@@ -23,7 +24,8 @@ public class GUIAnalysis {
 	
 	// The nested class to implement singleton
 	private static class SingletonHolder {
-		private static final GUIAnalysis instance = new GUIAnalysis(Hierarchy.v(), XMLParser.Factory.getXMLParser());
+		private static final GUIAnalysis instance = new GUIAnalysis(Hierarchy.v(), 
+				XMLParser.Factory.getXMLParser());
 	}
 	
 	// Get THE instance
@@ -38,9 +40,11 @@ public class GUIAnalysis {
 	
 	public void retrieveIds() {
 		// the layout ids 
-		//System.out.println("Activities: ");
+		if (debug) {
+			System.out.println("Activities: ");
+		}
 		for (int id : xmlParser.getApplicationLayoutIdValues()) {
-			//System.out.println(id);
+			if (debug) System.out.println(id);
 			allLayoutIds.add(id);
 		}
 		
@@ -50,9 +54,9 @@ public class GUIAnalysis {
 		}
 		
 		// The menu ids
-		//System.out.println("Menus: ");
+		if (debug) System.out.println("Menus: ");
 		for (int id : xmlParser.getApplicationMenuIdValues()) {
-			//System.out.println(id);
+			if (debug) System.out.println(id);
 			allMenuIds.add(id);
 		}
 	    for (int id : xmlParser.getSystemMenuIdValues()) {
@@ -60,9 +64,9 @@ public class GUIAnalysis {
 	    }
 		
 		// The widget ids
-		//System.out.println("Widgets: ");
+	    if (debug) System.out.println("Widgets: ");
 		for (int id : xmlParser.getApplicationRIdValues()) {
-			//System.out.println(id);
+			if (debug) System.out.println(id);
 			allWidgetIds.add(id);
 		}
 	    for (int id : xmlParser.getSystemRIdValues()) {
