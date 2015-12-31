@@ -161,7 +161,6 @@ public class PermissionAnalysis {
 	}
 
 	public void run() {
-
 		SetupApplication app = new SetupApplication(Config.platformDir, Config.apkPath);
 		//MySetupApplication app = new MySetupApplication(platformDir, apkDir,
 				//extraJar);

@@ -17,6 +17,7 @@ import soot.SootClass;
 import soot.SootMethod;
 import soot.Transform;
 import soot.jimple.infoflow.android.AnalyzeJimpleClass;
+import soot.jimple.infoflow.android.InfoflowAndroidConfiguration;
 import soot.jimple.infoflow.android.data.AndroidMethod;
 import soot.jimple.infoflow.data.SootMethodAndClass;
 import soot.jimple.toolkits.callgraph.ReachableMethods;
@@ -33,6 +34,7 @@ public class MyAnalyzeJimpleClass extends AnalyzeJimpleClass {
 	// 用于存储已找到的callback接口
 	Set<SootClass> callbackClasses = new HashSet<>();
 	// 从自定义的callBacklist.txt读取我们所列的所有call back接口
+	@SuppressWarnings("unused")
 	private final Set<String> androidCallbacks;
 	// 存储当前需要处理的callback
 	private MultiMap<String, SootMethodAndClass> callbackWorklist;
@@ -40,13 +42,14 @@ public class MyAnalyzeJimpleClass extends AnalyzeJimpleClass {
 	private final Map<String, Set<SootMethodAndClass>> callbackMethods =
 			new HashMap<String, Set<SootMethodAndClass>>();
 
-	public MyAnalyzeJimpleClass(Set<String> entryPointClasses) throws IOException {
-		super(entryPointClasses);
+	public MyAnalyzeJimpleClass(InfoflowAndroidConfiguration config, Set<String> entryPointClasses) throws IOException {
+		super(config, entryPointClasses);
 		//this.config = config;
 		//this.entryPointClasses = entryPointClasses;
 		this.androidCallbacks = loadAndroidCallbacks();
 	}
 	
+	@SuppressWarnings("unused")
 	private Set<String> loadAndroidCallbacks() throws IOException {
 		Set<String> androidCallbacks = new HashSet<String>();
 		String fileName = "AndroidCallbacks.txt";
@@ -127,6 +130,7 @@ public class MyAnalyzeJimpleClass extends AnalyzeJimpleClass {
 				//}
 	}
 	
+	@SuppressWarnings("unused")
 	private void checkAndAddMethod(SootMethod method, SootClass baseClass) {
 		AndroidMethod am = new AndroidMethod(method);
 		boolean isNew;

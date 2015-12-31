@@ -20,14 +20,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.io.FileUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
-import app.Context;
-import app.DFSPathQueue;
-import app.MySetupApplication;
-import app.PermissionInvocation;
-import au.com.bytecode.opencsv.CSVWriter;
+import com.opencsv.CSVWriter;
 import soot.G;
 import soot.MethodOrMethodContext;
 import soot.PackManager;
@@ -36,7 +34,6 @@ import soot.SceneTransformer;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
-import soot.Value;
 import soot.jimple.IfStmt;
 import soot.jimple.InvokeExpr;
 import soot.jimple.InvokeStmt;
@@ -44,12 +41,13 @@ import soot.jimple.LookupSwitchStmt;
 import soot.jimple.Ref;
 import soot.jimple.Stmt;
 import soot.jimple.TableSwitchStmt;
-import soot.jimple.infoflow.InfoflowResults;
-import soot.jimple.infoflow.InfoflowResults.SinkInfo;
-import soot.jimple.infoflow.InfoflowResults.SourceInfo;
-import soot.jimple.infoflow.android.TestApps.Test;
+import soot.jimple.infoflow.results.InfoflowResults;
+import soot.jimple.infoflow.results.ResultSinkInfo;
+import soot.jimple.infoflow.results.ResultSourceInfo;
+import soot.jimple.infoflow.results.xml.InfoflowResultsSerializer;
+import soot.jimple.infoflow.android.SetupApplication;
 import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
-import soot.jimple.infoflow.solver.IInfoflowCFG;
+import soot.jimple.infoflow.solver.cfg.IInfoflowCFG;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.jimple.infoflow.taintWrappers.ITaintPropagationWrapper;
 import soot.jimple.toolkits.callgraph.CallGraph;
@@ -65,7 +63,7 @@ import soot.util.queue.QueueReader;
  * @author: Hao Fu
  * @date: Dec 28, 2015 8:22:49 PM
  */
-public class MyTest extends Test {
+public class MyTest extends playFlowDroid.Test {
 	/**
 	 * @Fields PscoutMethod : The list of sensitive methods: got from Pscout
 	 */
@@ -78,7 +76,7 @@ public class MyTest extends Test {
 	// control flow graph
 	private static IInfoflowCFG flowcfg;
 	// data flow analysis
-	private static soot.jimple.infoflow.InfoflowResults flowResults;
+	private static InfoflowResults flowResults;
 
 	protected final static BufferedWriter wr = null;
 
@@ -96,8 +94,7 @@ public class MyTest extends Test {
 	private static final class ConditionalResultsAvailableHandler implements
 			ResultsAvailableHandler {
 		@Override
-		public void onResultsAvailable(IInfoflowCFG cfg,
-				soot.jimple.infoflow.InfoflowResults results) {
+		public void onResultsAvailable(IInfoflowCFG cfg, InfoflowResults results) {
 			MyTest.flowcfg = cfg;
 			print("end flow analysis: " + new Date());
 
@@ -129,8 +126,6 @@ public class MyTest extends Test {
 		}
 		// 输出成csv格式
 		csvName = args[2];
-		// 额外的lib
-		String extraJar = args[3];
 
 		File outputDir = new File("JimpleOutput");
 		if (outputDir.isDirectory()) {
@@ -191,7 +186,7 @@ public class MyTest extends Test {
 		}
 
 		for (final String fileName : apkFiles) {
-			final String fullFilePath = args[0] + File.separator + fileName;
+			final String fullFilePath = fileName;
 
 			// Directory handling
 			if (apkFiles.size() > 1) {
@@ -210,12 +205,12 @@ public class MyTest extends Test {
 			} else if (sysTimeout > 0) {
 				runAnalysisSysTimeout(fullFilePath, args[1]);
 			} else {
-				// AppContext's 这里多了个extraJar参数
-				runAnalysis(fullFilePath, args[1], extraJar);
+				// AppContext's
+				runAnalysis(fullFilePath, args[1]);
 			}
 			// AppContext独有的, leverage results of taint analysis to identify
 			// context factors inside conditional stmts
-			permissionAnalysis(fullFilePath, args[1], extraJar);
+			permissionAnalysis(fullFilePath, args[1]);
 
 			System.gc();
 		}
@@ -241,40 +236,37 @@ public class MyTest extends Test {
 	 * @return
 	 * @return: InfoflowResults
 	 */
-	public static InfoflowResults runAnalysis(String fileName,
-			String androidJar, String extraJar) {
+	public static InfoflowResults runAnalysis(String fileName, String androidJar) {
 		try {
-			print("Begin flow analysis: " + new Date());
-			print(fileName);
-			long beforeRun = System.nanoTime();
-			MySetupApplication app;
-			if (ipcManager == null) {
-				app = new MySetupApplication(androidJar, fileName, extraJar);
+			final long beforeRun = System.nanoTime();
+
+			final SetupApplication app;
+			if (null == ipcManager) {
+				app = new SetupApplication(androidJar, fileName);
 			} else {
-				app = new MySetupApplication(androidJar, fileName, ipcManager,
-						extraJar);
+				app = new SetupApplication(androidJar, fileName, ipcManager);
 			}
 
-			app.setStopAfterFirstFlow(stopAfterFirstFlow);
-			app.setEnableImplicitFlows(implicitFlows);
-			app.setEnableStaticFieldTracking(staticTracking);
-			app.setEnableCallbacks(enableCallbacks);
-			app.setEnableExceptionTracking(enableExceptions);
-			app.setAccessPathLength(accessPathLength);
-			app.setLayoutMatchingMode(layoutMatchingMode);
-			app.setFlowSensitiveAliasing(flowSensitiveAliasing);
-			app.setComputeResultPaths(computeResultPaths);
-			ITaintPropagationWrapper taintWrapper;
-			if (librarySummaryTaintWrapper) {
-				taintWrapper = createLibrarySummaryTW();
-			} else {
-				EasyTaintWrapper easyTaintWrapper;
+			// Set configuration object
+			app.setConfig(config);
 
+			final ITaintPropagationWrapper taintWrapper;
+			if (noTaintWrapper)
+				taintWrapper = null;
+			else if (summaryPath != null && !summaryPath.isEmpty()) {
+				System.out.println("Using the StubDroid taint wrapper");
+				taintWrapper = createLibrarySummaryTW();
+				if (taintWrapper == null) {
+					System.err.println("Could not initialize StubDroid");
+					return null;
+				}
+			} else {
+				final EasyTaintWrapper easyTaintWrapper;
 				if (new File("../soot-infoflow/EasyTaintWrapperSource.txt")
-						.exists()) {
+						.exists())
 					easyTaintWrapper = new EasyTaintWrapper(
 							"../soot-infoflow/EasyTaintWrapperSource.txt");
-				} else
+				else
 					easyTaintWrapper = new EasyTaintWrapper(
 							"EasyTaintWrapperSource.txt");
 				easyTaintWrapper.setAggressiveMode(aggressiveTaintWrapper);
@@ -282,19 +274,25 @@ public class MyTest extends Test {
 			}
 			app.setTaintWrapper(taintWrapper);
 			app.calculateSourcesSinksEntrypoints("SourcesAndSinks.txt");
-			
-			// DEBUG = true;
+
 			if (DEBUG) {
 				app.printEntrypoints();
 				app.printSinks();
 				app.printSources();
 			}
 
-			print("Running data flow analysis...");
-			InfoflowResults res = app
+			System.out.println("Running data flow analysis...");
+			final InfoflowResults res = app
 					.runInfoflow(new ConditionalResultsAvailableHandler());
-			print("Analysis has run for " + (System.nanoTime() - beforeRun)
-					/ 1.0E9D + " seconds");
+			System.out.println("Analysis has run for "
+					+ (System.nanoTime() - beforeRun) / 1E9 + " seconds");
+
+			// Write the results into a file if requested
+			if (resultFilePath != null && !resultFilePath.isEmpty()) {
+				InfoflowResultsSerializer serializer = new InfoflowResultsSerializer();
+				serializer.serialize(res, resultFilePath);
+			}
+
 			return res;
 		} catch (IOException ex) {
 			System.err.println("Could not read file: " + ex.getMessage());
@@ -302,6 +300,11 @@ public class MyTest extends Test {
 			throw new RuntimeException(ex);
 		} catch (XmlPullParserException ex) {
 			System.err.println("Could not read Android manifest file: "
+					+ ex.getMessage());
+			ex.printStackTrace();
+			throw new RuntimeException(ex);
+		} catch (XMLStreamException ex) {
+			System.err.println("Could not write data flow results to file: "
 					+ ex.getMessage());
 			ex.printStackTrace();
 			throw new RuntimeException(ex);
@@ -316,11 +319,9 @@ public class MyTest extends Test {
 	 * @param extraJar
 	 * @return: void
 	 */
-	private static void permissionAnalysis(String apkDir, String platformDir,
-			String extraJar) {
-		// MySetApp diff: read extraJar
-		MySetupApplication app = new MySetupApplication(platformDir, apkDir,
-				extraJar);
+	private static void permissionAnalysis(String apkDir, String platformDir) {
+		// cg will not be complete if directly use app from runAnalysis().
+		SetupApplication app = new SetupApplication(platformDir, apkDir);
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
 		} catch (IOException e) {
@@ -408,7 +409,7 @@ public class MyTest extends Test {
 		}
 
 		print("/************/");
-		print("size: " + perInvocs.size() + "cg.size: " + cg.size());
+		print("perInvocs.size: " + perInvocs.size() + "; cg.size: " + cg.size());
 		out.println("CG ends==================");
 		out.close();
 	}
@@ -492,11 +493,9 @@ public class MyTest extends Test {
 			PermissionInvocation permInvoc) {
 		Set<Unit> callers = new HashSet<>();
 		// Unit last = null;
-		// store visited nodes in a queue, looks like bfs
-		// do not know why call it dfs.
+		// store visited nodes in a queue, dfs the path to src.
 		// each unit in unit stack represents a method along the path from
-		// dummyMain
-		// to tgt
+		// dummyMain to tgt
 		DFSPathQueue<Unit> unitStack = new DFSPathQueue<>();
 		DFSPathQueue<SootMethod> callerStack = new DFSPathQueue<>();
 		// context:: condition unit : method
@@ -542,7 +541,7 @@ public class MyTest extends Test {
 							// THE single pred node
 							predUnit = (Unit) icfg.getPredsOf(u).iterator()
 									.next();
-							//print("PRED STMT: " + predUnit);
+							// print("PRED STMT: " + predUnit);
 							// make sure not recursion?
 							if ((icfg.getPredsOf(u).size() == 1)
 									&& ((predUnit instanceof InvokeStmt))) {
@@ -633,8 +632,8 @@ public class MyTest extends Test {
 		}
 
 		// Set permission contexts
-		// iterate over entry point
-		// set entry point and corresponding pred conditional stmts as perm ctx
+		// iterate over entry point and set entry point and corresponding pred
+		// conditional stmts as perm ctx
 		for (int i = 0; i < methodByEntries.size(); i++) {
 			Set<SootMethod> set = methodByEntries.get(i);
 			SootMethod m = (SootMethod) entries.get(i);
@@ -705,21 +704,22 @@ public class MyTest extends Test {
 		print("=======CFG======");
 
 		SootMethod m;
-		for (SinkInfo sink : flowResults.getResults().keySet()) {
+		for (ResultSinkInfo sink : flowResults.getResults().keySet()) {
 			print("Found a flow to sink: " + sink);
 			for (Context ctx : perInvoc.getContexts()) {
 				// print("ctx: " + ctx.getConditionalStmt());
 				print("Entry: " + ctx.getEntrypoint());
 				// 此处的context是指sink所在的语句
-				Stmt context = sink.getContext();
+				Stmt context = sink.getSink();
+				;
 				for (Stmt conStmt : ctx.getConditionalStmt()) {
 					// sink == conStmt, source == natural env vars
 					if (isSameStmt(conStmt, context)) {
 						print("!!!!same stmt");
-						for (SourceInfo source : flowResults.getResults().get(
-								sink)) {
+						for (ResultSourceInfo source : flowResults.getResults()
+								.get(sink)) {
 							print("Srcs: " + source);
-							Value factorValue = source.getSource();
+							Stmt factorValue = source.getSource();
 							if ((factorValue instanceof InvokeExpr)) {
 								InvokeExpr factorExpr = (InvokeExpr) factorValue;
 								m = factorExpr.getMethod();
@@ -733,8 +733,7 @@ public class MyTest extends Test {
 									ctx.addFactorRef(factorRef);
 								print("Ref factor: " + source.getSource());
 							} else {
-								print("Other factor: "
-										+ source.getSource().getType());
+								print("Other factor: " + source.getSource());
 							}
 						}
 					}

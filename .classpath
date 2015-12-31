@@ -8,7 +8,14 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/Core/Main.jar"/>
-	<classpathentry kind="lib" path="/SootAndroid/bin"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/soot-trunk.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/soot-infoflow.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/soot-infoflow-android.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/axml-2.0.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/opencsv-3.6.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/slf4j-simple-1.7.5.jar"/>
+	<classpathentry kind="lib" path="/home/hao/workspace/gator-3.0/SootAndroid/bin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

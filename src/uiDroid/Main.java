@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import au.com.bytecode.opencsv.CSVWriter;
+import com.opencsv.CSVWriter;
 import playGator.DefaultGUIAnalysisOutput;
 import playGator.FixpointSolver;
 import playGator.GUIAnalysis;

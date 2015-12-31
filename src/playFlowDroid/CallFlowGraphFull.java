@@ -17,8 +17,6 @@ import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
-import app.MySetupApplication;
-import app.MyTest;
 import soot.G;
 import soot.MethodOrMethodContext;
 import soot.PackManager;
@@ -26,24 +24,24 @@ import soot.Scene;
 import soot.SceneTransformer;
 import soot.SootMethod;
 import soot.Transform;
+import soot.jimple.infoflow.android.SetupApplication;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.options.Options;
 import soot.util.dot.DotGraph;
 import soot.util.queue.QueueReader;
 
-public class CallFlowGraphFull extends MyTest {
+public class CallFlowGraphFull {
 	private static DotGraph dot = new DotGraph("callgraph");
 	private static CallGraph cg;
 
 	public static void main(String[] args) {
 		File file = new File(
-				"/home/hao/workspace/AppContext/Instrument/InstrumentedApp/ApkSamples/app-debug.apk");
+				"/home/hao/AndroidStudioProjects/Button1/app/app-debug.apk");
 		String apkPath = file.getAbsolutePath();
 		String platformPath = "/home/hao/Android/Sdk/platforms";
-		String extraJar = "/home/hao/workspace/AppContext/libs";
 
-		permissionAnalysis(apkPath, platformPath, extraJar);
+		permissionAnalysis(apkPath, platformPath);
 
 		String dest = file.getName();
 		String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
@@ -88,10 +86,8 @@ public class CallFlowGraphFull extends MyTest {
 		System.out.println(cg.size());
 	}
 
-	public static void permissionAnalysis(String apkDir, String platformDir,
-			String extraJar) {
-		MySetupApplication app = new MySetupApplication(platformDir, apkDir,
-				extraJar);
+	public static void permissionAnalysis(String apkDir, String platformDir) {
+		SetupApplication app = new SetupApplication(platformDir, apkDir);
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
 		} catch (IOException e) {
@@ -129,5 +125,5 @@ public class CallFlowGraphFull extends MyTest {
 		PackManager.v().getPack("wjtp").add(CGtransform);
 		PackManager.v().runPacks();
 	}
-	
+
 }

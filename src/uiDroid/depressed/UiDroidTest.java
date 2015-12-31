@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
+import playAppContext.MyTest;
 import soot.Body;
 import soot.G;
 import soot.Local;
@@ -35,19 +36,17 @@ import soot.Unit;
 import soot.Value;
 import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
+import soot.jimple.infoflow.android.SetupApplication;
 import soot.jimple.infoflow.android.resources.ARSCFileParser;
 import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
-//import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
 import soot.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.util.dot.DotGraph;
 import soot.util.queue.QueueReader;
 import uiDroid.depressed.UiForwardAnalysis.UiForwardVarAnalysis;
-import app.MySetupApplication;
-import app.MyTest;
 
 public class UiDroidTest extends MyTest {
 	// basics for analysis
@@ -429,8 +428,8 @@ public class UiDroidTest extends MyTest {
 
 	public static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {
-		MySetupApplication app = new MySetupApplication(platformDir, apkDir,
-				extraJar);
+		SetupApplication app = new SetupApplication(platformDir, apkDir
+				);
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
 		} catch (IOException e) {

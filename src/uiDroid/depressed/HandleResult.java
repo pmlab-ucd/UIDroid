@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import soot.jimple.infoflow.android.resources.ARSCFileParser.AbstractResource;
-import au.com.bytecode.opencsv.CSVWriter;
+import com.opencsv.CSVWriter;
 
 public class HandleResult {
 
