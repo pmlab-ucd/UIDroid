@@ -28,6 +28,7 @@ public class TaintForwardAnalysis {
 	public static void main(String[] args) {
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.myTransform", new BodyTransformer() {
+					@SuppressWarnings("rawtypes")
 					protected void internalTransform(Body body, String phase,
 							Map options) {
 						new TaintForwardVarAnalysis(new ExceptionalUnitGraph(body));

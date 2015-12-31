@@ -84,6 +84,13 @@ public class Config extends Configs{
 		Scene.v().addBasicClass("android.widget.RelativeLayout", SootClass.SIGNATURES);
 		Scene.v().addBasicClass("android.widget.TableLayout", SootClass.SIGNATURES);
 		Scene.v().addBasicClass("android.widget.TableRow", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.FrameLayout", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.TextView", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.ImageView", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.ProgressBar", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.Button", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.ScrollView", SootClass.SIGNATURES);
+		Scene.v().addBasicClass("android.widget.CheckBox", SootClass.SIGNATURES);
 		Scene.v().loadNecessaryClasses();
 
 		// 创建dummy main并作为app的main函数(分析入口), 非GuiAnalysis所需

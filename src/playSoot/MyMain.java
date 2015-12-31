@@ -22,7 +22,6 @@ import soot.UnitPrinter;
 import soot.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
-import soot.toolkits.scalar.FlowSet;
 
 public class MyMain {
 	public static void main(String[] args) {

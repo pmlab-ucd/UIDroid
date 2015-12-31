@@ -42,16 +42,20 @@ public class LeakAnalysis extends SceneTransformer {
 		"<java.net.Socket: java.io.InputStream getInputStream()>"		
 	);
 	
+	@SuppressWarnings("unused")
 	private static final List<String> contentURIs = Arrays.asList(
 		""
 	);
 	
+	@SuppressWarnings("unused")
 	private static final List<String> intentFilters = Arrays.asList(
 		"RECEIVE_SMS"
 	);
 	
+	@SuppressWarnings("unused")
 	private static final String contentQueryMethod = "<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String)>";
 	
+	@SuppressWarnings("rawtypes")
 	public void internalTransform(String phaseName, Map options) {
 		//CHATransformer.v().transform();
 		mCallGraph = Scene.v().getCallGraph();

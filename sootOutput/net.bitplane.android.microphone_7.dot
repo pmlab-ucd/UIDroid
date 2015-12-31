@@ -1,0 +1,525 @@
+digraph "callgraph" {
+    "<dummyMainClass: void dummyMainMethod()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <clinit>()>";
+    "<android.os.Bundle: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <clinit>()>";
+    "<android.app.Activity: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.app.Activity: void <clinit>()>";
+    "<android.content.Intent: void <clinit>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.content.Intent: void <clinit>()>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.content.Intent: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.view.View: void <clinit>()>"->"<android.view.View: void <clinit>()>";
+    "<android.os.Bundle: void <clinit>()>"->"<android.os.Bundle: void <clinit>()>";
+    "<android.os.Bundle: void <clinit>()>"->"<android.os.Bundle: void <clinit>()>";
+    "<android.app.Activity: void <clinit>()>"->"<android.app.Activity: void <clinit>()>";
+    "<android.content.Intent: void <clinit>()>"->"<android.content.Intent: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void <init>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: void <init>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: void onCreate()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: android.os.IBinder onBind(android.content.Intent)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: android.os.IBinder onBind(android.content.Intent)>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onDestroy()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneService: void onDestroy()>";
+    "<android.content.Intent: void <init>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.content.Intent: void <init>()>";
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.content.Intent: void <init>()>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void <init>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: void <init>()>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: boolean onCreateOptionsMenu(android.view.Menu)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: boolean onCreateOptionsMenu(android.view.Menu)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onClick(android.view.View)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: void onClick(android.view.View)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: boolean onOptionsItemSelected(android.view.MenuItem)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: boolean onOptionsItemSelected(android.view.MenuItem)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onDestroy()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<net.bitplane.android.microphone.MicrophoneActivity: void onDestroy()>";
+    "<android.os.Bundle: void <init>()>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.os.Bundle: void <init>()>";
+    "<android.view.View: void <init>(android.content.Context)>"
+    "<dummyMainClass: void dummyMainMethod()>"->"<android.view.View: void <init>(android.content.Context)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<android.media.AudioTrack: int getMinBufferSize(int,int,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<android.media.AudioTrack: int getMinBufferSize(int,int,int)>";
+    "<android.media.AudioRecord: int getMinBufferSize(int,int,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<android.media.AudioRecord: int getMinBufferSize(int,int,int)>";
+    "<android.util.Log: int d(java.lang.String,java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onDestroy()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.Intent: void <clinit>()>";
+    "<android.graphics.BitmapFactory: android.graphics.Bitmap decodeResource(android.content.res.Resources,int)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.graphics.BitmapFactory: android.graphics.Bitmap decodeResource(android.content.res.Resources,int)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.content.Intent: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.content.Intent: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onDestroy()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<android.view.View: void finalize()>"
+    "<android.view.View: void <init>(android.content.Context)>"->"<android.view.View: void finalize()>";
+    "<android.app.Service: void <init>()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void <init>()>"->"<android.app.Service: void <init>()>";
+    "<android.app.Service: void finalize()>"
+    "<android.app.Service: void <init>()>"->"<android.app.Service: void finalize()>";
+    "<android.content.ContextWrapper: java.lang.Object getSystemService(java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<android.content.ContextWrapper: java.lang.Object getSystemService(java.lang.String)>";
+    "<android.content.ContextWrapper: android.content.SharedPreferences getSharedPreferences(java.lang.String,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<android.content.ContextWrapper: android.content.SharedPreferences getSharedPreferences(java.lang.String,int)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void record()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<net.bitplane.android.microphone.MicrophoneService: void record()>";
+    "<net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver: void <init>(net.bitplane.android.microphone.MicrophoneService,net.bitplane.android.microphone.MicrophoneService$1)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver: void <init>(net.bitplane.android.microphone.MicrophoneService,net.bitplane.android.microphone.MicrophoneService$1)>";
+    "<android.media.AudioRecord: void <init>(int,int,int,int,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<android.media.AudioRecord: void <init>(int,int,int,int,int)>";
+    "<android.media.AudioTrack: void <init>(int,int,int,int,int,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onCreate()>"->"<android.media.AudioTrack: void <init>(int,int,int,int,int,int)>";
+    "<android.media.AudioRecord: void finalize()>"
+    "<android.media.AudioRecord: void <init>(int,int,int,int,int)>"->"<android.media.AudioRecord: void finalize()>";
+    "<android.media.AudioTrack: void finalize()>"
+    "<android.media.AudioTrack: void <init>(int,int,int,int,int,int)>"->"<android.media.AudioTrack: void finalize()>";
+    "<android.app.Service: void onStart(android.content.Intent,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>"->"<android.app.Service: void onStart(android.content.Intent,int)>";
+    "<android.content.Intent: java.lang.String getAction()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>"->"<android.content.Intent: java.lang.String getAction()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>"->"<android.content.Intent: java.lang.String getAction()>";
+    "<java.lang.String: boolean equals(java.lang.Object)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onStart(android.content.Intent,int)>"->"<java.lang.String: boolean equals(java.lang.Object)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.String: boolean equals(java.lang.Object)>";
+    "<java.lang.StringBuilder: void <init>()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.StringBuilder: void <init>()>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(boolean)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(boolean)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(boolean)>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.String toString()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<net.bitplane.android.microphone.MicrophoneService: void record()>";
+    "<android.app.NotificationManager: void cancel(int)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.app.NotificationManager: void cancel(int)>";
+    "<android.media.AudioRecord: void release()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onDestroy()>"->"<android.media.AudioRecord: void release()>";
+    "<android.media.AudioTrack: void release()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void onDestroy()>"->"<android.media.AudioTrack: void release()>";
+    "<java.lang.Object: void <init>()>"
+    "<android.content.Intent: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<java.lang.RuntimeException: void <init>(java.lang.String)>"
+    "<android.content.Intent: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Object: void finalize()>"
+    "<java.lang.Object: void <init>()>"->"<java.lang.Object: void finalize()>";
+    "<android.app.Activity: void <init>()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void <init>()>"->"<android.app.Activity: void <init>()>";
+    "<android.app.Activity: void finalize()>"
+    "<android.app.Activity: void <init>()>"->"<android.app.Activity: void finalize()>";
+    "<android.app.Activity: void onCreate(android.os.Bundle)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void onCreate(android.os.Bundle)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.ContextWrapper: android.content.SharedPreferences getSharedPreferences(java.lang.String,int)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.ContextWrapper: android.content.SharedPreferences getSharedPreferences(java.lang.String,int)>";
+    "<android.content.ContextWrapper: android.content.ComponentName startService(android.content.Intent)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.ContextWrapper: android.content.ComponentName startService(android.content.Intent)>";
+    "<android.app.Activity: void setContentView(int)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void setContentView(int)>";
+    "<android.app.Activity: android.view.View findViewById(int)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: android.view.View findViewById(int)>";
+    "<android.content.ContextWrapper: android.content.res.Resources getResources()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.ContextWrapper: android.content.res.Resources getResources()>";
+    "<android.content.ContextWrapper: android.content.pm.PackageManager getPackageManager()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.ContextWrapper: android.content.pm.PackageManager getPackageManager()>";
+    "<android.content.ContextWrapper: java.lang.String getPackageName()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.ContextWrapper: java.lang.String getPackageName()>";
+    "<android.app.Activity: void showDialog(int)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.app.Activity: void showDialog(int)>";
+    "<android.content.Intent: void <init>(android.content.Context,java.lang.Class)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.content.Intent: void <init>(android.content.Context,java.lang.Class)>";
+    "<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>";
+    "<android.widget.ImageView: void setImageBitmap(android.graphics.Bitmap)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<android.widget.ImageView: void setImageBitmap(android.graphics.Bitmap)>";
+    "<java.lang.Throwable: void printStackTrace()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onCreate(android.os.Bundle)>"->"<java.lang.Throwable: void printStackTrace()>";
+    "<android.app.Activity: android.view.MenuInflater getMenuInflater()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: boolean onCreateOptionsMenu(android.view.Menu)>"->"<android.app.Activity: android.view.MenuInflater getMenuInflater()>";
+    "<android.view.MenuInflater: void inflate(int,android.view.Menu)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: boolean onCreateOptionsMenu(android.view.Menu)>"->"<android.view.MenuInflater: void inflate(int,android.view.Menu)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<java.lang.String: boolean equals(java.lang.Object)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.content.Intent: void <init>(android.content.Context,java.lang.Class)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.content.Intent: void <init>(android.content.Context,java.lang.Class)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.content.ContextWrapper: android.content.ComponentName startService(android.content.Intent)>";
+    "<android.app.Activity: void runOnUiThread(java.lang.Runnable)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.app.Activity: void runOnUiThread(java.lang.Runnable)>";
+    "<android.content.ContextWrapper: boolean stopService(android.content.Intent)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<android.content.ContextWrapper: boolean stopService(android.content.Intent)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity$1: void <init>(net.bitplane.android.microphone.MicrophoneActivity)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onSharedPreferenceChanged(android.content.SharedPreferences,java.lang.String)>"->"<net.bitplane.android.microphone.MicrophoneActivity$1: void <init>(net.bitplane.android.microphone.MicrophoneActivity)>";
+    "<android.app.AlertDialog$Builder: void <init>(android.content.Context)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.app.AlertDialog$Builder: void <init>(android.content.Context)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setView(android.view.View)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setView(android.view.View)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog create()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.app.AlertDialog$Builder: android.app.AlertDialog create()>";
+    "<android.content.Context: java.lang.String getString(int)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.app.Activity: android.view.View findViewById(int)>";
+    "<android.content.ContextWrapper: android.content.Context getApplicationContext()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.content.ContextWrapper: android.content.Context getApplicationContext()>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.content.ContextWrapper: android.content.res.Resources getResources()>";
+    "<android.content.res.Resources: java.io.InputStream openRawResource(int)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.content.res.Resources: java.io.InputStream openRawResource(int)>";
+    "<java.lang.StringBuffer: void <init>()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.lang.StringBuffer: void <init>()>";
+    "<java.lang.StringBuffer: java.lang.StringBuffer append(char)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.lang.StringBuffer: java.lang.StringBuffer append(char)>";
+    "<java.lang.StringBuffer: java.lang.String toString()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.lang.StringBuffer: java.lang.String toString()>";
+    "<java.io.FileInputStream: int read()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.io.FileInputStream: int read()>";
+    "<java.io.ObjectInputStream: int read()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.io.ObjectInputStream: int read()>";
+    "<java.io.ByteArrayInputStream: int read()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.io.ByteArrayInputStream: int read()>";
+    "<java.io.FilterInputStream: int read()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.io.FilterInputStream: int read()>";
+    "<java.io.BufferedInputStream: int read()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<java.io.BufferedInputStream: int read()>";
+    "<android.view.View: android.view.View findViewById(int)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.view.View: android.view.View findViewById(int)>";
+    "<android.webkit.WebView: void loadDataWithBaseURL(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: android.app.Dialog onCreateDialog(int)>"->"<android.webkit.WebView: void loadDataWithBaseURL(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)>";
+    "<android.view.View: int getId()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onClick(android.view.View)>"->"<android.view.View: int getId()>";
+    "<android.app.Activity: boolean onOptionsItemSelected(android.view.MenuItem)>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: boolean onOptionsItemSelected(android.view.MenuItem)>"->"<android.app.Activity: boolean onOptionsItemSelected(android.view.MenuItem)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity: boolean onOptionsItemSelected(android.view.MenuItem)>"->"<android.app.Activity: void showDialog(int)>";
+    "<android.app.Activity: void onDestroy()>"
+    "<net.bitplane.android.microphone.MicrophoneActivity: void onDestroy()>"->"<android.app.Activity: void onDestroy()>";
+    "<android.os.Bundle: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<android.os.Bundle: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.View: void <init>(android.content.Context)>"->"<java.lang.Object: void <init>()>";
+    "<android.view.View: void <init>(android.content.Context)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: int getMinBufferSize(int,int,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioRecord: int getMinBufferSize(int,int,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.util.Log: int d(java.lang.String,java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.graphics.BitmapFactory: android.graphics.Bitmap decodeResource(android.content.res.Resources,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.View: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: void <init>(android.content.Context)>"
+    "<android.app.Service: void <init>()>"->"<android.content.ContextWrapper: void <init>(android.content.Context)>";
+    "<android.app.Service: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Service: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: java.lang.Object getSystemService(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: android.content.SharedPreferences getSharedPreferences(java.lang.String,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void <init>(net.bitplane.android.microphone.MicrophoneService)>"
+    "<net.bitplane.android.microphone.MicrophoneService: void record()>"->"<net.bitplane.android.microphone.MicrophoneService$1: void <init>(net.bitplane.android.microphone.MicrophoneService)>";
+    "<java.lang.Thread: void start()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void record()>"->"<java.lang.Thread: void start()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"
+    "<net.bitplane.android.microphone.MicrophoneService: void record()>"->"<net.bitplane.android.microphone.MicrophoneService$1: void run()>";
+    "<java.lang.System: void <clinit>()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<java.lang.System: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver access$200(net.bitplane.android.microphone.MicrophoneService)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<net.bitplane.android.microphone.MicrophoneService: net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver access$200(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService: android.app.NotificationManager access$100(net.bitplane.android.microphone.MicrophoneService)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<net.bitplane.android.microphone.MicrophoneService: android.app.NotificationManager access$100(net.bitplane.android.microphone.MicrophoneService)>";
+    "<android.app.PendingIntent: android.app.PendingIntent getService(android.content.Context,int,android.content.Intent,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.app.PendingIntent: android.app.PendingIntent getService(android.content.Context,int,android.content.Intent,int)>";
+    "<android.net.Uri: android.net.Uri parse(java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.net.Uri: android.net.Uri parse(java.lang.String)>";
+    "<java.lang.System: long currentTimeMillis()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<java.lang.System: long currentTimeMillis()>";
+    "<android.content.IntentFilter: void <clinit>()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.IntentFilter: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<android.app.Notification: void <clinit>()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.app.Notification: void <clinit>()>";
+    "<android.app.PendingIntent: void <clinit>()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.app.PendingIntent: void <clinit>()>";
+    "<android.net.Uri: void <clinit>()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.net.Uri: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Intent: void <clinit>()>";
+    "<java.lang.System: void <clinit>()>"->"<java.lang.System: void <clinit>()>";
+    "<java.lang.System: void <clinit>()>"->"<java.lang.System: void <clinit>()>";
+    "<java.lang.System: void <clinit>()>"->"<java.lang.System: void <clinit>()>";
+    "<android.content.IntentFilter: void <clinit>()>"->"<android.content.IntentFilter: void <clinit>()>";
+    "<android.app.Notification: void <clinit>()>"->"<android.app.Notification: void <clinit>()>";
+    "<android.app.PendingIntent: void <clinit>()>"->"<android.app.PendingIntent: void <clinit>()>";
+    "<android.net.Uri: void <clinit>()>"->"<android.net.Uri: void <clinit>()>";
+    "<android.net.Uri: void <clinit>()>"->"<android.net.Uri: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver: void <init>(net.bitplane.android.microphone.MicrophoneService)>"
+    "<net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver: void <init>(net.bitplane.android.microphone.MicrophoneService,net.bitplane.android.microphone.MicrophoneService$1)>"->"<net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver: void <init>(net.bitplane.android.microphone.MicrophoneService)>";
+    "<android.media.AudioRecord: void <init>(int,int,int,int,int)>"->"<java.lang.Object: void <init>()>";
+    "<android.media.AudioRecord: void <init>(int,int,int,int,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: void <init>(int,int,int,int,int,int)>"->"<java.lang.Object: void <init>()>";
+    "<android.media.AudioTrack: void <init>(int,int,int,int,int,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioRecord: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Service: void onStart(android.content.Intent,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Intent: java.lang.String getAction()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.String: boolean equals(java.lang.Object)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.AbstractStringBuilder: void <init>()>"
+    "<java.lang.StringBuilder: void <init>()>"->"<java.lang.AbstractStringBuilder: void <init>()>";
+    "<java.lang.StringBuilder: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.StringBuilder append(boolean)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.StringBuilder: java.lang.String toString()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.NotificationManager: void cancel(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioRecord: void release()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: void release()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Object: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Exception: void <init>()>"
+    "<java.lang.RuntimeException: void <init>(java.lang.String)>"->"<java.lang.Exception: void <init>()>";
+    "<java.lang.RuntimeException: void <init>(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Object: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.ContextThemeWrapper: void <init>()>"
+    "<android.app.Activity: void <init>()>"->"<android.view.ContextThemeWrapper: void <init>()>";
+    "<android.app.Activity: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void finalize()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void onCreate(android.os.Bundle)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: android.content.ComponentName startService(android.content.Intent)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void setContentView(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: android.view.View findViewById(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: android.content.res.Resources getResources()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: android.content.pm.PackageManager getPackageManager()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: java.lang.String getPackageName()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void showDialog(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Intent: void <init>(android.content.Context,java.lang.Class)>"->"<java.lang.Object: void <init>()>";
+    "<android.content.Intent: void <init>(android.content.Context,java.lang.Class)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.View: void setOnClickListener(android.view.View$OnClickListener)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.widget.ImageView: void setImageBitmap(android.graphics.Bitmap)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Throwable: void printStackTrace()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: android.view.MenuInflater getMenuInflater()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.MenuInflater: void inflate(int,android.view.Menu)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void runOnUiThread(java.lang.Runnable)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: boolean stopService(android.content.Intent)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneActivity$1: void <init>(net.bitplane.android.microphone.MicrophoneActivity)>"->"<java.lang.Object: void <init>()>";
+    "<android.app.AlertDialog$Builder: void <init>(android.content.Context)>"->"<java.lang.Object: void <init>()>";
+    "<android.app.AlertDialog$Builder: void <init>(android.content.Context)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setTitle(java.lang.CharSequence)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog$Builder setView(android.view.View)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.AlertDialog$Builder: android.app.AlertDialog create()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Context: java.lang.String getString(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: java.lang.Object getSystemService(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: android.content.Context getApplicationContext()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.res.Resources: java.io.InputStream openRawResource(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.StringBuffer: void <init>()>"->"<java.lang.AbstractStringBuilder: void <init>()>";
+    "<java.lang.StringBuffer: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.StringBuffer: java.lang.StringBuffer append(char)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.StringBuffer: java.lang.String toString()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.io.FileInputStream: int read()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.io.ObjectInputStream: int read()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.io.ByteArrayInputStream: int read()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.io.FilterInputStream: int read()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.io.BufferedInputStream: int read()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.View: android.view.View findViewById(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.webkit.WebView: void loadDataWithBaseURL(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.View: int getId()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: boolean onOptionsItemSelected(android.view.MenuItem)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Activity: void onDestroy()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Context: void <init>()>"
+    "<android.content.ContextWrapper: void <init>(android.content.Context)>"->"<android.content.Context: void <init>()>";
+    "<android.content.ContextWrapper: void <init>(android.content.Context)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Thread: void <init>()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void <init>(net.bitplane.android.microphone.MicrophoneService)>"->"<java.lang.Thread: void <init>()>";
+    "<java.lang.Thread: void start()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.ContextWrapper: android.content.Context getApplicationContext()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Context: java.lang.String getString(int)>";
+    "<android.content.ContextWrapper: android.content.Intent registerReceiver(android.content.BroadcastReceiver,android.content.IntentFilter)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.ContextWrapper: android.content.Intent registerReceiver(android.content.BroadcastReceiver,android.content.IntentFilter)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Intent: void <init>()>";
+    "<android.content.Intent: android.content.Intent setAction(java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Intent: android.content.Intent setAction(java.lang.String)>";
+    "<android.content.Intent: android.content.Intent setData(android.net.Uri)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Intent: android.content.Intent setData(android.net.Uri)>";
+    "<android.content.Intent: int getFlags()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Intent: int getFlags()>";
+    "<android.content.Intent: android.content.Intent setFlags(int)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.Intent: android.content.Intent setFlags(int)>";
+    "<android.app.Notification: void <init>(int,java.lang.CharSequence,long)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.app.Notification: void <init>(int,java.lang.CharSequence,long)>";
+    "<android.app.Notification: void setLatestEventInfo(android.content.Context,java.lang.CharSequence,java.lang.CharSequence,android.app.PendingIntent)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.app.Notification: void setLatestEventInfo(android.content.Context,java.lang.CharSequence,java.lang.CharSequence,android.app.PendingIntent)>";
+    "<android.app.NotificationManager: void notify(int,android.app.Notification)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.app.NotificationManager: void notify(int,android.app.Notification)>";
+    "<android.content.IntentFilter: void <init>(java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<android.content.IntentFilter: void <init>(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void run()>"->"<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<android.util.Log: int e(java.lang.String,java.lang.String)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int e(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: android.media.AudioRecord access$400(net.bitplane.android.microphone.MicrophoneService)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioRecord access$400(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int e(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService: android.media.AudioTrack access$300(net.bitplane.android.microphone.MicrophoneService)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioTrack access$300(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int e(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int e(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int e(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioRecord access$400(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioTrack access$300(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioTrack access$300(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService: int access$500(net.bitplane.android.microphone.MicrophoneService)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: int access$500(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioRecord access$400(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService: boolean access$600()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: boolean access$600()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: int access$500(net.bitplane.android.microphone.MicrophoneService)>";
+    "<java.nio.ByteBuffer: java.nio.ByteBuffer allocateDirect(int)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<java.nio.ByteBuffer: java.nio.ByteBuffer allocateDirect(int)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: int access$500(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioRecord access$400(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioTrack access$300(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver access$200(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.app.NotificationManager access$100(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.util.Log: int d(java.lang.String,java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioRecord access$400(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: android.media.AudioTrack access$300(net.bitplane.android.microphone.MicrophoneService)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<net.bitplane.android.microphone.MicrophoneService: boolean access$600()>"->"<net.bitplane.android.microphone.MicrophoneService: void <clinit>()>";
+    "<android.app.PendingIntent: android.app.PendingIntent getService(android.content.Context,int,android.content.Intent,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.net.Uri: android.net.Uri parse(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.BroadcastReceiver: void <init>()>"
+    "<net.bitplane.android.microphone.MicrophoneService$MicrophoneReceiver: void <init>(net.bitplane.android.microphone.MicrophoneService)>"->"<android.content.BroadcastReceiver: void <init>()>";
+    "<java.lang.AbstractStringBuilder: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<java.lang.AbstractStringBuilder: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Throwable: void <init>()>"
+    "<java.lang.Exception: void <init>()>"->"<java.lang.Throwable: void <init>()>";
+    "<java.lang.Exception: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.view.ContextThemeWrapper: void <init>()>"->"<android.content.ContextWrapper: void <init>(android.content.Context)>";
+    "<android.view.ContextThemeWrapper: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Context: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<android.content.Context: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Thread: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<java.lang.Thread: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: android.content.Intent registerReceiver(android.content.BroadcastReceiver,android.content.IntentFilter)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Intent: android.content.Intent setAction(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Intent: android.content.Intent setData(android.net.Uri)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Intent: int getFlags()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.Intent: android.content.Intent setFlags(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Notification: void <init>(int,java.lang.CharSequence,long)>"->"<java.lang.Object: void <init>()>";
+    "<android.app.Notification: void <init>(int,java.lang.CharSequence,long)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.Notification: void setLatestEventInfo(android.content.Context,java.lang.CharSequence,java.lang.CharSequence,android.app.PendingIntent)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.app.NotificationManager: void notify(int,android.app.Notification)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.IntentFilter: void <init>(java.lang.String)>"->"<java.lang.Object: void <init>()>";
+    "<android.content.IntentFilter: void <init>(java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: int getState()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioTrack: int getState()>";
+    "<android.media.AudioTrack: void play()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioTrack: void play()>";
+    "<android.media.AudioTrack: int write(byte[],int,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioTrack: int write(byte[],int,int)>";
+    "<android.media.AudioTrack: void stop()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioTrack: void stop()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioTrack: void stop()>";
+    "<android.media.AudioRecord: int getState()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioRecord: int getState()>";
+    "<android.media.AudioRecord: void startRecording()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioRecord: void startRecording()>";
+    "<android.media.AudioRecord: int read(java.nio.ByteBuffer,int)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioRecord: int read(java.nio.ByteBuffer,int)>";
+    "<android.media.AudioRecord: void stop()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioRecord: void stop()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.media.AudioRecord: void stop()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.app.NotificationManager: void cancel(int)>";
+    "<android.content.ContextWrapper: void unregisterReceiver(android.content.BroadcastReceiver)>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<android.content.ContextWrapper: void unregisterReceiver(android.content.BroadcastReceiver)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<java.lang.StringBuilder: void <init>()>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>";
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<java.lang.StringBuilder: java.lang.String toString()>";
+    "<java.lang.Throwable: java.lang.String toString()>"
+    "<net.bitplane.android.microphone.MicrophoneService$1: void recordLoop()>"->"<java.lang.Throwable: java.lang.String toString()>";
+    "<android.util.Log: int e(java.lang.String,java.lang.String)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.nio.ByteBuffer: java.nio.ByteBuffer allocateDirect(int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.BroadcastReceiver: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<android.content.BroadcastReceiver: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Throwable: void <init>()>"->"<java.lang.Object: void <init>()>";
+    "<java.lang.Throwable: void <init>()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: int getState()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: void play()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: int write(byte[],int,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioTrack: void stop()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioRecord: int getState()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioRecord: void startRecording()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioRecord: int read(java.nio.ByteBuffer,int)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.media.AudioRecord: void stop()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<android.content.ContextWrapper: void unregisterReceiver(android.content.BroadcastReceiver)>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+    "<java.lang.Throwable: java.lang.String toString()>"->"<java.lang.RuntimeException: void <init>(java.lang.String)>";
+}

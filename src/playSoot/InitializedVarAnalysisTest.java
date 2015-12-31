@@ -21,6 +21,7 @@ public class InitializedVarAnalysisTest {
 	/*
 	 * 执行我们写的分析
 	 */
+	@SuppressWarnings("unused")
 	@Before
 	public void setUp() throws Exception {
 		String sep = File.separator;

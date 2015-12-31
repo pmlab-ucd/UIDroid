@@ -1,6 +1,7 @@
 package playAppContext;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,24 +17,22 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-//import org.jboss.util.collection.ConcurrentReferenceHashMap.Option;
 import org.xmlpull.v1.XmlPullParserException;
 
 import app.Context;
 import app.DFSPathQueue;
 import app.MySetupApplication;
 import app.PermissionInvocation;
-import app.MyTest.ConditionalResultsAvailableHandler;
 import au.com.bytecode.opencsv.CSVWriter;
 import soot.G;
 import soot.MethodOrMethodContext;
 import soot.PackManager;
 import soot.Scene;
 import soot.SceneTransformer;
-import soot.SootClass;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
@@ -47,9 +46,9 @@ import soot.jimple.Stmt;
 import soot.jimple.TableSwitchStmt;
 import soot.jimple.infoflow.InfoflowResults;
 import soot.jimple.infoflow.InfoflowResults.SinkInfo;
+import soot.jimple.infoflow.InfoflowResults.SourceInfo;
 import soot.jimple.infoflow.android.TestApps.Test;
 import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
-//import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.solver.IInfoflowCFG;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.jimple.infoflow.taintWrappers.ITaintPropagationWrapper;
@@ -59,62 +58,64 @@ import soot.jimple.toolkits.ide.icfg.BiDiInterproceduralCFG;
 import soot.jimple.toolkits.ide.icfg.JimpleBasedInterproceduralCFG;
 import soot.options.Options;
 import soot.util.queue.QueueReader;
-import soot.jimple.infoflow.InfoflowResults.SourceInfo;
 
+/**
+ * @ClassName: MyTest
+ * @Description: The helper class of Main to run analysis.
+ * @author: Hao Fu
+ * @date: Dec 28, 2015 8:22:49 PM
+ */
 public class MyTest extends Test {
-	// the list of sensitive methods: got from Pscout
+	/**
+	 * @Fields PscoutMethod : The list of sensitive methods: got from Pscout
+	 */
 	private static List<String> PscoutMethod;
 	static String appName;
 	private static String csvName;
 	private static CallGraph cg;
 	private static JimpleBasedInterproceduralCFG icfg;
-	private static List<PermissionInvocation> perInvocs = new ArrayList();
+	private static List<PermissionInvocation> perInvocs = new ArrayList<>();
 	// control flow graph
 	private static IInfoflowCFG flowcfg;
 	// data flow analysis
 	private static soot.jimple.infoflow.InfoflowResults flowResults;
+
+	protected final static BufferedWriter wr = null;
 
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
 		myTestMain(args);
 	}
 
+	/**
+	 * @ClassName: ConditionalResultsAvailableHandler
+	 * @Description: Context factor collector
+	 * @author: Hao Fu
+	 * @date: Dec 28, 2015 8:27:31 PM
+	 */
 	private static final class ConditionalResultsAvailableHandler implements
 			ResultsAvailableHandler {
-		IInfoflowCFG cfg;
-
 		@Override
 		public void onResultsAvailable(IInfoflowCFG cfg,
 				soot.jimple.infoflow.InfoflowResults results) {
-			this.cfg = (IInfoflowCFG) cfg;
-			MyTest.flowcfg = (IInfoflowCFG) cfg;
-			System.out.println("end flow analysis: " + new Date());
+			MyTest.flowcfg = cfg;
+			print("end flow analysis: " + new Date());
 
 			if (results == null) {
-				System.out.println("No result found.");
+				print("No result found.");
 			} else {
 				MyTest.flowResults = results;
 			}
-
-		}
-
-		public boolean isSameStmt(Stmt conStmt, Stmt sink) {
-			if (conStmt.getInvokeExpr().getMethod().toString()
-					.equals(sink.getInvokeExpr().getMethod().toString())) {
-				String conCaller = MyTest.icfg.getMethodOf(conStmt).toString();
-
-				String sinkCaller = ((SootMethod) cfg.getMethodOf(sink))
-						.toString();
-
-				if (conCaller.equals(sinkCaller))
-					return true;
-			}
-			return false;
 		}
 	}
 
-	/*
-	 * 参考自Test.java中的main()
+	/**
+	 * @Title: myTestMain
+	 * @Description: 参考自Test.java中的main()
+	 * @param args
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @return: void
 	 */
 	public static void myTestMain(String[] args) throws IOException,
 			InterruptedException {
@@ -162,15 +163,15 @@ public class MyTest extends Test {
 		File apkFile = new File(args[0]);
 		if (apkFile.isDirectory()) {
 			String[] dirFiles = apkFile.list(new FilenameFilter() {
-
 				@Override
 				public boolean accept(File dir, String name) {
 					return (name.endsWith(".apk"));
 				}
 
 			});
-			for (String s : dirFiles)
+			for (String s : dirFiles) {
 				apkFiles.add(s);
+			}
 		} else {
 			// 获得文件类型
 			String extension = apkFile.getName().substring(
@@ -190,22 +191,16 @@ public class MyTest extends Test {
 		}
 
 		for (final String fileName : apkFiles) {
-			final String fullFilePath;
-			System.gc();
+			final String fullFilePath = args[0] + File.separator + fileName;
 
 			// Directory handling
 			if (apkFiles.size() > 1) {
-				if (apkFile.isDirectory())
-					fullFilePath = args[0] + File.separator + fileName;
-				else
-					fullFilePath = fileName;
-				System.out.println("Analyzing file " + fullFilePath + "...");
+				print("Analyzing file " + fullFilePath + "...");
 				File flagFile = new File("_Run_" + new File(fileName).getName());
 				if (flagFile.exists())
 					continue;
 				flagFile.createNewFile();
-			} else
-				fullFilePath = fileName;
+			}
 
 			// Run the taint analysis
 			System.gc();
@@ -215,23 +210,42 @@ public class MyTest extends Test {
 			} else if (sysTimeout > 0) {
 				runAnalysisSysTimeout(fullFilePath, args[1]);
 			} else {
-				// 这里多了个extraJar参数
+				// AppContext's 这里多了个extraJar参数
 				runAnalysis(fullFilePath, args[1], extraJar);
 			}
-			// AppContext独有的
+			// AppContext独有的, leverage results of taint analysis to identify
+			// context factors inside conditional stmts
 			permissionAnalysis(fullFilePath, args[1], extraJar);
 
 			System.gc();
 		}
 	}
 
-	/*
-	 * Taint Analysis module
+	public static void print(String string) {
+		try {
+			System.out.println("[AppContext]" + string);
+			if (wr != null) {
+				wr.write(string + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @Title: runAnalysis
+	 * @Description: Taint Analysis module
+	 * @param fileName
+	 * @param androidJar
+	 * @param extraJar
+	 * @return
+	 * @return: InfoflowResults
 	 */
 	public static InfoflowResults runAnalysis(String fileName,
 			String androidJar, String extraJar) {
 		try {
-			System.out.println("begin flow analysis: " + new Date());
+			print("Begin flow analysis: " + new Date());
+			print(fileName);
 			long beforeRun = System.nanoTime();
 			MySetupApplication app;
 			if (ipcManager == null) {
@@ -268,18 +282,19 @@ public class MyTest extends Test {
 			}
 			app.setTaintWrapper(taintWrapper);
 			app.calculateSourcesSinksEntrypoints("SourcesAndSinks.txt");
-
+			
+			// DEBUG = true;
 			if (DEBUG) {
 				app.printEntrypoints();
 				app.printSinks();
 				app.printSources();
 			}
 
-			System.out.println("Running data flow analysis...");
+			print("Running data flow analysis...");
 			InfoflowResults res = app
 					.runInfoflow(new ConditionalResultsAvailableHandler());
-			System.out.println("Analysis has run for "
-					+ (System.nanoTime() - beforeRun) / 1.0E9D + " seconds");
+			print("Analysis has run for " + (System.nanoTime() - beforeRun)
+					/ 1.0E9D + " seconds");
 			return res;
 		} catch (IOException ex) {
 			System.err.println("Could not read file: " + ex.getMessage());
@@ -293,8 +308,17 @@ public class MyTest extends Test {
 		}
 	}
 
+	/**
+	 * @Title: permissionAnalysis
+	 * @Description: The wrapper of analyzeCG
+	 * @param apkDir
+	 * @param platformDir
+	 * @param extraJar
+	 * @return: void
+	 */
 	private static void permissionAnalysis(String apkDir, String platformDir,
 			String extraJar) {
+		// MySetApp diff: read extraJar
 		MySetupApplication app = new MySetupApplication(platformDir, apkDir,
 				extraJar);
 		try {
@@ -316,8 +340,8 @@ public class MyTest extends Test {
 
 		Scene.v().loadNecessaryClasses();
 		// 干嘛用的？
-		SootClass c = Scene.v().forceResolve(
-				"org.bouncycastle.asn1.DERObjectIdentifier", 3);
+		// SootClass c = Scene.v().forceResolve(
+		// "org.bouncycastle.asn1.DERObjectIdentifier", 3);
 		// 创建dummy main并作为app的main函数(分析入口)
 		SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
 		Options.v().set_main_class(entryPoint.getSignature());
@@ -338,6 +362,11 @@ public class MyTest extends Test {
 		PackManager.v().runPacks();
 	}
 
+	/**
+	 * @Title: analyzeCG
+	 * @Description: Traverse the call graph and identify sensitive api calls
+	 * @return: void
+	 */
 	private static void analyzeCG() {
 		QueueReader<Edge> edges = cg.listener();
 
@@ -357,35 +386,59 @@ public class MyTest extends Test {
 			out.println(src + "  -->   " + target);
 			// 如果是敏感函数
 			if (PscoutMethod.contains(target.toString())) {
-				System.out.println(target.toString());
+				print(target.toString());
 				PermissionInvocation perInvoc = new PermissionInvocation(
 						(SootMethod) src, target);
 				if (!perInvocs.contains(perInvoc)) {
-					System.out.println("begin per analysis: " + new Date());
+					print("++++++++++++++++++++++++++");
+					print("begin permission analysis: " + new Date());
 					// 获得敏感函数所对应的权限
 					perInvoc.setPermission(getPermissionForInvoc(
 							target.toString(), PscoutMethod));
+					// print the cf path towards to the dummyMain
+					// of the sensitive method in icfg
 					printCFGpath((SootMethod) src, target, icfg, cg, perInvoc);
-					System.out.println("end per analysis: " + new Date());
+					System.out
+							.println("end permission analysis: " + new Date());
+					print("++++++++++++++++++++++++++");
 					perInvocs.add(perInvoc);
 					analyzeFlowResult(perInvoc);
 				}
 			}
 		}
 
-		System.out.println("size: " + perInvocs.size() + "cg.size: "
-				+ cg.size());
+		print("/************/");
+		print("size: " + perInvocs.size() + "cg.size: " + cg.size());
 		out.println("CG ends==================");
 		out.close();
 	}
 
+	/**
+	 * @Title: printCFGpath
+	 * @Descrption: Extract the control flow and cg path of the tgt methods
+	 *              towards to the dummyMain in icfg/cg; Get relevant contexts:
+	 *              entry points and conditional stmts along the path
+	 * @param src
+	 *            : caller of the sensitive API
+	 * @param tgt
+	 *            : the sensitive API call
+	 * @param icfg
+	 *            : interprocedure cfg
+	 * @param cg
+	 *            : call graph
+	 * @param perInvoc
+	 *            : permission invocation
+	 * @return: void
+	 * @throws
+	 */
 	private static void printCFGpath(SootMethod src, SootMethod tgt,
 			BiDiInterproceduralCFG<Unit, SootMethod> icfg, CallGraph cg,
 			PermissionInvocation perInvoc) {
-		// iterate over the statements where source methods locate
+		// extract all call sites inside the src method
 		Set<Unit> callers = icfg.getCallsFromWithin(src);
 		Iterator<Unit> unitItr = callers.iterator();
 		Stmt tgtStmt = null;
+		// iterate over the call sites and print the cfg when it is tgt
 		while (unitItr.hasNext()) {
 			Unit u = (Unit) unitItr.next();
 			if ((u instanceof Stmt)) {
@@ -395,43 +448,76 @@ public class MyTest extends Test {
 					tgtStmt = stmt;
 				}
 			}
-			System.out.println("====CFG====");
-			printCFGpath(src, tgtStmt, icfg, cg, perInvoc);
 		}
 
+		print("=========CFG=======");
+		printCFGpath(src, tgtStmt, icfg, cg, perInvoc);
 	}
 
+	/**
+	 * @Title: cutPath
+	 * @Description: Cut path by rm nodes not equal to "node".
+	 * @param path
+	 * @param node
+	 * @return: ArrayList<SootMethod>
+	 */
 	public static ArrayList<SootMethod> cutPath(ArrayList<SootMethod> path,
 			SootMethod node) {
 		int length = path.size() - 1;
 		for (int i = length; i >= 0; i--) {
-			if (!((SootMethod) path.get(i)).equals(node))
+			if (!((SootMethod) path.get(i)).equals(node)) {
 				path.remove(i);
+			}
 		}
 		return path;
 	}
 
+	/**
+	 * @Title: printCFGpath
+	 * @Description: Extract the control flow/cg path to dummyMain of the tgt
+	 *               method, which is stored in u, in icfg. Store entry point
+	 *               and conditional stmts along the path.
+	 * @param src
+	 *            : caller
+	 * @param u
+	 *            : the stmt where tgt method (callee/sens) sits
+	 * @param icfg
+	 * @param cg
+	 * @param permInvoc
+	 * @return: void
+	 * @throws
+	 */
 	private static void printCFGpath(SootMethod src, Unit u,
 			BiDiInterproceduralCFG<Unit, SootMethod> icfg, CallGraph cg,
 			PermissionInvocation permInvoc) {
-		Set<Unit> callers = new HashSet();
-		Unit last = null;
-		// store visited nodes in a queue
-		DFSPathQueue<Unit> unitStack = new DFSPathQueue();
-		DFSPathQueue<SootMethod> callerStack = new DFSPathQueue();
-		Map<Unit, SootMethod> contexts = new HashMap();
-		ArrayList<SootMethod> path = new ArrayList();
+		Set<Unit> callers = new HashSet<>();
+		// Unit last = null;
+		// store visited nodes in a queue, looks like bfs
+		// do not know why call it dfs.
+		// each unit in unit stack represents a method along the path from
+		// dummyMain
+		// to tgt
+		DFSPathQueue<Unit> unitStack = new DFSPathQueue<>();
+		DFSPathQueue<SootMethod> callerStack = new DFSPathQueue<>();
+		// context:: condition unit : method
+		Map<Unit, SootMethod> contexts = new HashMap<>();
+		// cg path from src to entry?
+		ArrayList<SootMethod> path = new ArrayList<>();
 		path.add(src);
-		ArrayList<Set<SootMethod>> methodByEntries = new ArrayList();
-		ArrayList<SootMethod> entries = new ArrayList();
+		ArrayList<Set<SootMethod>> methodByEntries = new ArrayList<>();
+		ArrayList<SootMethod> entries = new ArrayList<>();
 		unitStack.push(u);
 		callerStack.push(src);
+		// to count the pred of
 		int signal = 0;
 		Set<SootMethod> s;
+		int tmp = 1;
+		// step forward from tgt to dummyMain
 		while (!unitStack.isEmpty()) {
+			print(u + " " + tmp++);
 			boolean isStartpoint = true;
-
 			try {
+				// Returns true is this is a method's start statement.
 				isStartpoint = icfg.isStartPoint(u);
 			} catch (NullPointerException e) {
 				System.err.println("DirectedGraph cannot be constructed: " + u);
@@ -440,27 +526,32 @@ public class MyTest extends Test {
 				} catch (NullPointerException e1) {
 					isStartpoint = true;
 				}
-				last = u;
+				// last = u;
 			}
 			if (!isStartpoint) {
-
+				// if is a condition stmt
 				if (((u instanceof IfStmt)) || ((u instanceof TableSwitchStmt))
 						|| ((u instanceof LookupSwitchStmt))) {
+					print("CONDITIONAL STMT: " + u);
+					// check whether the pred node is a conditional stmt
+					// and this node is conditional dep on pred node
 					if (signal <= 0) {
+						print("Signal <= 0");
 						Unit predUnit = u;
-
 						while (u.equals(predUnit)) {
+							// THE single pred node
 							predUnit = (Unit) icfg.getPredsOf(u).iterator()
 									.next();
+							//print("PRED STMT: " + predUnit);
+							// make sure not recursion?
 							if ((icfg.getPredsOf(u).size() == 1)
 									&& ((predUnit instanceof InvokeStmt))) {
 								InvokeStmt condStmt = (InvokeStmt) predUnit;
-
 								if (condStmt.getInvokeExpr().getMethod()
 										.getName().contains("invokeIfStmt")) {
 									u = predUnit;
-
 									contexts.put(condStmt, src);
+									print("context: " + condStmt + " of " + src);
 								}
 							}
 						}
@@ -470,27 +561,35 @@ public class MyTest extends Test {
 				}
 				icfg.getPredsOf(u).size();
 
+				// avoid stuck at loop or recursion
 				if (icfg.getPredsOf(u).size() > 1) {
 					signal++;
+					print("Signal++:" + u);
+					for (Unit unit : icfg.getPredsOf(u)) {
+						print("Signal: " + unit);
+					}
 				}
 
-				last = u;
+				// last = u;
+				// iterate towards the first stmt
 				u = (Unit) icfg.getPredsOf(u).iterator().next();
-
 			} else {
+				// if is the first stmt of a method
 				Iterator<Edge> iter = cg.edgesInto(src);
 				while (iter.hasNext()) {
 					Edge edge = (Edge) iter.next();
 					SootMethod srcCallerMethod = edge.src();
 					if (srcCallerMethod.toString().contains(
+					// dummyMain is the ultimate main in cg gen by FlowDr
 							"dummyMainClass: void dummyMainMethod()")) {
 						if (!entries.contains(src)) {
 							entries.add(src);
-							methodByEntries.add(new HashSet(path));
+							methodByEntries.add(new HashSet<>(path));
 						} else {
 							int i = entries.indexOf(src);
-							Set<SootMethod> set = (Set) methodByEntries.get(i);
-							set.addAll(new HashSet(path));
+							Set<SootMethod> set = (Set<SootMethod>) methodByEntries
+									.get(i);
+							set.addAll(new HashSet<>(path));
 							methodByEntries.set(i, set);
 						}
 
@@ -505,17 +604,17 @@ public class MyTest extends Test {
 					if (caller != null) {
 						if (!callers.contains(caller)) {
 							callers.add(caller);
-
 							if (!caller.toString().contains(
 									"dummyMainClass: void dummyMainMethod()")) {
+								// add caller (pred nodes) to the queue
 								unitStack.push(caller);
 								callerStack.push(srcCallerMethod);
 							}
 						} else {
 							for (int i = 0; i < methodByEntries.size(); i++) {
-								s = (Set) methodByEntries.get(i);
+								s = methodByEntries.get(i);
 								if (s.contains(srcCallerMethod)) {
-									s.addAll(new HashSet(path));
+									s.addAll(new HashSet<>(path));
 									methodByEntries.set(i, s);
 								}
 							}
@@ -525,37 +624,44 @@ public class MyTest extends Test {
 						}
 					}
 				}
+				// done analyze this unit
 				u = (Unit) unitStack.pop();
-
 				src = (SootMethod) callerStack.pop();
 				path.add(src);
+				print("Path:" + path);
 			}
 		}
 
+		// Set permission contexts
+		// iterate over entry point
+		// set entry point and corresponding pred conditional stmts as perm ctx
 		for (int i = 0; i < methodByEntries.size(); i++) {
-			Set<SootMethod> set = (Set) methodByEntries.get(i);
+			Set<SootMethod> set = methodByEntries.get(i);
 			SootMethod m = (SootMethod) entries.get(i);
 			Context ctx = new Context();
-			List<Stmt> conditionalStmt = new ArrayList();
+			List<Stmt> conditionalStmt = new ArrayList<>();
 			ctx.setEntrypoint(m);
-			Iterator localIterator;
-			/*
-			for (set =  set.iterator(); set.hasNext(); localIterator.hasNext()) {
-				SootMethod method = (SootMethod) set.next();
-				localIterator = contexts.entrySet().iterator();
-				continue;
-				Map.Entry<Unit, SootMethod> entry = (Map.Entry) localIterato.next();
-				if (((SootMethod) entry.getValue()).equals(method)) {
-					conditionalStmt.add((Stmt) entry.getKey());
+
+			for (SootMethod method : set) {
+				for (Entry<Unit, SootMethod> context : contexts.entrySet()) {
+					if (((SootMethod) context.getValue()).equals(method)) {
+						conditionalStmt.add((Stmt) context.getKey());
+					}
 				}
-			}*/
+			}
 
 			ctx.setConditionalStmt(conditionalStmt);
 			permInvoc.addContext(ctx);
 		}
-
 	}
 
+	/**
+	 * @Title: getPermissionForInvoc
+	 * @Description: API call => Permission
+	 * @param signature
+	 * @param file
+	 * @return: String
+	 */
 	private static String getPermissionForInvoc(String signature,
 			List<String> file) {
 		String permission = "";
@@ -585,114 +691,98 @@ public class MyTest extends Test {
 		return false;
 	}
 
+	/**
+	 * @Title: analyzeFlowResult
+	 * @Description: Collecting flow results
+	 * @param perInvoc
+	 * @return: void
+	 */
 	private static void analyzeFlowResult(PermissionInvocation perInvoc) {
-		System.out.println("tgt: " + perInvoc.getTgt());
-		System.out.println("src: " + perInvoc.getSrc());
-		System.out.println("per: " + perInvoc.getPermission());
+		print("tgt: " + perInvoc.getTgt());
+		print("src: " + perInvoc.getSrc());
+		print("per: " + perInvoc.getPermission());
 
-		System.out.println("=======CFG======");
-		/*
-		 * Iterator localIterator2, localIterator4; SootMethod m; // iterate
-		 * over flowResults for (Iterator localIterator1 =
-		 * flowResults.getResults().keySet().iterator();
-		 * localIterator1.hasNext(); localIterator2.hasNext()) {
-		 * soot.jimple.infoflow.InfoflowResults.SourceInfo sink =
-		 * (soot.jimple.infoflow
-		 * .InfoflowResults.SourceInfo)localIterator1.next(); //
-		 * 此处的context是指sink所在的语句 Stmt context = sink.getContext();
-		 * System.out.println("Found a flow to sink" + sink + " Context: " +
-		 * context); localIterator2 = perInvoc.getContexts().iterator();
-		 * //continue; Context ctx = (Context)localIterator2.next();
-		 * System.out.println("Entry: " + ctx); }
-		 */
-		Iterator<Context> localIterator2;
-		Iterator<Set> localIterator4;
+		print("=======CFG======");
+
 		SootMethod m;
-		for (Iterator<SinkInfo> localIterator1 = flowResults.getResults()
-				.keySet().iterator(); localIterator1.hasNext(); localIterator2
-				.hasNext()) {
-			InfoflowResults.SinkInfo sink = (InfoflowResults.SinkInfo) localIterator1
-					.next();
-
-			Stmt context = sink.getContext();
-			System.out.println("Found a flow to sink " + sink + "  Context: "
-					+ context);
-			localIterator2 = perInvoc.getContexts().iterator();
-			// continue;
-			Context ctx = (Context) localIterator2.next();
-			System.out.println("Entry: " + ctx.getEntrypoint());
-			for (Stmt conStmt : ctx.getConditionalStmt()) {
-				if (isSameStmt(conStmt, context)) {
-					localIterator4 = ((Set) flowResults.getResults().get(sink))
-							.iterator();
-					while (localIterator4.hasNext()) {
-						InfoflowResults.SourceInfo source = (InfoflowResults.SourceInfo) localIterator4
-								.next();
-
-						Value factorValue = source.getSource();
-						if ((factorValue instanceof InvokeExpr)) {
-							InvokeExpr factorExpr = (InvokeExpr) factorValue;
-							m = factorExpr.getMethod();
-							if (!ctx.hasFactorMethod(m))
-								ctx.addFactorMethod(m);
-							System.out.println("factor method: "
-									+ factorExpr.getMethod());
-						} else if ((factorValue instanceof Ref)) {
-							Ref factorRef = (Ref) factorValue;
-							if (!ctx.hasFactorRef(factorRef))
-								ctx.addFactorRef(factorRef);
-							System.out.println("Ref factor: "
-									+ source.getSource());
-						} else {
-							System.out.println("Other factor: "
-									+ source.getSource().getType());
+		for (SinkInfo sink : flowResults.getResults().keySet()) {
+			print("Found a flow to sink: " + sink);
+			for (Context ctx : perInvoc.getContexts()) {
+				// print("ctx: " + ctx.getConditionalStmt());
+				print("Entry: " + ctx.getEntrypoint());
+				// 此处的context是指sink所在的语句
+				Stmt context = sink.getContext();
+				for (Stmt conStmt : ctx.getConditionalStmt()) {
+					// sink == conStmt, source == natural env vars
+					if (isSameStmt(conStmt, context)) {
+						print("!!!!same stmt");
+						for (SourceInfo source : flowResults.getResults().get(
+								sink)) {
+							print("Srcs: " + source);
+							Value factorValue = source.getSource();
+							if ((factorValue instanceof InvokeExpr)) {
+								InvokeExpr factorExpr = (InvokeExpr) factorValue;
+								m = factorExpr.getMethod();
+								if (!ctx.hasFactorMethod(m))
+									ctx.addFactorMethod(m);
+								print("factor method: "
+										+ factorExpr.getMethod());
+							} else if ((factorValue instanceof Ref)) {
+								Ref factorRef = (Ref) factorValue;
+								if (!ctx.hasFactorRef(factorRef))
+									ctx.addFactorRef(factorRef);
+								print("Ref factor: " + source.getSource());
+							} else {
+								print("Other factor: "
+										+ source.getSource().getType());
+							}
 						}
 					}
 				}
 			}
-		}
 
-		String csv = csvName;
-		try {
-			File csvFile = new File(csv);
-			if (!csvFile.exists()) {
-				csvFile.createNewFile();
-			}
-
-			CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
-
-			List<String[]> data = new ArrayList<>();
-
-			String permission = perInvoc.getPermission();
-			String tgt = perInvoc.getTgt().toString();
-
-			String entrypoint = "";
-			for (Context ctx : perInvoc.getContexts()) {
-				ArrayList<String> result = new ArrayList<>();
-				entrypoint = ctx.getEntrypoint().toString();
-				result.add(appName);
-				result.add(permission);
-				result.add(tgt);
-				result.add(entrypoint);
-				if (ctx.getFactorMethod() != null) {
-					for (SootMethod method : ctx.getFactorMethod()) {
-						result.add(method.toString());
-					}
+			String csv = csvName;
+			try {
+				File csvFile = new File(csv);
+				if (!csvFile.exists()) {
+					csvFile.createNewFile();
 				}
-				if (ctx.getFactorRef() != null) {
-					for (Ref r : ctx.getFactorRef()) {
-						result.add(r.toString());
-					}
-				}
-				String[] resultArray = (String[]) result
-						.toArray(new String[result.size()]);
-				data.add(resultArray);
-			}
 
-			writer.writeAll(data);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+				CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+
+				List<String[]> data = new ArrayList<>();
+
+				String permission = perInvoc.getPermission();
+				String tgt = perInvoc.getTgt().toString();
+
+				String entrypoint = "";
+				for (Context ctx : perInvoc.getContexts()) {
+					ArrayList<String> result = new ArrayList<>();
+					entrypoint = ctx.getEntrypoint().toString();
+					result.add(appName);
+					result.add(permission);
+					result.add(tgt);
+					result.add(entrypoint);
+					if (ctx.getFactorMethod() != null) {
+						for (SootMethod method : ctx.getFactorMethod()) {
+							result.add(method.toString());
+						}
+					}
+					if (ctx.getFactorRef() != null) {
+						for (Ref r : ctx.getFactorRef()) {
+							result.add(r.toString());
+						}
+					}
+					String[] resultArray = (String[]) result
+							.toArray(new String[result.size()]);
+					data.add(resultArray);
+				}
+
+				writer.writeAll(data);
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

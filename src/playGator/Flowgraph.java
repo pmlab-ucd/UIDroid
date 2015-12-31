@@ -156,7 +156,7 @@ public class Flowgraph implements MethodNames {
 	// public Map<Stmt, Set<SootMethod>> regToEventHandlers = Maps.newHashMap();
 
 	// Hao: I created
-	public boolean debug = false;
+	public boolean debug = true;
 	private final String tag = "[FlowGraph]: ";
 
 	// Utils
@@ -1031,9 +1031,12 @@ public class Flowgraph implements MethodNames {
 		}
 		//System.out.println(layoutIdVal);
 		NVarNode receiverNode = varNode(jimpleUtil.receiver(ie));
-		System.out.println(allLayoutIds);
-		System.out.println(layoutIdNode);
-		System.out.println(Configs.project);
+		priorLayoutIdNode = layoutIdNode;
+		if (debug) {
+			System.out.println("FlowGraph Build: ");
+			System.out.println(allLayoutIds);
+			System.out.println(layoutIdNode);
+		}
 		NInflate2OpNode inflate2 = new NInflate2OpNode(layoutIdNode,
 				receiverNode, new Pair<Stmt, SootMethod>(s,
 						jimpleUtil.lookup(s)), false);
@@ -2001,6 +2004,10 @@ public class Flowgraph implements MethodNames {
 		NNode idNode = widgetIdNode(xmlUtil.getSystemRIdValue("list"));
 		NVarNode receiverNode = varNode(receiver);
 		NVarNode lhsNode = varNode(jimpleUtil.lhsLocal(s));
+		System.out.println(idNode);
+		if (idNode == null) {
+			idNode = priorLayoutIdNode; 
+		}
 		NOpNode findView2 = new NFindView2OpNode(idNode, receiverNode, lhsNode,
 				callSite, false);
 
@@ -2011,7 +2018,8 @@ public class Flowgraph implements MethodNames {
 		// lhsNode);
 		return findView2;
 	}
-
+	NNode priorLayoutIdNode = null;
+	
 	void checkAndPatchRootlessActivities() {
 		Set<NOpNode> activitySetContentView = NOpNode
 				.getNodes(NInflate2OpNode.class);
@@ -3420,9 +3428,13 @@ public class Flowgraph implements MethodNames {
 				"android.widget.FrameLayout", callSite);
 		// custom.addView(mView)
 		NVarNode mView = varNode(viewLocal);
+		try {
 		NAddView2OpNode customAddView = new NAddView2OpNode(custom, mView,
 				callSite, true);
 		allNNodes.add(customAddView);
+		} catch (Exception e) {
+			System.err.println(e.getStackTrace());
+		}
 	}
 
 	boolean matchAndHandleDialogNonLifecycleMethods(InvokeExpr ie,

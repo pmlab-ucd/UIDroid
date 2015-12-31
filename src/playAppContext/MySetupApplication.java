@@ -20,6 +20,12 @@ import soot.jimple.infoflow.android.resources.ARSCFileParser;
 import soot.jimple.infoflow.ipc.IIPCManager;
 import soot.options.Options;
 
+/** 
+ * @ClassName:	MySetupApplication 
+ * @Description: Analysis set up for the target app, handle extraJar
+ * @author:	Hao Fu
+ * @date:	Dec 29, 2015 6:59:45 PM 
+ */
 public class MySetupApplication extends SetupApplication {
 	/**
 	 * Creates a new instance of the {@link SetupApplication} class

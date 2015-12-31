@@ -276,6 +276,7 @@ public class SimpleLeakAnalysis
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void printPossibleCallers(SootMethod target) {
 		CallGraph cg = Scene.v().getCallGraph();
 		Sources sources = new Sources(cg.edgesInto(target));

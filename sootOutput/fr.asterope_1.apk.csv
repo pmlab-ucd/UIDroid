@@ -1,0 +1,2 @@
+"fr.asterope_1.apk","<android.location.LocationManager: void requestLocationUpdates(java.lang.String,long,float,android.location.LocationListener)>"," "
+"fr.asterope_1.apk","<android.location.LocationManager: boolean isProviderEnabled(java.lang.String)>"," "

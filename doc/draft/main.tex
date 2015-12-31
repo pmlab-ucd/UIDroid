@@ -1,0 +1,80 @@
+\documentclass[10pt, conference, letterpaper]{IEEEtran}
+
+\usepackage[cmex10]{amsmath}
+\usepackage{amssymb}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{url}
+\usepackage{color}
+\usepackage{setspace,epstopdf,subfigure}
+\usepackage{verbatim}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{float}
+
+\newcommand{\ignore}[1]{}
+\newcommand\Prb{\mathbb{P}}
+\newcommand\R{\mathbb{R}}
+\newcommand\eps{\varepsilon}
+
+\def\comment{\textcolor{red}}
+\newcommand{\red}[1]{{\color{red} #1}}
+\newcommand{\blue}[1]{{\color{blue} #1}}
+
+%\renewcommand{\baselinestretch}{0.987}
+%\setlength{\intextsep}{8pt minus 2pt}
+%\usepackage[belowskip=-2pt,aboveskip=2pt]{caption}
+
+\newcommand\MyBox[2]{
+  \fbox{\lower0.75cm
+    \vbox to 1.7cm{\vfil
+      \hbox to 1.7cm{\hfil\parbox{1.4cm}{#1\\#2}\hfil}
+      \vfil}%
+  }%
+}
+
+
+\begin{document}
+
+\title{UiDroid: Towards Real-time Fidelity Checking between User Interfaces and App Behavior}
+
+\maketitle
+
+
+\begin{abstract}
+The exponential growth of mobile devices has raised security concerns.
+When users interact with an app, users directly read the content of user interfaces, which gives an intuitive idea of the functionality including the security-related information of the app.
+To best assist the end users, the user interface should explicitly reflect the underline behaviors of the app.  
+In this paper, we present a system UIDroid to detect unintended stealthy behaviors by identifying inconsistence between UI and program behaviors.
+UIDroid outperforms previous work AsDroid in the following aspects:
+\begin{itemize}
+\item Unlike AsDroid limits itself to four types of sensitive communication, UIDroid considers all sensitive API calls, which reflects more behaviors;
+\item AsDroid only cares about certain buttons and treat them independently, we extend the target by introducing window layout.
+\item UIDroid takes temporal relationships into consideration. In specific, a sensitive behaviors may triggered by a sequences of interactions (DroidSIFT) and a widget may lead to different behaviors under distinguish contexts (PEG);
+\item Single event handler may conceal multiple sensitive API calls;
+\item The static analysis results help to build models used to monitor dynamic runtime behaviors. 
+\end{itemize}
+Evaluation using open sourced apps and malware dataset 
+
+        
+
+\end{abstract}
+
+\input{intro}
+\input{related}
+\input{system}
+\input{eval}
+
+
+\section{Conclusion}\label{sec:conclusion}
+In this paper, we develop UIDroid, a proof-of-concept system that .
+Compared to AsDoird, our
+We have built our 
+Our approach achieves about XX\% accuracy in distinguishing between .
+
+\bibliographystyle{abbrv}
+\bibliography{ref}
+
+
+\end{document}

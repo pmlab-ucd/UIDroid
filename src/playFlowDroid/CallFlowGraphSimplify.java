@@ -90,7 +90,7 @@ public class CallFlowGraphSimplify {
 		String dest = f.getName();
 		String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
 		String destination = "./sootOutput/" + fileNameWithOutExt + "Simple";
-		dot.plot(destination + dot.DOT_EXTENSION);
+		dot.plot(destination + DotGraph.DOT_EXTENSION);
 		// soot.PhaseOptions.getBoolean(Scene.v().getCallGraph().listener(),"dump_cg");
 		// System.out.println(Scene.v().getCallGraph());
 

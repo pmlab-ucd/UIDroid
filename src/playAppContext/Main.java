@@ -3,8 +3,7 @@ package playAppContext;
 import java.io.IOException;
 
 public class Main {
-	public static void main(String[] args) throws IOException,
-			InterruptedException {
+	public static void main(String[] args) {
 		if (args[0].equals("instrument")) {
 			IfStmtInstrument.instrumentMain(args);
 		} else if (args[0].equals("factor")) {
@@ -12,7 +11,11 @@ public class Main {
 			for (int i = 1; i < args.length; i++) {
 				mainArgs[(i - 1)] = args[i];
 			}
-			MyTest.myTestMain(mainArgs);
+			try {
+				MyTest.myTestMain(mainArgs);
+			} catch (IOException | InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

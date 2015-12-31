@@ -48,7 +48,7 @@ public class CallFlowGraphFull extends MyTest {
 		String dest = file.getName();
 		String fileNameWithOutExt = FilenameUtils.removeExtension(dest);
 		String destination = "./sootOutput/" + fileNameWithOutExt;
-		dot.plot(destination + dot.DOT_EXTENSION);
+		dot.plot(destination + DotGraph.DOT_EXTENSION);
 	}
 
 	/*

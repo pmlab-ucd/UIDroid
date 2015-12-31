@@ -1,6 +1,5 @@
 /*
  * reference: app.IfStmtInstrument
- * 用于在要分析的app里所有if语句前嵌入某函数（来源于app.DummyClass）
  */
 
 package playAppContext;
@@ -36,6 +35,12 @@ import soot.jimple.TableSwitchStmt;
 import soot.jimple.internal.JimpleLocal;
 import soot.options.Options;
 
+/** 
+ * @ClassName:	IfStmtInstrument 
+ * @Description: 用于在要分析的app里所有if语句前嵌入某函数（来源于app.DummyClass）
+ * @author:	Hao Fu
+ * @date:	Dec 29, 2015 6:56:52 PM 
+ */
 public class IfStmtInstrument {
 	public static void main(String[] args) {
 		Options.v().set_src_prec(5);
@@ -61,7 +66,7 @@ public class IfStmtInstrument {
 		PackManager.v().getPack("jtp").add(new Transform("jtp.myInstrumenter", new BodyTransformer() {
 					@Override
 					protected void internalTransform(final Body b,
-							String phaseName, Map options) {
+							String phaseName, @SuppressWarnings("rawtypes") Map options) {
 						// 获得函数体内所有语句
 						final PatchingChain<Unit> units = b.getUnits();
 						// 循环对每条语句
@@ -88,7 +93,6 @@ public class IfStmtInstrument {
 									// 此if语句使用的操作数和expr
 									List<ValueBox> values = condition
 											.getUseBoxes();
-									int size = values.size();
 									// 载入要分析的类到Soot
 									SootClass klass = Scene.v().getSootClass(
 											"app.DummyClass");
@@ -241,7 +245,7 @@ public class IfStmtInstrument {
 
 		PackManager.v().getPack("jtp").add(new Transform("jtp.myInstrumenter", new BodyTransformer() {
 				@Override
-				protected void internalTransform(final Body b, String phaseName, Map options) {
+				protected void internalTransform(final Body b, String phaseName, @SuppressWarnings("rawtypes") Map options) {
 					// 获得函数体内所有语句
 					final PatchingChain<Unit> units = b.getUnits();
 					// 循环对每条语句
@@ -266,7 +270,6 @@ public class IfStmtInstrument {
 								// 此if语句使用的操作数和expr
 								List<ValueBox> values = condition
 										.getUseBoxes();
-								int size = values.size();
 								// 载入要分析的类到Soot
 								SootClass klass = Scene.v().getSootClass(
 										"app.DummyClass");
@@ -385,6 +388,7 @@ public class IfStmtInstrument {
 		PackManager.v().writeOutput();
 	}
 
+	@SuppressWarnings("unused")
 	private static Local addTmpArray(Body body) {
 		Local tmpArray = Jimple.v().newLocal("tmpArray",
 				ArrayType.v(RefType.v("java.lang.Object"), 1));

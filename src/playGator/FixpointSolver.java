@@ -360,7 +360,9 @@ public class FixpointSolver {
           }
           layouts.add(layoutIdNode);
         } else {
-          throw new RuntimeException(layoutIdNode + " reaching " + opNode);
+          // throw new RuntimeException(layoutIdNode + " reaching " + opNode);
+          // TODO
+          System.err.println(layoutIdNode + " reaching " + opNode);
         }
       }
     }

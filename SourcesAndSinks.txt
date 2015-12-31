@@ -1,3 +1,43 @@
+% My Test
+<de.ecspride.Activity1: void sink(long)> -> _SINK_
+
+% Natural Env 
+<java.lang.Runtime: java.lang.Runtime getRuntime()> -> _SOURCE_
+<java.io.DataOutputStream: void writeBytes(java.lang.String)> -> _SINK_
+<java.io.DataOutputStream: void <init>(java.io.OutputStream)> -> _SINK_
+
+<javax.crypto.Cipher: byte[] doFinal(byte[])> -> _SINK_
+<javax.crypto.Cipher: byte[] doFinal(byte[])> -> _SOURCE_
+<com.xxx.yyy.qzl: void <init>(android.content.Context,java.lang.String,java.lang.String,int,com.xxx.yyy.SMSObserver)> -> _SINK_
+<com.xxx.yyy.qzl: void <init>(android.content.Context,java.lang.String,java.lang.String,int)> -> _SINK_
+<android.os.Build$VERSION: void <clinit>()> -> _SOURCE_
+
+<android.net.Uri: android.net.Uri parse(java.lang.String)> -> _SOURCE_
+
+<android.content.pm.PackageManager: android.content.pm.ApplicationInfo getApplicationInfo(java.lang.String,int)> -> _SOURCE_
+<android.content.Context: android.content.pm.PackageManager getPackageManager()> -> _SOURCE_
+
+<java.util.Calendar: int get(int)> -> _SOURCE_
+<java.util.Calendar: java.util.Calendar getInstance()> -> _SOURCE_
+<java.util.Calendar: java.util.Calendar getInstance(java.util.Locale)> -> _SOURCE_
+<java.util.Calendar: java.util.Calendar getInstance(java.util.TimeZone)> -> _SOURCE_
+<java.util.Calendar: java.util.Calendar getInstance(java.util.TimeZone,java.util.Locale)> -> _SOURCE_
+<java.util.Calendar: java.util.Date getTime()> -> _SOURCE_
+<java.util.Calendar: long getTimeInMillis()> -> _SOURCE_
+<java.util.Calendar: java.util.TimeZone getTimeZone()> -> _SOURCE_
+
+
+
+<java.lang.System: long currentTimeMillis()> -> _SOURCE_
+<java.lang.System: long nanoTime()> -> _SOURCE_
+
+% Conditional stmts
+<app.DummyClass: void invokeIfStmt(java.lang.Object[])> -> _SINK_
+<app.DummyClass: void invokeIfStmt(java.lang.Object)> -> _SINK_
+<app.DummyClass: void invokeIfStmt(boolean)> -> _SINK_
+<app.DummyClass: void invokeIfStmt(double)> -> _SINK_
+
+% FlowDroid Default
 <android.location.Location: double getLatitude()> -> _SOURCE_
 <android.location.Location: double getLongitude()> -> _SOURCE_
 

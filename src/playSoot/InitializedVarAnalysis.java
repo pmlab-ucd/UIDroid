@@ -23,6 +23,7 @@ public class InitializedVarAnalysis {
 	public static void main(String[] args) {
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.myTransform", new BodyTransformer() {
+					@SuppressWarnings("rawtypes")
 					protected void internalTransform(Body body, String phase,
 							Map options) {
 						new InitVarAnalysis(new ExceptionalUnitGraph(body));

@@ -8,7 +8,6 @@
 
 
 package playSoot;
-import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +27,7 @@ public class MyVeryBusyExprAnalysisTest {
 	/*
 	 * 执行我们写的分析
 	 */
+	@SuppressWarnings("unused")
 	@Before
 	public void setUp() throws Exception {
 		// 载入MyClass类

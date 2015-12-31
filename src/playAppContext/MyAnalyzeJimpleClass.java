@@ -23,6 +23,12 @@ import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.util.HashMultiMap;
 import soot.util.MultiMap;
 
+/** 
+ * @ClassName:	MyAnalyzeJimpleClass 
+ * @Description:TODO(这里用一句话描述这个类的作用) 
+ * @author:	Hao Fu
+ * @date:	Dec 29, 2015 6:59:11 PM 
+ */
 public class MyAnalyzeJimpleClass extends AnalyzeJimpleClass {
 	// 用于存储已找到的callback接口
 	Set<SootClass> callbackClasses = new HashSet<>();

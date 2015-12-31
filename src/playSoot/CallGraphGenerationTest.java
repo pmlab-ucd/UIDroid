@@ -36,22 +36,24 @@ callGraphFetcher));
 
 		private CallGraph callGraph;
 
+		@SuppressWarnings("rawtypes")
 		@Override
 		protected void internalTransform(String phaseName, Map options) {
 			System.out.println("CallGraphFetcher.internalTransform() fetching call graph from scene");
 			this.callGraph = Scene.v().getCallGraph();
 		}
 		
+		@SuppressWarnings("unused")
 		public CallGraph getCallGraph() {
 			return callGraph;
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static class OmgClass {
 		
 		private int a;
 		private int b;
-		@SuppressWarnings("unused")
 		private int stop;
 		
 		public OmgClass(int a, int b) {
