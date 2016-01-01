@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="lib" path="/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/slf4j-simple-1.7.5.jar"/>
 	<classpathentry kind="lib" path="/home/hao/workspace/gator-3.0/SootAndroid/bin"/>
+	<classpathentry kind="lib" path="/home/hao/workspace/AppContext/Core/Main.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -64,9 +64,9 @@ CG==================
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <de.ecspride.Activity1$1: void onClick(android.view.View)>
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <android.view.View: void <init>(android.content.Context)>
+<dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <de.ecspride.Activity1$2: void onClick(android.view.View)>
-<dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <android.view.View: void <init>(android.content.Context)>
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <de.ecspride.Activity2: void <init>()>
 <dummyMainClass: void dummyMainMethod(java.lang.String[])>  -->   <de.ecspride.Activity2: void onCreate(android.os.Bundle)>

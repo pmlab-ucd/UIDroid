@@ -2,6 +2,7 @@ package playAppContext;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import soot.SootMethod;
 import soot.jimple.Ref;
 import soot.jimple.Stmt;
@@ -24,6 +25,8 @@ public class Context {
 	 */
 	SootMethod entrypoint;
 	List<Ref> factorRef;
+	
+	List<Stmt> otherFactor;
 
 	public SootMethod getEntrypoint() {
 		return entrypoint;
@@ -80,5 +83,22 @@ public class Context {
 		if (factorRef == null)
 			factorRef = new ArrayList<>();
 		return factorRef.contains(r);
+	}
+	
+	public void addOtherFactor(Stmt r) {
+		if (otherFactor == null) {
+			otherFactor = new ArrayList<>();
+		}
+		otherFactor.add(r);
+	}
+	
+	public List<Stmt> getOtherFactor() {
+		return otherFactor;
+	}
+	
+	public boolean hasOtherFactor(Stmt factorValue) {
+		if (otherFactor == null)
+			otherFactor = new ArrayList<>();
+		return otherFactor.contains(factorValue);
 	}
 }

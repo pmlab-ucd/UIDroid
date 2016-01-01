@@ -196,6 +196,7 @@ public class MyTest extends playFlowDroid.Test {
 					continue;
 				flagFile.createNewFile();
 			}
+			appName = fullFilePath;
 
 			// Run the taint analysis
 			System.gc();
@@ -218,7 +219,7 @@ public class MyTest extends playFlowDroid.Test {
 
 	public static void print(String string) {
 		try {
-			System.out.println("[AppContext]" + string);
+			System.out.println("[AppContext] " + string);
 			if (wr != null) {
 				wr.write(string + "\n");
 			}
@@ -391,7 +392,7 @@ public class MyTest extends playFlowDroid.Test {
 				PermissionInvocation perInvoc = new PermissionInvocation(
 						(SootMethod) src, target);
 				if (!perInvocs.contains(perInvoc)) {
-					print("++++++++++++++++++++++++++");
+					print("=======================");
 					print("begin permission analysis: " + new Date());
 					// 获得敏感函数所对应的权限
 					perInvoc.setPermission(getPermissionForInvoc(
@@ -401,14 +402,14 @@ public class MyTest extends playFlowDroid.Test {
 					printCFGpath((SootMethod) src, target, icfg, cg, perInvoc);
 					System.out
 							.println("end permission analysis: " + new Date());
-					print("++++++++++++++++++++++++++");
+					print("=======================");
 					perInvocs.add(perInvoc);
 					analyzeFlowResult(perInvoc);
 				}
 			}
 		}
 
-		print("/************/");
+		print("/**********END OF THE APP***********/");
 		print("perInvocs.size: " + perInvocs.size() + "; cg.size: " + cg.size());
 		out.println("CG ends==================");
 		out.close();
@@ -510,10 +511,10 @@ public class MyTest extends playFlowDroid.Test {
 		// to count the pred of
 		int signal = 0;
 		Set<SootMethod> s;
-		int tmp = 1;
+		//int tmp = 1;
 		// step forward from tgt to dummyMain
 		while (!unitStack.isEmpty()) {
-			print(u + " " + tmp++);
+			//print(u + " " + tmp++);
 			boolean isStartpoint = true;
 			try {
 				// Returns true is this is a method's start statement.
@@ -531,11 +532,11 @@ public class MyTest extends playFlowDroid.Test {
 				// if is a condition stmt
 				if (((u instanceof IfStmt)) || ((u instanceof TableSwitchStmt))
 						|| ((u instanceof LookupSwitchStmt))) {
-					print("CONDITIONAL STMT: " + u);
+					//print("CONDITIONAL STMT: " + u);
 					// check whether the pred node is a conditional stmt
 					// and this node is conditional dep on pred node
 					if (signal <= 0) {
-						print("Signal <= 0");
+						//print("Signal <= 0");
 						Unit predUnit = u;
 						while (u.equals(predUnit)) {
 							// THE single pred node
@@ -550,7 +551,7 @@ public class MyTest extends playFlowDroid.Test {
 										.getName().contains("invokeIfStmt")) {
 									u = predUnit;
 									contexts.put(condStmt, src);
-									print("context: " + condStmt + " of " + src);
+									//print("context: " + condStmt + " of " + src);
 								}
 							}
 						}
@@ -563,10 +564,10 @@ public class MyTest extends playFlowDroid.Test {
 				// avoid stuck at loop or recursion
 				if (icfg.getPredsOf(u).size() > 1) {
 					signal++;
-					print("Signal++:" + u);
-					for (Unit unit : icfg.getPredsOf(u)) {
-						print("Signal: " + unit);
-					}
+					//print("Signal++:" + u);
+					//for (Unit unit : icfg.getPredsOf(u)) {
+						//print("Signal: " + unit);
+					//}
 				}
 
 				// last = u;
@@ -627,8 +628,9 @@ public class MyTest extends playFlowDroid.Test {
 				u = (Unit) unitStack.pop();
 				src = (SootMethod) callerStack.pop();
 				path.add(src);
-				print("Path:" + path);
+				//print("Path:" + path);
 			}
+			//print("Path:" + path);
 		}
 
 		// Set permission contexts
@@ -697,48 +699,52 @@ public class MyTest extends playFlowDroid.Test {
 	 * @return: void
 	 */
 	private static void analyzeFlowResult(PermissionInvocation perInvoc) {
+		print("=======Write Results To CSV======");
 		print("tgt: " + perInvoc.getTgt());
 		print("src: " + perInvoc.getSrc());
 		print("per: " + perInvoc.getPermission());
 
-		print("=======CFG======");
-
 		SootMethod m;
 		for (ResultSinkInfo sink : flowResults.getResults().keySet()) {
-			print("Found a flow to sink: " + sink);
+			//print("Found a flow to sink: " + sink);
 			for (Context ctx : perInvoc.getContexts()) {
-				// print("ctx: " + ctx.getConditionalStmt());
-				print("Entry: " + ctx.getEntrypoint());
+				//print("Entry: " + ctx.getEntrypoint());
 				// 此处的context是指sink所在的语句
-				Stmt context = sink.getSink();
+				Stmt sinkStmt = sink.getSink();
 				for (Stmt conStmt : ctx.getConditionalStmt()) {
-					print("*********condistmt: " + conStmt.toString());
-					// sink == conStmt, source == natural env vars
-					if (isSameStmt(conStmt, context)) {
-						print("Context:: Conditional Factors: ");
+					//print("*********condistmt: " + conStmt.toString());
+					// when sink == conStmt, source == natural env vars
+					if (isSameStmt(conStmt, sinkStmt)) {
+						//print("Context:: Conditional Factors: ");
 						for (ResultSourceInfo source : flowResults.getResults()
 								.get(sink)) {
-							print("Srcs: " + source);
+							//print("Srcs: " + source);
 							Stmt factorValue = source.getSource();
 							if ((factorValue instanceof InvokeExpr)) {
 								InvokeExpr factorExpr = (InvokeExpr) factorValue;
 								m = factorExpr.getMethod();
-								if (!ctx.hasFactorMethod(m))
+								if (!ctx.hasFactorMethod(m)) {
 									ctx.addFactorMethod(m);
-								print("factor method: "
-										+ factorExpr.getMethod());
+								}
+								//print("factor method: "
+										//+ factorExpr.getMethod());
 							} else if ((factorValue instanceof Ref)) {
 								Ref factorRef = (Ref) factorValue;
-								if (!ctx.hasFactorRef(factorRef))
+								if (!ctx.hasFactorRef(factorRef)) {
 									ctx.addFactorRef(factorRef);
-								print("Ref factor: " + source.getSource());
+								}
+								//print("Ref factor: " + source.getSource());
 							} else {
-								print("Other factor: " + source.getSource());
+								//print("Other factor: " + source.getSource());
+								if (!ctx.hasOtherFactor(factorValue)) {
+									ctx.addOtherFactor(factorValue);
+								}
 							}
 						}
 					}
 				}
 			}
+		}
 
 			String csv = csvName;
 			try {
@@ -772,17 +778,23 @@ public class MyTest extends playFlowDroid.Test {
 							result.add(r.toString());
 						}
 					}
+					if (ctx.getOtherFactor() != null) {
+						for (Stmt s : ctx.getOtherFactor()) {
+							result.add(s.toString());
+						}
+					}
 					String[] resultArray = (String[]) result
-							.toArray(new String[result.size()]);
+							.toArray(new String[result.size()]);		
 					data.add(resultArray);
+					print("RESULT" + result.toString());
 				}
-
+				
 				writer.writeAll(data);
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		
 	}
 
 }
