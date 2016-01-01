@@ -39,10 +39,11 @@ import soot.options.Options;
 /**
  * @ClassName: IfStmtInstrument
  * @Description: 用于在要分析的app里所有if语句前嵌入method app.DummyClass.ifInvoke, because
- *               FlowDroid only accepts method as sinks, conditional stmt trans
- *               to method to become sink method so that then can extract
- *               context factors from them by using taint analysis (propopgation
- *               of natural env var, natural env API calls are sources).
+ *               FlowDroid only accepts method as sinks, so trans conditional to
+ *               method so that it is able to be a sink method; then we can
+ *               extract context factors from them by using taint analysis
+ *               (propopgation of natural env var, natural env API calls are
+ *               sources).
  * @author: Hao Fu
  * @date: Dec 29, 2015 6:56:52 PM
  */

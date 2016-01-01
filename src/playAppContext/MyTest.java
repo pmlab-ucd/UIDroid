@@ -580,7 +580,7 @@ public class MyTest extends playFlowDroid.Test {
 					SootMethod srcCallerMethod = edge.src();
 					if (srcCallerMethod.toString().contains(
 					// dummyMain is the ultimate main in cg gen by FlowDr
-							"dummyMainClass: void dummyMainMethod()")) {
+							"dummyMainClass: void dummyMainMethod")) {
 						if (!entries.contains(src)) {
 							entries.add(src);
 							methodByEntries.add(new HashSet<>(path));
@@ -711,11 +711,11 @@ public class MyTest extends playFlowDroid.Test {
 				print("Entry: " + ctx.getEntrypoint());
 				// 此处的context是指sink所在的语句
 				Stmt context = sink.getSink();
-				;
 				for (Stmt conStmt : ctx.getConditionalStmt()) {
+					print("*********condistmt: " + conStmt.toString());
 					// sink == conStmt, source == natural env vars
 					if (isSameStmt(conStmt, context)) {
-						print("!!!!same stmt");
+						print("Context:: Conditional Factors: ");
 						for (ResultSourceInfo source : flowResults.getResults()
 								.get(sink)) {
 							print("Srcs: " + source);
