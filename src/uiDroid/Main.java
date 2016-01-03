@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import com.opencsv.CSVWriter;
+
 import playGator.DefaultGUIAnalysisOutput;
 import playGator.FixpointSolver;
 import playGator.GUIAnalysis;
@@ -28,8 +29,6 @@ import soot.Scene;
 import soot.SootMethod;
 
 public class Main {
-
-	private static String tag = "[Main]";
 
 	public static void main(String[] args) {
 		try {
@@ -73,7 +72,7 @@ public class Main {
 		}
 		
 		for (final String fileName : apkFiles) {
-			System.out.println("Begin to analyze: " + fileName);
+			print("Begin to analyze: " + fileName);
 			Config.sdkDir = "/home/hao/Android/Sdk";
 			Config.apkPath = args[0] + File.separator + fileName;
 			String jarPath = Scene.v().getAndroidJarPath(Config.sdkDir + "/platforms", Config.apkPath);
@@ -101,24 +100,30 @@ public class Main {
 			Config.processing();
 			
 			GUIAnalysis ga = GUIAnalysis.v();
-			ga.run();
 			FixpointSolver solver = ga.fixpointSolver;
 			DefaultGUIAnalysisOutput output = ga.output;
-
-			PermissionAnalysis pa = PermissionAnalysis.v();
+			// FIXME
+			//Map<String, AndroidView> views = getViews(ga, solver, output);
+			
+			//PermissionAnalysis pa = PermissionAnalysis.v();
+			PerInvCtxAnalysis pa = PerInvCtxAnalysis.v();
 			pa.run();
-			// System.out.println(PermissionAnalysis.sensEntries);
-			Map<String, AndroidView> views = getViews(ga, solver, output);
-			try {
+			// print(PermissionAnalysis.sensEntries);	
+			/*try {
 				writeCSV(views);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 
-	/*
-	 * Run apktool to decompile the apk
+	/** 
+	 * @Title: decompile 
+	 * @Description:  Run apktool to decompile the apk
+	 * @param decomPath
+	 * @throws IOException
+	 * @throws InterruptedException    
+	 * @return: void    
 	 */
 	public static void decompile(String decomPath) throws IOException,
 			InterruptedException {
@@ -130,32 +135,48 @@ public class Main {
 				pr.getInputStream()));
 		String line = "";
 		while ((line = buf.readLine()) != null) {
-			System.out.println(line);
+			print(line);
 		}
 	}
 
-	/*
-	 * Get Views: (event handler callback : view)
+	/** 
+	 * @Title: getViews 
+	 * @Description: Get Views: (event handler callback : view)
+	 * @param ga
+	 * @param solver
+	 * @param output
+	 * @return: Map<String,AndroidView>    
 	 */
 	public static Map<String, AndroidView> getViews(GUIAnalysis ga,
 			FixpointSolver solver, DefaultGUIAnalysisOutput output) {
 		Map<String, AndroidView> map = new HashMap<>();
 		ga.retrieveIds();
+		
 		for (Entry<NOpNode, Set<NNode>> entry : solver.solutionResults
 				.entrySet()) {
+			// print("Operation: " + entry + ":: ");
 			for (NNode node : entry.getValue()) {
-				// System.out.print(tag + entry + ":: ");
-				System.out.println(node);
-				// System.out.println(output.getExplicitEventsAndTheirHandlers((NObjectNode)
-				// node));
-
+				if (ga.xmlParser
+							.findViewById(node.idNode.getIdValue()) != null) {
+					print("Operation: " + entry + ":: ");
+				 print(ga.xmlParser
+							.findViewById(node.idNode.getIdValue()).getText());
+				 print(output
+						.getExplicitEventsAndTheirHandlers((NObjectNode) node)
+						.entrySet().toString());
+				}
+				 //print(output.getExplicitEventsAndTheirHandlers((NObjectNode)
+				 //node).toString());
 				for (Entry<EventType, Set<SootMethod>> et : output
 						.getExplicitEventsAndTheirHandlers((NObjectNode) node)
 						.entrySet()) {
 					for (SootMethod method : et.getValue()) {
-						// System.out.println(node.idNode.getIdValue());
+						//print(node.idNode.getIdValue().toString());
 						map.put(method.getSignature(), ga.xmlParser
 								.findViewById(node.idNode.getIdValue()));
+						print(method.getSignature());
+						print(ga.xmlParser
+								.findViewById(node.idNode.getIdValue()).getText());
 					}
 				}
 			}
@@ -164,8 +185,13 @@ public class Main {
 		return map;
 	}
 
-	/*
-	 * write results to csv
+
+	/** 
+	 * @Title: writeCSV 
+	 * @Description: write results to csv
+	 * @param views
+	 * @throws IOException    
+	 * @return: void    
 	 */
 	public static void writeCSV(Map<String, AndroidView> views)
 			throws IOException {
@@ -173,7 +199,7 @@ public class Main {
 		String csv = "./sootOutput/" + Config.benchmarkName + ".csv";
 		String apkName = Config.benchmarkName;
 		File csvFile = new File(csv);
-		System.out.println(csv);
+		print(csv);
 		if (!csvFile.exists()) {
 			csvFile.createNewFile();
 		} else {
@@ -185,13 +211,13 @@ public class Main {
 		for (SootMethod sens : PermissionAnalysis.sensEntries.keySet()) {
 			for (SootMethod entry : PermissionAnalysis.sensEntries.get(sens)) {
 				List<String> result = new ArrayList<>();
-				System.out.println(tag + entry + ":: ");
+				print(entry.toString() + ":: ");
 
 				result.add(apkName);
 				result.add(sens.getSignature());
 
 				if (views.containsKey(entry.getSignature())) {
-					System.out.println(views.get(entry.getSignature())
+					print(views.get(entry.getSignature())
 							.getText());
 					result.add(views.get(entry.getSignature()).getText());
 				} else {
@@ -205,6 +231,10 @@ public class Main {
 
 		writer.writeAll(results);
 		writer.close();
+	}
+	
+	public static void print(String str) {
+		System.err.println("[UIDroid] " + str);
 	}
 
 }

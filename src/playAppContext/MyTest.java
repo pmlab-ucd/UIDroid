@@ -207,7 +207,7 @@ public class MyTest extends playFlowDroid.Test {
 				runAnalysisSysTimeout(fullFilePath, args[1]);
 			} else {
 				// AppContext's
-				runAnalysis(fullFilePath, args[1]);
+				runAnalysis(fullFilePath, args[1], new ConditionalResultsAvailableHandler());
 			}
 			// AppContext独有的, leverage results of taint analysis to identify
 			// context factors inside conditional stmts
@@ -237,7 +237,7 @@ public class MyTest extends playFlowDroid.Test {
 	 * @return
 	 * @return: InfoflowResults
 	 */
-	public static InfoflowResults runAnalysis(String fileName, String androidJar) {
+	public static InfoflowResults runAnalysis(String fileName, String androidJar, ResultsAvailableHandler resHandler) {
 		try {
 			final long beforeRun = System.nanoTime();
 
@@ -284,7 +284,7 @@ public class MyTest extends playFlowDroid.Test {
 
 			System.out.println("Running data flow analysis...");
 			final InfoflowResults res = app
-					.runInfoflow(new ConditionalResultsAvailableHandler());
+					.runInfoflow(resHandler);
 			System.out.println("Analysis has run for "
 					+ (System.nanoTime() - beforeRun) / 1E9 + " seconds");
 

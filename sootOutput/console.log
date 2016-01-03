@@ -1,0 +1,1077 @@
+[UIDroid] Begin to analyze: app-debug.apk
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/soot-trunk.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/hao/Dropbox/workspace/UiDroid/uidroid/libs/slf4j-simple-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/hao/workspace/AppContext/Core/Main.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.SimpleLoggerFactory]
+[main] INFO soot.jimple.infoflow.android.SetupApplication - ARSC file parsing took 0.022986391 seconds
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r4;
+        de.ecspride.Activity2 $r3;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label1:
+        if $i0 == 0 goto label3;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label3;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label2:
+        if $i0 == 3 goto label3;
+
+        if $i0 == 4 goto label2;
+
+     label3:
+        if $i0 == 6 goto label5;
+
+        $r3 = new de.ecspride.Activity2;
+
+        specialinvoke $r3.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 7 goto label5;
+
+        $r4 = new android.os.Bundle;
+
+        specialinvoke $r4.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r3.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r4);
+
+        $r4 = null;
+
+     label4:
+        if $i0 == 9 goto label5;
+
+        if $i0 == 10 goto label4;
+
+     label5:
+        if $i0 == 12 goto label1;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.2 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.1 seconds.
+[Spark] Solution found in 0.1 seconds.
+Callback analysis done.
+Warning: RelativeLayout is a phantom class!
+Warning: de.ecspride.RelativeLayout is a phantom class!
+Warning: android.view.RelativeLayout is a phantom class!
+Warning: Button is a phantom class!
+Warning: de.ecspride.Button is a phantom class!
+Warning: android.view.Button is a phantom class!
+Found 1 layout controls in file res/layout/activity_activity1.xml
+Found 2 layout controls in file res/layout/activity_activity2.xml
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r8;
+        de.ecspride.Activity1$2 $r3;
+        android.view.View $r4, $r6;
+        de.ecspride.Activity1$1 $r5;
+        de.ecspride.Activity2 $r7;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label01:
+        if $i0 == 0 goto label08;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label08;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label02:
+        if $i0 == 2 goto label07;
+
+     label03:
+        $r3 = new de.ecspride.Activity1$2;
+
+        specialinvoke $r3.<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 3 goto label04;
+
+        $r4 = new android.view.View;
+
+        specialinvoke $r4.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r3.<de.ecspride.Activity1$2: void onClick(android.view.View)>($r4);
+
+        $r4 = null;
+
+     label04:
+        $r5 = new de.ecspride.Activity1$1;
+
+        specialinvoke $r5.<de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 4 goto label05;
+
+        $r6 = new android.view.View;
+
+        specialinvoke $r6.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r5.<de.ecspride.Activity1$1: void onClick(android.view.View)>($r6);
+
+        $r6 = null;
+
+     label05:
+        if $i0 == 5 goto label06;
+
+        staticinvoke <de.ecspride.Activity1: void <clinit>()>();
+
+     label06:
+        if $i0 == 6 goto label03;
+
+     label07:
+        if $i0 == 7 goto label02;
+
+        if $i0 == 8 goto label08;
+
+        if $i0 == 9 goto label02;
+
+     label08:
+        if $i0 == 11 goto label10;
+
+        $r7 = new de.ecspride.Activity2;
+
+        specialinvoke $r7.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 12 goto label10;
+
+        $r8 = new android.os.Bundle;
+
+        specialinvoke $r8.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r7.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r8);
+
+        $r8 = null;
+
+     label09:
+        if $i0 == 14 goto label09;
+
+        if $i0 == 15 goto label10;
+
+        if $i0 == 16 goto label09;
+
+     label10:
+        if $i0 == 18 goto label01;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.2 seconds.
+[Spark] Solution found in 0.2 seconds.
+Running incremental callback analysis for 2 components...
+Incremental callback analysis done.
+Found 7 callback methods for 2 components
+Found {res/layout/activity_activity2.xml=[2131230722 - android.widget.Button, -1 - android.widget.RelativeLayout], res/layout/activity_activity1.xml=[2131230722 - android.widget.Button, -1 - android.widget.RelativeLayout, 2131230720 - android.widget.Button, 2131230721 - android.widget.Button]} layout controls
+Entry point calculation done.
+Created a SourceSinkManager with 106 sources, 139 sinks, and 7 callback methods.
+Using '/home/hao/Android/Sdk/platforms/android-17/android.jar' as android.jar
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[Config] finished.
+[HIER] All classes: 1186 [App: 458, Lib : 721, Phantom: 7]
+[HIER] Activities: 3, lib activities: 1
+[HIER] App views: 8, Lib views: 20
+[HIER] App Dialogs: 0, Lib Dialogs: 2
+[main] INFO soot.jimple.infoflow.taintWrappers.EasyTaintWrapper - Loaded wrapper entries for 54 classes and 4 exclusions.
+[main] INFO soot.jimple.infoflow.android.SetupApplication - ARSC file parsing took 6.45363E-4 seconds
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r4;
+        de.ecspride.Activity2 $r3;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label1:
+        if $i0 == 0 goto label3;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label3;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label2:
+        if $i0 == 3 goto label3;
+
+        if $i0 == 4 goto label2;
+
+     label3:
+        if $i0 == 6 goto label5;
+
+        $r3 = new de.ecspride.Activity2;
+
+        specialinvoke $r3.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 7 goto label5;
+
+        $r4 = new android.os.Bundle;
+
+        specialinvoke $r4.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r3.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r4);
+
+        $r4 = null;
+
+     label4:
+        if $i0 == 9 goto label5;
+
+        if $i0 == 10 goto label4;
+
+     label5:
+        if $i0 == 12 goto label1;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.0 seconds.
+[Spark] Solution found in 0.0 seconds.
+Callback analysis done.
+Warning: RelativeLayout is a phantom class!
+Warning: de.ecspride.RelativeLayout is a phantom class!
+Warning: android.view.RelativeLayout is a phantom class!
+Warning: Button is a phantom class!
+Warning: de.ecspride.Button is a phantom class!
+Warning: android.view.Button is a phantom class!
+Found 1 layout controls in file res/layout/activity_activity1.xml
+Found 2 layout controls in file res/layout/activity_activity2.xml
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r8;
+        de.ecspride.Activity1$1 $r3;
+        android.view.View $r4, $r6;
+        de.ecspride.Activity1$2 $r5;
+        de.ecspride.Activity2 $r7;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label01:
+        if $i0 == 0 goto label08;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label08;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label02:
+        if $i0 == 2 goto label07;
+
+     label03:
+        $r3 = new de.ecspride.Activity1$1;
+
+        specialinvoke $r3.<de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 3 goto label04;
+
+        $r4 = new android.view.View;
+
+        specialinvoke $r4.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r3.<de.ecspride.Activity1$1: void onClick(android.view.View)>($r4);
+
+        $r4 = null;
+
+     label04:
+        $r5 = new de.ecspride.Activity1$2;
+
+        specialinvoke $r5.<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 4 goto label05;
+
+        $r6 = new android.view.View;
+
+        specialinvoke $r6.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r5.<de.ecspride.Activity1$2: void onClick(android.view.View)>($r6);
+
+        $r6 = null;
+
+     label05:
+        if $i0 == 5 goto label06;
+
+        staticinvoke <de.ecspride.Activity1: void <clinit>()>();
+
+     label06:
+        if $i0 == 6 goto label03;
+
+     label07:
+        if $i0 == 7 goto label02;
+
+        if $i0 == 8 goto label08;
+
+        if $i0 == 9 goto label02;
+
+     label08:
+        if $i0 == 11 goto label10;
+
+        $r7 = new de.ecspride.Activity2;
+
+        specialinvoke $r7.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 12 goto label10;
+
+        $r8 = new android.os.Bundle;
+
+        specialinvoke $r8.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r7.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r8);
+
+        $r8 = null;
+
+     label09:
+        if $i0 == 14 goto label09;
+
+        if $i0 == 15 goto label10;
+
+        if $i0 == 16 goto label09;
+
+     label10:
+        if $i0 == 18 goto label01;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.0 seconds.
+[Spark] Solution found in 0.0 seconds.
+Running incremental callback analysis for 2 components...
+Incremental callback analysis done.
+Found 7 callback methods for 2 components
+Found {res/layout/activity_activity2.xml=[-1 - android.widget.RelativeLayout, 2131230722 - android.widget.Button], res/layout/activity_activity1.xml=[-1 - android.widget.RelativeLayout, 2131230720 - android.widget.Button, 2131230721 - android.widget.Button, 2131230722 - android.widget.Button]} layout controls
+Entry point calculation done.
+Created a SourceSinkManager with 106 sources, 139 sinks, and 7 callback methods.
+Running data flow analysis...
+Running data flow analysis on /home/hao/workspace/tt//app-debug.apk with 106 sources and 139 sinks...
+Starting infoflow computation...
+[main] INFO soot.jimple.infoflow.Infoflow - Resetting Soot...
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+[main] INFO soot.jimple.infoflow.Infoflow - Basic class loading done.
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r9;
+        de.ecspride.Activity1$2 $r3;
+        android.view.View $r4, $r6, $r7, $r10;
+        de.ecspride.Activity1$1 $r5;
+        de.ecspride.Activity2 $r8;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label01:
+        if $i0 == 0 goto label09;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label09;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label02:
+        if $i0 == 2 goto label08;
+
+     label03:
+        $r3 = new de.ecspride.Activity1$2;
+
+        specialinvoke $r3.<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 3 goto label04;
+
+        $r4 = new android.view.View;
+
+        specialinvoke $r4.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r3.<de.ecspride.Activity1$2: void onClick(android.view.View)>($r4);
+
+        $r4 = null;
+
+     label04:
+        $r5 = new de.ecspride.Activity1$1;
+
+        specialinvoke $r5.<de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 4 goto label05;
+
+        $r6 = new android.view.View;
+
+        specialinvoke $r6.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r5.<de.ecspride.Activity1$1: void onClick(android.view.View)>($r6);
+
+        $r6 = null;
+
+     label05:
+        if $i0 == 5 goto label06;
+
+        $r7 = new android.view.View;
+
+        specialinvoke $r7.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>($r7);
+
+        $r7 = null;
+
+     label06:
+        if $i0 == 6 goto label07;
+
+        staticinvoke <de.ecspride.Activity1: void <clinit>()>();
+
+     label07:
+        if $i0 == 7 goto label03;
+
+     label08:
+        if $i0 == 8 goto label02;
+
+        if $i0 == 9 goto label09;
+
+        if $i0 == 10 goto label02;
+
+     label09:
+        if $i0 == 12 goto label14;
+
+        $r8 = new de.ecspride.Activity2;
+
+        specialinvoke $r8.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 13 goto label14;
+
+        $r9 = new android.os.Bundle;
+
+        specialinvoke $r9.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r8.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r9);
+
+        $r9 = null;
+
+     label10:
+        if $i0 == 14 goto label13;
+
+     label11:
+        if $i0 == 15 goto label12;
+
+        $r10 = new android.view.View;
+
+        specialinvoke $r10.<android.view.View: void <init>(android.content.Context)>($r8);
+
+        virtualinvoke $r8.<de.ecspride.Activity2: void sendMessageWrapper(android.view.View)>($r10);
+
+        $r10 = null;
+
+     label12:
+        if $i0 == 16 goto label11;
+
+     label13:
+        if $i0 == 17 goto label10;
+
+        if $i0 == 18 goto label14;
+
+        if $i0 == 19 goto label10;
+
+     label14:
+        if $i0 == 21 goto label01;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.0 seconds.
+[Spark] Solution found in 0.0 seconds.
+[main] INFO soot.jimple.infoflow.codeOptimization.InterproceduralConstantValuePropagator - Removing side-effect free methods is disabled
+[main] INFO soot.jimple.infoflow.Infoflow - Dead code elimination took 0.013719628 seconds
+[main] INFO soot.jimple.infoflow.Infoflow - Callgraph has 160 edges
+[main] INFO soot.jimple.infoflow.android.InfoflowAndroidConfiguration - Implicit flow tracking is NOT enabled
+[main] INFO soot.jimple.infoflow.android.InfoflowAndroidConfiguration - Exceptional flow tracking is enabled
+[main] INFO soot.jimple.infoflow.android.InfoflowAndroidConfiguration - Running with a maximum access path length of 5
+[main] INFO soot.jimple.infoflow.android.InfoflowAndroidConfiguration - Using path-agnostic result collection
+[main] INFO soot.jimple.infoflow.android.InfoflowAndroidConfiguration - Recursive access path shortening is enabled
+[main] INFO soot.jimple.infoflow.Infoflow - Looking for sources and sinks...
+[main] INFO soot.jimple.infoflow.Infoflow - Source lookup done, found 11 sources and 13 sinks.
+[main] INFO soot.jimple.infoflow.Infoflow - Taint wrapper hits: 79
+[main] INFO soot.jimple.infoflow.Infoflow - Taint wrapper misses: 64
+[main] INFO soot.jimple.infoflow.Infoflow - IFDS problem with 455 forward and 113 backward edges solved, processing 11 results...
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Obtainted 11 connections between sources and sinks
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 1
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 2
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 3
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 4
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 5
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 6
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 7
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 8
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 9
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 10
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Building path 11
+[main] INFO soot.jimple.infoflow.data.pathBuilders.ContextInsensitiveSourceFinder - Path processing took 0.009381178 seconds in total
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) on line 63 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>("First Time ", $r2) on line 60 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink virtualinvoke $r0.<de.ecspride.Activity1: void startActivity(android.content.Intent)>($r2) on line 99 in method <de.ecspride.Activity1: void sendMessageWrapper(android.view.View)> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r3 = virtualinvoke $r2.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>() on line 93 in method <de.ecspride.Activity1: void getDevId()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink specialinvoke $r0.<de.ecspride.Activity1: void sink(long)>($l0) on line 62 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink virtualinvoke $r3.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>("+49", null, $r1, null, null) on line 34 in method <de.ecspride.Activity2: void sendMessage()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = virtualinvoke $r0.<de.ecspride.Activity2: android.content.Intent getIntent()>() on line 25 in method <de.ecspride.Activity2: void onCreate(android.os.Bundle)>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>("Forth Time ", $r2) on line 69 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) on line 64 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>("Third Time ", $r2) on line 68 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) on line 59 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) on line 59 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - The sink staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>("Second Time ", $r2) on line 61 in method <de.ecspride.Activity1: void getDevIdWrapperTop()> was called with values from the following sources:
+[main] INFO soot.jimple.infoflow.Infoflow - - $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>() on line 81 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>() on line 80 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[main] INFO soot.jimple.infoflow.Infoflow - - $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13) on line 82 in method <de.ecspride.Activity1: long[] getNaturalEnv()>
+[AppContext] end flow analysis: Sat Jan 02 22:11:13 PST 2016
+Maximum memory consumption: 344.09964 MB
+Analysis has run for 3.630551397 seconds
+[main] INFO soot.jimple.infoflow.android.SetupApplication - ARSC file parsing took 6.61654E-4 seconds
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r4;
+        de.ecspride.Activity2 $r3;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label1:
+        if $i0 == 0 goto label3;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label3;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label2:
+        if $i0 == 3 goto label3;
+
+        if $i0 == 4 goto label2;
+
+     label3:
+        if $i0 == 6 goto label5;
+
+        $r3 = new de.ecspride.Activity2;
+
+        specialinvoke $r3.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 7 goto label5;
+
+        $r4 = new android.os.Bundle;
+
+        specialinvoke $r4.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r3.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r4);
+
+        $r4 = null;
+
+     label4:
+        if $i0 == 9 goto label5;
+
+        if $i0 == 10 goto label4;
+
+     label5:
+        if $i0 == 12 goto label1;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.0 seconds.
+[Spark] Solution found in 0.0 seconds.
+Callback analysis done.
+Warning: RelativeLayout is a phantom class!
+Warning: de.ecspride.RelativeLayout is a phantom class!
+Warning: android.view.RelativeLayout is a phantom class!
+Warning: Button is a phantom class!
+Warning: de.ecspride.Button is a phantom class!
+Warning: android.view.Button is a phantom class!
+Found 1 layout controls in file res/layout/activity_activity1.xml
+Found 2 layout controls in file res/layout/activity_activity2.xml
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r8;
+        de.ecspride.Activity1$1 $r3;
+        android.view.View $r4, $r6;
+        de.ecspride.Activity1$2 $r5;
+        de.ecspride.Activity2 $r7;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label01:
+        if $i0 == 0 goto label08;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label08;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label02:
+        if $i0 == 2 goto label07;
+
+     label03:
+        $r3 = new de.ecspride.Activity1$1;
+
+        specialinvoke $r3.<de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 3 goto label04;
+
+        $r4 = new android.view.View;
+
+        specialinvoke $r4.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r3.<de.ecspride.Activity1$1: void onClick(android.view.View)>($r4);
+
+        $r4 = null;
+
+     label04:
+        $r5 = new de.ecspride.Activity1$2;
+
+        specialinvoke $r5.<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 4 goto label05;
+
+        $r6 = new android.view.View;
+
+        specialinvoke $r6.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r5.<de.ecspride.Activity1$2: void onClick(android.view.View)>($r6);
+
+        $r6 = null;
+
+     label05:
+        if $i0 == 5 goto label06;
+
+        staticinvoke <de.ecspride.Activity1: void <clinit>()>();
+
+     label06:
+        if $i0 == 6 goto label03;
+
+     label07:
+        if $i0 == 7 goto label02;
+
+        if $i0 == 8 goto label08;
+
+        if $i0 == 9 goto label02;
+
+     label08:
+        if $i0 == 11 goto label10;
+
+        $r7 = new de.ecspride.Activity2;
+
+        specialinvoke $r7.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 12 goto label10;
+
+        $r8 = new android.os.Bundle;
+
+        specialinvoke $r8.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r7.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r8);
+
+        $r8 = null;
+
+     label09:
+        if $i0 == 14 goto label09;
+
+        if $i0 == 15 goto label10;
+
+        if $i0 == 16 goto label09;
+
+     label10:
+        if $i0 == 18 goto label01;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.1 seconds.
+[Spark] Solution found in 0.1 seconds.
+Running incremental callback analysis for 2 components...
+Incremental callback analysis done.
+Found 7 callback methods for 2 components
+Found {res/layout/activity_activity2.xml=[-1 - android.widget.RelativeLayout, 2131230722 - android.widget.Button], res/layout/activity_activity1.xml=[2131230721 - android.widget.Button, 2131230720 - android.widget.Button, -1 - android.widget.RelativeLayout, 2131230722 - android.widget.Button]} layout controls
+Entry point calculation done.
+Created a SourceSinkManager with 106 sources, 139 sinks, and 7 callback methods.
+Using '/home/hao/Android/Sdk/platforms/android-17/android.jar' as android.jar
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.media.RemoteControlClient$OnGetPlaybackPositionListener is a phantom class!
+Warning: android.media.RemoteControlClient$OnPlaybackPositionUpdateListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowAttachListener is a phantom class!
+Warning: android.view.ViewTreeObserver$OnWindowFocusChangeListener is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[main] INFO soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator - Generated main method:
+    public static void dummyMainMethod(java.lang.String[])
+    {
+        java.lang.String[] $r0;
+        int $i0;
+        de.ecspride.Activity1 $r1;
+        android.os.Bundle $r2, $r9;
+        de.ecspride.Activity1$1 $r3;
+        android.view.View $r4, $r5, $r7, $r10;
+        de.ecspride.Activity1$2 $r6;
+        de.ecspride.Activity2 $r8;
+
+        $r0 := @parameter0: java.lang.String[];
+
+        $i0 = 0;
+
+     label01:
+        if $i0 == 0 goto label09;
+
+        $r1 = new de.ecspride.Activity1;
+
+        specialinvoke $r1.<de.ecspride.Activity1: void <init>()>();
+
+        if $i0 == 1 goto label09;
+
+        $r2 = new android.os.Bundle;
+
+        specialinvoke $r2.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void onCreate(android.os.Bundle)>($r2);
+
+        $r2 = null;
+
+     label02:
+        if $i0 == 2 goto label08;
+
+     label03:
+        $r3 = new de.ecspride.Activity1$1;
+
+        specialinvoke $r3.<de.ecspride.Activity1$1: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 3 goto label04;
+
+        $r4 = new android.view.View;
+
+        specialinvoke $r4.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r3.<de.ecspride.Activity1$1: void onClick(android.view.View)>($r4);
+
+        $r4 = null;
+
+     label04:
+        if $i0 == 4 goto label05;
+
+        staticinvoke <de.ecspride.Activity1: void <clinit>()>();
+
+     label05:
+        if $i0 == 5 goto label06;
+
+        $r5 = new android.view.View;
+
+        specialinvoke $r5.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r1.<de.ecspride.Activity1: void sendMessageWrapper(android.view.View)>($r5);
+
+        $r5 = null;
+
+     label06:
+        $r6 = new de.ecspride.Activity1$2;
+
+        specialinvoke $r6.<de.ecspride.Activity1$2: void <init>(de.ecspride.Activity1)>($r1);
+
+        if $i0 == 6 goto label07;
+
+        $r7 = new android.view.View;
+
+        specialinvoke $r7.<android.view.View: void <init>(android.content.Context)>($r1);
+
+        virtualinvoke $r6.<de.ecspride.Activity1$2: void onClick(android.view.View)>($r7);
+
+        $r7 = null;
+
+     label07:
+        if $i0 == 7 goto label03;
+
+     label08:
+        if $i0 == 8 goto label02;
+
+        if $i0 == 9 goto label09;
+
+        if $i0 == 10 goto label02;
+
+     label09:
+        if $i0 == 12 goto label14;
+
+        $r8 = new de.ecspride.Activity2;
+
+        specialinvoke $r8.<de.ecspride.Activity2: void <init>()>();
+
+        if $i0 == 13 goto label14;
+
+        $r9 = new android.os.Bundle;
+
+        specialinvoke $r9.<android.os.Bundle: void <init>()>();
+
+        virtualinvoke $r8.<de.ecspride.Activity2: void onCreate(android.os.Bundle)>($r9);
+
+        $r9 = null;
+
+     label10:
+        if $i0 == 14 goto label13;
+
+     label11:
+        if $i0 == 15 goto label12;
+
+        $r10 = new android.view.View;
+
+        specialinvoke $r10.<android.view.View: void <init>(android.content.Context)>($r8);
+
+        virtualinvoke $r8.<de.ecspride.Activity2: void sendMessageWrapper(android.view.View)>($r10);
+
+        $r10 = null;
+
+     label12:
+        if $i0 == 16 goto label11;
+
+     label13:
+        if $i0 == 17 goto label10;
+
+        if $i0 == 18 goto label14;
+
+        if $i0 == 19 goto label10;
+
+     label14:
+        if $i0 == 21 goto label01;
+
+        return;
+    }
+
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[AppContext] <android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>
+[AppContext] =======================
+[AppContext] begin permission analysis: Sat Jan 02 22:11:14 PST 2016
+[AppContext] =========CFG=======
+end permission analysis: Sat Jan 02 22:11:14 PST 2016
+[AppContext] =======================
+[AppContext] =======Write Results To CSV======
+[AppContext] tgt: <android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>
+[AppContext] src: <de.ecspride.Activity2: void sendMessage()>
+[AppContext] per: android.permission.SEND_SMS
+[AppContext] RESULT[null, android.permission.SEND_SMS, <android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>, <de.ecspride.Activity2: void sendMessageWrapper(android.view.View)>]
+[AppContext] <android.telephony.TelephonyManager: java.lang.String getDeviceId()>
+[AppContext] =======================
+[AppContext] begin permission analysis: Sat Jan 02 22:11:14 PST 2016
+[AppContext] =========CFG=======
+[AppContext] CONDITIONAL STMT: if $b3 <= 0 goto $r2 = staticinvoke <java.lang.Long: java.lang.String toString(long)>($l0)
+[AppContext] context: staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) of <de.ecspride.Activity1: void getDevIdWrapperTop()>
+[AppContext] CONDITIONAL STMT: if $b3 <= 0 goto $r2 = staticinvoke <java.lang.Long: java.lang.String toString(long)>($l0)
+[AppContext] context: staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) of <de.ecspride.Activity1: void getDevIdWrapperTop()>
+[AppContext] CONDITIONAL STMT: if $b3 <= 0 goto return
+[AppContext] context: staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) of <de.ecspride.Activity1: void getDevIdWrapperTop()>
+[AppContext] CONDITIONAL STMT: if $b3 <= 0 goto return
+[AppContext] CONDITIONAL STMT: if $b3 <= 0 goto return
+[AppContext] context: staticinvoke <app.DummyClass: void invokeIfStmt(double)>(d0) of <de.ecspride.Activity1: void getDevIdWrapperTop()>
+end permission analysis: Sat Jan 02 22:11:14 PST 2016
+[AppContext] =======================
+[AppContext] =======Write Results To CSV======
+[AppContext] tgt: <android.telephony.TelephonyManager: java.lang.String getDeviceId()>
+[AppContext] src: <de.ecspride.Activity1: void getDevId()>
+[AppContext] per: android.permission.READ_PHONE_STATE
+[AppContext] RESULT[null, android.permission.READ_PHONE_STATE, <android.telephony.TelephonyManager: java.lang.String getDeviceId()>, <de.ecspride.Activity1$1: void onClick(android.view.View)>, $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>(), $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>(), $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13)]
+[AppContext] RESULT[null, android.permission.READ_PHONE_STATE, <android.telephony.TelephonyManager: java.lang.String getDeviceId()>, <de.ecspride.Activity1$2: void onClick(android.view.View)>, $r2 = staticinvoke <java.util.Calendar: java.util.Calendar getInstance()>(), $l0 = staticinvoke <java.lang.System: long currentTimeMillis()>(), $i1 = virtualinvoke $r2.<java.util.Calendar: int get(int)>(13)]
+[AppContext] /**********END OF THE APP***********/
+[AppContext] perInvocs.size: 2; cg.size: 131

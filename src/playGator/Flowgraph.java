@@ -66,6 +66,7 @@ import soot.SootMethod;
 import soot.Type;
 import soot.Unit;
 import soot.Value;
+import soot.ValueBox;
 import soot.VoidType;
 import soot.jimple.ArrayRef;
 import soot.jimple.AssignStmt;
@@ -156,7 +157,7 @@ public class Flowgraph implements MethodNames {
 	// public Map<Stmt, Set<SootMethod>> regToEventHandlers = Maps.newHashMap();
 
 	// Hao: I created
-	public boolean debug = true;
+	public boolean debug = false;
 	private final String tag = "[FlowGraph]: ";
 
 	// Utils
@@ -215,7 +216,7 @@ public class Flowgraph implements MethodNames {
 			return;
 		}
 		if (debug) {
-			System.out.println("[FlowGraph] processActCallbacks act: " + c);
+			print("processActCallbacks act: " + c);
 		}
 		// Flow from "Dialog onCreateDialog" to "onPrepareDialog(,Dialog)"
 		modelFlowFromOnCreateDialogToOnPrepareDialog(c);
@@ -227,8 +228,7 @@ public class Flowgraph implements MethodNames {
 		Set<SootMethod> callbacks = hier.frameworkManaged.get(c);
 		for (SootMethod callbackPrototype : callbacks) {
 			if (debug) {
-				System.out.println("[FlowGraph] processActCallBacks callback: "
-						+ callbackPrototype);
+				print("processActCallBacks callback: " + callbackPrototype);
 			}
 			String subsig = callbackPrototype.getSubSignature();
 			SootClass matched = hier.matchForVirtualDispatch(subsig, c);
@@ -364,7 +364,99 @@ public class Flowgraph implements MethodNames {
 	Stmt currentStmt;
 	SootMethod currentMethod;
 
-	void processApplicationClasses() {
+	/**
+	 * @Title: renaming
+	 * @Author: hao
+	 * @Description: when a var is reassigned, renaming it to a new var. prevent
+	 *               unnecessary edges in the flow graph due to reuse of same
+	 *               var
+	 * @param currentStmt
+	 * @param renames
+	 * @return: void
+	 */
+	private void renaming(Stmt currentStmt, Map<Value, Value> renames,
+			int[] varCounter) {
+		// FIXME Hao
+		if (currentStmt instanceof AssignStmt) {
+			AssignStmt assignStmt = (AssignStmt) currentStmt;
+			Value oldName = assignStmt.getLeftOp();
+			JimpleLocal newName;
+			varCounter[0]++;
+			if (!renames.containsKey(oldName)) {
+				// newName = new JimpleLocal(oldName.toString() + "0",
+				newName = new JimpleLocal(oldName.toString() + varCounter[0],
+						oldName.getType());
+			} else {
+				newName = new JimpleLocal(oldName.toString() + varCounter[0],
+				// renames.get(oldName).toString() + "0",
+						oldName.getType());
+			}
+			renames.put(oldName, newName);
+			((AssignStmt) currentStmt).setLeftOp(newName);
+			// String right =
+			// assignStmt.getRightOp().toString().split(" ").length == 1 ?
+			// assignStmt
+			// .getRightOp().toString() : assignStmt.getRightOp()
+			// .toString().split(" ")[1];
+			if (!currentStmt.containsInvokeExpr()) {
+				Value[] operands = new Value[3];
+				int opCount = 0;
+				//print(currentStmt.toString());
+				for (ValueBox right : assignStmt.getUseBoxes()) {
+					//print(right.getValue().toString());
+					operands[opCount] = right.getValue();
+					if (renames.containsKey(operands[opCount])) {
+						operands[opCount] = renames.get(right.getValue());
+					}
+					opCount++;
+				}
+				try {
+					Value rightOp = null;
+					switch (opCount) {
+					case 1:
+						rightOp = operands[0];
+						break;
+					case 2:
+						rightOp = Jimple.v().newAddExpr(operands[0],
+								operands[1]);
+						break;
+					case 3: 
+						rightOp = Jimple.v().newAddExpr(operands[1],
+								operands[2]);
+					default:
+						break;
+					}
+					if (rightOp != null) {
+						((AssignStmt) currentStmt).setRightOp(rightOp);
+					}
+				} catch (Exception e) {
+					print(e.getStackTrace().toString());
+				}
+
+				// print(currentStmt + ":: " +
+				// ((AssignStmt)currentStmt).getRightOp());
+			}
+		}
+		if (currentStmt.containsInvokeExpr()) {
+			InvokeExpr ie = currentStmt.getInvokeExpr();
+			int count = 0;
+			if (ie instanceof InstanceInvokeExpr) {
+				InstanceInvokeExpr iie = (InstanceInvokeExpr) ie;
+
+				if (renames.containsKey(iie.getBase().toString())) {
+					iie.setBase(renames.get(iie.getBase().toString()));
+				}
+			}
+			for (Value arg : ie.getArgs()) {
+				if (renames.containsKey(arg.toString())) {
+					ie.setArg(count, renames.get(arg.toString()));
+				}
+				count++;
+			}
+		}
+	}
+
+	protected void processApplicationClasses() {
 		// Now process each "ordinary" statements
 		for (SootClass c : hier.appClasses) {
 			for (Iterator<SootMethod> iter = c.getMethods().iterator(); iter
@@ -375,37 +467,19 @@ public class Flowgraph implements MethodNames {
 				}
 				Body b = currentMethod.retrieveActiveBody();
 				Iterator<Unit> stmts = b.getUnits().iterator();
-				boolean print = false;
 				// 重命名复用寄存器
-				Map<String, Value> renames = new HashMap<>();
+				Map<Value, Value> renames = new HashMap<>();
+				int[] varCounter = new int[1];
 				while (stmts.hasNext()) {
 					currentStmt = (Stmt) stmts.next();
-					// 重命名
-					if (currentStmt instanceof AssignStmt) {
-						AssignStmt assignStmt = (AssignStmt) currentStmt;
-						Value oldName = assignStmt.getLeftOp();
-						JimpleLocal newName;
-						if (!renames.containsKey(oldName)) {
-							newName = new JimpleLocal(oldName.toString() + "0",
-									oldName.getType());
-						} else {
-							newName = new JimpleLocal(renames.get(oldName)
-									.toString() + "0", oldName.getType());
-						}
-						renames.put(oldName.toString(), newName);
-						((AssignStmt) currentStmt).setLeftOp(newName);
-						String right = assignStmt.getRightOp().toString().split(" ").length == 1 ?
-								assignStmt.getRightOp().toString(): assignStmt.getRightOp().toString().split(" ")[1];
-						if (renames.containsKey(right)) {
-							((AssignStmt) currentStmt).setRightOp(renames
-									.get(right));
-						}
-						//if (currentStmt.toString().contains("de.ecspride.Activity1")) {
-						//	print = true;
-						//}
-						if (print)
-						System.out.println(currentStmt + ":: " + ((AssignStmt)currentStmt).getRightOp());
-					}
+					// 重命名, renaming
+					// every time
+					renaming(currentStmt, renames, varCounter);
+
+					// print(currentStmt + ":: " +
+					// ((AssignStmt)currentStmt).getRightOp());
+					print(currentStmt.toString());
+
 					if (currentStmt instanceof ReturnVoidStmt) {
 						continue;
 					}
@@ -443,20 +517,6 @@ public class Flowgraph implements MethodNames {
 					// Some "special" handling of calls
 					if (currentStmt.containsInvokeExpr()) {
 						InvokeExpr ie = currentStmt.getInvokeExpr();
-						int count = 0;
-						if (ie instanceof InstanceInvokeExpr) {
-							InstanceInvokeExpr iie = (InstanceInvokeExpr) ie;
-							
-							if (renames.containsKey(iie.getBase().toString())) {
-								iie.setBase(renames.get(iie.getBase().toString()));
-							}
-						}
-						for (Value arg : ie.getArgs()) {
-							if (renames.containsKey(arg.toString())) {
-								ie.setArg(count, renames.get(arg.toString()));
-							}
-							count++;
-						}
 						SootMethod stm = ie.getMethod(); // static target
 
 						// Model Android framework calls
@@ -1029,7 +1089,7 @@ public class Flowgraph implements MethodNames {
 					((IntConstant) layoutIdVal).value);
 			layoutIdNode = layoutIdNode(integerConstant);
 		}
-		//System.out.println(layoutIdVal);
+		// System.out.println(layoutIdVal);
 		NVarNode receiverNode = varNode(jimpleUtil.receiver(ie));
 		priorLayoutIdNode = layoutIdNode;
 		if (debug) {
@@ -2004,9 +2064,12 @@ public class Flowgraph implements MethodNames {
 		NNode idNode = widgetIdNode(xmlUtil.getSystemRIdValue("list"));
 		NVarNode receiverNode = varNode(receiver);
 		NVarNode lhsNode = varNode(jimpleUtil.lhsLocal(s));
-		System.out.println(idNode);
+
 		if (idNode == null) {
-			idNode = priorLayoutIdNode; 
+			idNode = priorLayoutIdNode;
+		}
+		if (debug) {
+			print(idNode.toString());
 		}
 		NOpNode findView2 = new NFindView2OpNode(idNode, receiverNode, lhsNode,
 				callSite, false);
@@ -2018,8 +2081,9 @@ public class Flowgraph implements MethodNames {
 		// lhsNode);
 		return findView2;
 	}
+
 	NNode priorLayoutIdNode = null;
-	
+
 	void checkAndPatchRootlessActivities() {
 		Set<NOpNode> activitySetContentView = NOpNode
 				.getNodes(NInflate2OpNode.class);
@@ -2099,11 +2163,11 @@ public class Flowgraph implements MethodNames {
 						listViewClass.getType());
 				NVarNode listViewNode = varNode(listView);
 				try {
-				NOpNode findView2 = new NFindView2OpNode(idNode, receiverNode,
-						listViewNode, null, true);
-				allNNodes.add(findView2);
+					NOpNode findView2 = new NFindView2OpNode(idNode,
+							receiverNode, listViewNode, null, true);
+					allNNodes.add(findView2);
 				} catch (Exception e) {
-					System.err.println(e.getStackTrace());					
+					System.err.println(e.getStackTrace());
 				}
 
 				Local listItem = Jimple.v().newLocal(nextFakeName(),
@@ -3429,9 +3493,9 @@ public class Flowgraph implements MethodNames {
 		// custom.addView(mView)
 		NVarNode mView = varNode(viewLocal);
 		try {
-		NAddView2OpNode customAddView = new NAddView2OpNode(custom, mView,
-				callSite, true);
-		allNNodes.add(customAddView);
+			NAddView2OpNode customAddView = new NAddView2OpNode(custom, mView,
+					callSite, true);
+			allNNodes.add(customAddView);
 		} catch (Exception e) {
 			System.err.println(e.getStackTrace());
 		}
@@ -3514,18 +3578,19 @@ public class Flowgraph implements MethodNames {
 
 				// 3. button.setOnClickListener(listener)
 				try {
-				NSetListenerOpNode setListener = createSetListenerAndProcessFlow(
-						button.l,
-						fakeListenerLocal,
-						s,
-						caller,
-						false,
-						null,
-						fakeOnClickListenerClass,
-						Scene.v().getSootClass(
-								"android.view.View$OnClickListener"), true,
-						EventType.click, true);
-				allNNodes.add(setListener);
+					NSetListenerOpNode setListener = createSetListenerAndProcessFlow(
+							button.l,
+							fakeListenerLocal,
+							s,
+							caller,
+							false,
+							null,
+							fakeOnClickListenerClass,
+							Scene.v().getSootClass(
+									"android.view.View$OnClickListener"), true,
+							EventType.click, true);
+					allNNodes.add(setListener);
+					print(setListener.toString());
 				} catch (Exception e) {
 					System.err.println(e.getStackTrace());
 				}
@@ -4808,7 +4873,7 @@ public class Flowgraph implements MethodNames {
 		if (x != null) {
 			return x;
 		}
-		
+
 		x = new NLayoutIdNode(i);
 		allNLayoutIdNodes.put(i, x);
 		allNNodes.add(x);
@@ -5000,5 +5065,9 @@ public class Flowgraph implements MethodNames {
 		 * Map<Stmt, NDialogNode> allNDialogNodes = Maps.newHashMap();
 		 */
 
+	}
+
+	public void print(String str) {
+		System.err.println("[FlowGraph] Debug: " + str);
 	}
 }

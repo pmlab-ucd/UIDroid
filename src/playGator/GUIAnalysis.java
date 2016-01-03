@@ -14,12 +14,16 @@ import presto.android.xml.XMLParser;
 public class GUIAnalysis {
 	public XMLParser xmlParser;
 	public Hierarchy hier;
-	public boolean debug = true;
+	public boolean debug = false;
 
 	public Set<Integer> allLayoutIds = Sets.newHashSet();
 	public Set<Integer> allMenuIds = Sets.newHashSet();
 	public Set<Integer> allWidgetIds = Sets.newHashSet();
 	public Set<Integer> allStringIds = Sets.newHashSet();
+
+	public void print(String str) {
+		System.err.println("[GUIAnalysis] Debug: " + str);
+	}
 
 	// The nested class to implement singleton
 	private static class SingletonHolder {
@@ -40,25 +44,26 @@ public class GUIAnalysis {
 	public void retrieveIds() {
 		// the layout ids
 		if (debug) {
-			System.out.println("Activities: ");
+			print("Activities: ");
 		}
 		for (int id : xmlParser.getApplicationLayoutIdValues()) {
-			if (debug)
-				System.out.println(id);
+			if (debug) {
+				print("id: " + id);
+			}
 			allLayoutIds.add(id);
 		}
 
 		for (int id : xmlParser.getSystemLayoutIdValues()) {
-			// System.out.println(id);
+			// print(id);
 			allLayoutIds.add(id);
 		}
 
 		// The menu ids
 		if (debug)
-			System.out.println("Menus: ");
+			print("Menus: ");
 		for (int id : xmlParser.getApplicationMenuIdValues()) {
 			if (debug)
-				System.out.println(id);
+				print("id: " + id);
 			allMenuIds.add(id);
 		}
 		for (int id : xmlParser.getSystemMenuIdValues()) {
@@ -67,10 +72,10 @@ public class GUIAnalysis {
 
 		// The widget ids
 		if (debug)
-			System.out.println("Widgets: ");
+			print("Widgets: ");
 		for (int id : xmlParser.getApplicationRIdValues()) {
 			if (debug)
-				System.out.println(id);
+				print("id: " + id);
 			allWidgetIds.add(id);
 		}
 		for (int id : xmlParser.getSystemRIdValues()) {
@@ -80,11 +85,10 @@ public class GUIAnalysis {
 			allStringIds.add(id);
 		}
 
-		System.out.println("[XML] Layout Ids: " + allLayoutIds.size()
-				+ ", Menu Ids: " + allMenuIds.size() + ", Widget Ids: "
-				+ allWidgetIds.size() + ", String Ids: " + allStringIds.size());
-		System.out
-				.println("[XML] MainActivity: " + xmlParser.getMainActivity());
+		print("[XML] Layout Ids: " + allLayoutIds.size() + ", Menu Ids: "
+				+ allMenuIds.size() + ", Widget Ids: " + allWidgetIds.size()
+				+ ", String Ids: " + allStringIds.size());
+		print("[XML] MainActivity: " + xmlParser.getMainActivity());
 	}
 
 	public Flowgraph flowgraph;
@@ -93,35 +97,35 @@ public class GUIAnalysis {
 	public DefaultGUIAnalysisOutput output;
 
 	public void run() {
-		//try {
-			System.out.println("[GUIAnalysis] Start");
-			// long startTime = System.nanoTime();
+		// try {
+		print("Start");
+		// long startTime = System.nanoTime();
 
-			// 0. Retrieve ui ids
-			retrieveIds();
+		// 0. Retrieve ui ids
+		retrieveIds();
 
-			// 1. Construct constraint flow graph
-			flowgraph = new Flowgraph(hier, allLayoutIds, allMenuIds,
-					allWidgetIds, allStringIds);
-			flowgraph.build();
-			System.out.println("FlowGraph Build: ");
-			flowgraph.printNodes();
+		// 1. Construct constraint flow graph
+		flowgraph = new Flowgraph(hier, allLayoutIds, allMenuIds, allWidgetIds,
+				allStringIds);
+		flowgraph.build();
+		// print("FlowGraph Build: ");
+		// flowgraph.printNodes();
 
-			// 2. Fix-point computation
-			fixpointSolver = new FixpointSolver(flowgraph);
+		// 2. Fix-point computation
+		fixpointSolver = new FixpointSolver(flowgraph);
 
-			fixpointSolver.solve();
+		fixpointSolver.solve();
 
-			// 3. Variable value query interface
-			variableValueQueryInterface = DemandVariableValueQuery.v(flowgraph,
-					fixpointSolver);
+		// 3. Variable value query interface
+		variableValueQueryInterface = DemandVariableValueQuery.v(flowgraph,
+				fixpointSolver);
 
-			// 4. Construct the output
-			output = new DefaultGUIAnalysisOutput(this);
-			System.out.println(output.getAppPackageName());
-		//} catch (Exception e) {
-			//System.err.println(e.getStackTrace());
-		//}
+		// 4. Construct the output
+		output = new DefaultGUIAnalysisOutput(this);
+		print(output.getAppPackageName());
+		// } catch (Exception e) {
+		// System.err.println(e.getStackTrace());
+		// }
 	}
 
 }
