@@ -377,7 +377,7 @@ public class Flowgraph implements MethodNames {
 	 * @return: void
 	 */
 	private void renaming(Stmt currentStmt, Map<Value, Value> renames,
-			int[] varCounter) {
+			int[] varCounter, SootClass thisClass) {
 		// FIXME Hao
 		if (currentStmt instanceof AssignStmt) {
 			AssignStmt assignStmt = (AssignStmt) currentStmt;
@@ -426,15 +426,17 @@ public class Flowgraph implements MethodNames {
 					default:
 						break;
 					}
-					if (rightOp != null) {
+
+					if (rightOp != null
+							&& !(rightOp.getType().equals(thisClass.getType()))) {
 						((AssignStmt) currentStmt).setRightOp(rightOp);
 					}
 				} catch (Exception e) {
 					print(e.getStackTrace().toString());
 				}
 
-				print(currentStmt + ":: " +
-				((AssignStmt)currentStmt).getRightOp());
+				print(currentStmt + ":: "
+						+ ((AssignStmt) currentStmt).getRightOp());
 			}
 		}
 		if (currentStmt.containsInvokeExpr()) {
@@ -473,7 +475,7 @@ public class Flowgraph implements MethodNames {
 					currentStmt = (Stmt) stmts.next();
 					// 重命名, renaming
 					// every time
-					renaming(currentStmt, renames, varCounter);
+					renaming(currentStmt, renames, varCounter, c);
 
 					// print(currentStmt + ":: " +
 					// ((AssignStmt)currentStmt).getRightOp());
@@ -584,6 +586,7 @@ public class Flowgraph implements MethodNames {
 					}
 					// parameter passing taken care of by processFlowAtCall
 					if (rhs instanceof ThisRef || rhs instanceof ParameterRef) {
+						print("THIS/PARA: " + rhs.getType().toString());
 						continue;
 					}
 					// remember array refs for later resolution
@@ -5070,6 +5073,6 @@ public class Flowgraph implements MethodNames {
 	}
 
 	public void print(String str) {
-		System.err.println("[FlowGraph] Debug: " + str);
+		System.err.println("[FlowGraph] " + str);
 	}
 }

@@ -155,14 +155,14 @@ public class Main {
 			Map<String, AndroidView> views = getViews(ga, solver, output);
 
 			// PermissionAnalysis pa = PermissionAnalysis.v();
-			PerInvCtxAnalysis pa = PerInvCtxAnalysis.v();
+			/*PerInvCtxAnalysis pa = PerInvCtxAnalysis.v();
 			pa.run();
 
 			try {
 				writeCSV(views);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 
 		}
 	}
