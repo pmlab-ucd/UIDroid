@@ -26,6 +26,7 @@ import org.apache.commons.io.FileUtils;
 import org.xmlpull.v1.XmlPullParserException;
 
 import com.opencsv.CSVWriter;
+
 import soot.G;
 import soot.MethodOrMethodContext;
 import soot.PackManager;
@@ -46,6 +47,7 @@ import soot.jimple.infoflow.results.ResultSinkInfo;
 import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.results.xml.InfoflowResultsSerializer;
 import soot.jimple.infoflow.android.SetupApplication;
+//import soot.jimple.infoflow.android.source.AndroidSourceSinkManager.LayoutMatchingMode;
 import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
 import soot.jimple.infoflow.solver.cfg.IInfoflowCFG;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
@@ -247,7 +249,9 @@ public class MyTest extends playFlowDroid.Test {
 			} else {
 				app = new SetupApplication(androidJar, fileName, ipcManager);
 			}
-
+			
+			// Support layout mode. --Hao
+			// config.setLayoutMatchingMode(LayoutMatchingMode.MatchAll);
 			// Set configuration object
 			app.setConfig(config);
 

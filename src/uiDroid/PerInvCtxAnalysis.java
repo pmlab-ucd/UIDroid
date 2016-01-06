@@ -77,7 +77,7 @@ public class PerInvCtxAnalysis {
 	private static String csvName = "./sootOutput/output.csv";
 	private static CallGraph cg;
 	private static JimpleBasedInterproceduralCFG icfg;
-	private static List<PermissionInvocation> perInvocs = new ArrayList<>();
+	public static List<PermissionInvocation> perInvocs = new ArrayList<>();
 	// control flow graph
 	private static IInfoflowCFG flowcfg;
 	// data flow analysis
@@ -358,10 +358,10 @@ public class PerInvCtxAnalysis {
 		// to count the pred of
 		int signal = 0;
 		Set<SootMethod> s;
-		// int tmp = 1;
+		int tmp = 1;
 		// step forward from tgt to dummyMain
 		while (!unitStack.isEmpty()) {
-			// print(u + " " + tmp++);
+			print(u + " " + tmp++);
 			boolean isStartpoint = true;
 			try {
 				// Returns true is this is a method's start statement.
@@ -383,13 +383,13 @@ public class PerInvCtxAnalysis {
 					// check whether the pred node is a conditional stmt
 					// and this node is conditional dep on pred node
 					if (signal <= 0) {
-						// print("Signal <= 0");
+						print("Signal <= 0");
 						Unit predUnit = u;
 						while (u.equals(predUnit)) {
 							// THE single pred node
 							predUnit = (Unit) icfg.getPredsOf(u).iterator()
 									.next();
-							// print("PRED STMT: " + predUnit);
+							print("PRED STMT: " + predUnit);
 							// make sure not recursion?
 							if ((icfg.getPredsOf(u).size() == 1)
 									&& ((predUnit instanceof InvokeStmt))) {
@@ -398,8 +398,7 @@ public class PerInvCtxAnalysis {
 										.getName().contains("invokeIfStmt")) {
 									u = predUnit;
 									contexts.put(condStmt, src);
-									print("context: " + condStmt + " of " +
-									src);
+									print("context: " + condStmt + " of " + src);
 								}
 							}
 						}
@@ -412,10 +411,20 @@ public class PerInvCtxAnalysis {
 				// avoid stuck at loop or recursion
 				if (icfg.getPredsOf(u).size() > 1) {
 					signal++;
-					// print("Signal++:" + u);
-					// for (Unit unit : icfg.getPredsOf(u)) {
-					// print("Signal: " + unit);
-					// }
+					print("Signal++:" + u);
+					int count  = 0;
+					for (Unit unit : icfg.getPredsOf(u)) {
+						count++;
+					 print("Signal: " + unit);
+					 Unit tmpp = icfg.getPredsOf(unit).iterator().next();
+					 Unit prior = unit;
+					 while (tmpp != prior) {
+						 print("Sub " + count + ": " + tmpp);
+						 prior = tmpp;
+						 if (icfg.getPredsOf(tmpp).iterator().hasNext())
+						 tmpp = icfg.getPredsOf(tmpp).iterator().next();
+					 }
+					}
 				}
 
 				// last = u;
@@ -453,7 +462,7 @@ public class PerInvCtxAnalysis {
 						if (!callers.contains(caller)) {
 							callers.add(caller);
 							if (!caller.toString().contains(
-									"dummyMainClass: void dummyMainMethod()")) {
+									"dummyMainClass: void dummyMainMethod")) {
 								// add caller (pred nodes) to the queue
 								unitStack.push(caller);
 								callerStack.push(srcCallerMethod);
@@ -553,17 +562,17 @@ public class PerInvCtxAnalysis {
 		print("per: " + perInvoc.getPermission());
 
 		SootMethod m;
-		for (ResultSinkInfo sink : flowResults.getResults().keySet()) {
-			// print("Found a flow to sink: " + sink);
-			for (Context ctx : perInvoc.getContexts()) {
-				// print("Entry: " + ctx.getEntrypoint());
-				// 此处的context是指sink所在的语句
-				Stmt sinkStmt = sink.getSink();
-				for (Stmt conStmt : ctx.getConditionalStmt()) {
-					// print("*********condistmt: " + conStmt.toString());
+		for (Context ctx : perInvoc.getContexts()) {
+			// print("Entry: " + ctx.getEntrypoint());
+			// 此处的context是指sink所在的语句
+			for (Stmt conStmt : ctx.getConditionalStmt()) {
+				for (ResultSinkInfo sink : flowResults.getResults().keySet()) {
+					print("Found a flow to sink: " + sink);
+					print("*********condistmt: " + conStmt.toString());
 					// when sink == conStmt, source == natural env vars
+					Stmt sinkStmt = sink.getSink();
 					if (isSameStmt(conStmt, sinkStmt)) {
-						// print("Context:: Conditional Factors: ");
+						print("Context:: Conditional Factors: ");
 						for (ResultSourceInfo source : flowResults.getResults()
 								.get(sink)) {
 							// print("Srcs: " + source);
@@ -574,16 +583,16 @@ public class PerInvCtxAnalysis {
 								if (!ctx.hasFactorMethod(m)) {
 									ctx.addFactorMethod(m);
 								}
-								// print("factor method: "
-								// + factorExpr.getMethod());
+								print("factor method: "
+										+ factorExpr.getMethod());
 							} else if ((factorValue instanceof Ref)) {
 								Ref factorRef = (Ref) factorValue;
 								if (!ctx.hasFactorRef(factorRef)) {
 									ctx.addFactorRef(factorRef);
 								}
-								// print("Ref factor: " + source.getSource());
+								print("Ref factor: " + source.getSource());
 							} else {
-								// print("Other factor: " + source.getSource());
+								print("Other factor: " + source.getSource());
 								if (!ctx.hasOtherFactor(factorValue)) {
 									ctx.addOtherFactor(factorValue);
 								}

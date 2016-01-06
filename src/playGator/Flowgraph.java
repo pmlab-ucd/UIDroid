@@ -372,6 +372,8 @@ public class Flowgraph implements MethodNames {
 	 *               var
 	 * @param currentStmt
 	 * @param renames
+	 * @param varCounter
+	 *            counter of vars
 	 * @return: void
 	 */
 	private void renaming(Stmt currentStmt, Map<Value, Value> renames,
@@ -382,17 +384,16 @@ public class Flowgraph implements MethodNames {
 			Value oldName = assignStmt.getLeftOp();
 			JimpleLocal newName;
 			varCounter[0]++;
-			if (!renames.containsKey(oldName)) {
+			if (renames.containsKey(oldName)) {
 				// newName = new JimpleLocal(oldName.toString() + "0",
 				newName = new JimpleLocal(oldName.toString() + varCounter[0],
 						oldName.getType());
+
+				renames.put(oldName, newName);
+				((AssignStmt) currentStmt).setLeftOp(newName);
 			} else {
-				newName = new JimpleLocal(oldName.toString() + varCounter[0],
-				// renames.get(oldName).toString() + "0",
-						oldName.getType());
+				renames.put(oldName, oldName);
 			}
-			renames.put(oldName, newName);
-			((AssignStmt) currentStmt).setLeftOp(newName);
 			// String right =
 			// assignStmt.getRightOp().toString().split(" ").length == 1 ?
 			// assignStmt
@@ -401,9 +402,9 @@ public class Flowgraph implements MethodNames {
 			if (!currentStmt.containsInvokeExpr()) {
 				Value[] operands = new Value[3];
 				int opCount = 0;
-				//print(currentStmt.toString());
+				print(currentStmt.toString());
 				for (ValueBox right : assignStmt.getUseBoxes()) {
-					//print(right.getValue().toString());
+					print(right.getValue().toString());
 					operands[opCount] = right.getValue();
 					if (renames.containsKey(operands[opCount])) {
 						operands[opCount] = renames.get(right.getValue());
@@ -417,10 +418,9 @@ public class Flowgraph implements MethodNames {
 						rightOp = operands[0];
 						break;
 					case 2:
-						rightOp = Jimple.v().newAddExpr(operands[0],
-								operands[1]);
+						rightOp = operands[1];
 						break;
-					case 3: 
+					case 3:
 						rightOp = Jimple.v().newAddExpr(operands[1],
 								operands[2]);
 					default:
@@ -433,8 +433,8 @@ public class Flowgraph implements MethodNames {
 					print(e.getStackTrace().toString());
 				}
 
-				// print(currentStmt + ":: " +
-				// ((AssignStmt)currentStmt).getRightOp());
+				print(currentStmt + ":: " +
+				((AssignStmt)currentStmt).getRightOp());
 			}
 		}
 		if (currentStmt.containsInvokeExpr()) {
@@ -442,9 +442,8 @@ public class Flowgraph implements MethodNames {
 			int count = 0;
 			if (ie instanceof InstanceInvokeExpr) {
 				InstanceInvokeExpr iie = (InstanceInvokeExpr) ie;
-
-				if (renames.containsKey(iie.getBase().toString())) {
-					iie.setBase(renames.get(iie.getBase().toString()));
+				if (renames.containsKey(iie.getBase())) {
+					iie.setBase(renames.get(iie.getBase()));
 				}
 			}
 			for (Value arg : ie.getArgs()) {
@@ -2581,6 +2580,9 @@ public class Flowgraph implements MethodNames {
 			}
 			SootClass concreteType = hier.matchForVirtualDispatch(
 					getViewSubSig, ((NObjectNode) src).getClassType());
+			if (concreteType == null) {
+				return;
+			}
 			SootMethod getView = concreteType.getMethod(getViewSubSig);
 			if (Configs.debugCodes.contains(Debug.LIST_ADAPTER_DEBUG)) {
 				System.out.println("  * " + getView);

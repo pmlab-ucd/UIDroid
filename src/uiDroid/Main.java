@@ -16,6 +16,8 @@ import java.util.Map.Entry;
 
 import com.opencsv.CSVWriter;
 
+import playAppContext.Context;
+import playAppContext.PermissionInvocation;
 import playGator.DefaultGUIAnalysisOutput;
 import playGator.FixpointSolver;
 import playGator.GUIAnalysis;
@@ -70,66 +72,123 @@ public class Main {
 				return;
 			}
 		}
-		
+
 		for (final String fileName : apkFiles) {
 			print("Begin to analyze: " + fileName);
-			Config.sdkDir = "/home/hao/Android/Sdk";
 			Config.apkPath = args[0] + File.separator + fileName;
-			String jarPath = Scene.v().getAndroidJarPath(Config.sdkDir + "/platforms", Config.apkPath);
-			Config.apiLevel = "android-" + jarPath.split("/android.jar")[0].split("-")[1];
 			// decompile
 			String decomPath = args[0] + File.separator + "Decompiled"
 					+ File.separator + fileName;
 			decompile(decomPath);
 			Config.project = decomPath;
-			
-			Config.android = "/home/hao/workspace/gator-3.0/AndroidBench/platform/" + Config.apiLevel + "/framework.jar:"
-					+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/" + Config.apiLevel +"/bouncycastle.jar:"
-					+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/" + Config.apiLevel + "/ext.jar:"
-					+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/" + Config.apiLevel + "/android-policy.jar:"
-					+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/" + Config.apiLevel + "/services.jar:"
-					+ jarPath
-					+ "/home/hao/workspace/gator-3.0/SootAndroid/deps/annotations.jar:"
-					+ "/home/hao/workspace/gator-3.0/SootAndroid/deps/android-support-v4.jar:";
-			Config.jre = "/home/hao/workspace/gator-3.0/AndroidBench/platform/" + Config.apiLevel + "/core.jar";
+			String OS = System.getProperty("os.name").toLowerCase();
+			if (OS.indexOf("linux") >= 0) {
+				Config.sdkDir = "/home/hao/Android/Sdk";
+				String jarPath = Scene.v().getAndroidJarPath(
+						Config.sdkDir + "/platforms", Config.apkPath);
+				Config.apiLevel = "android-"
+						+ jarPath.split("/android.jar")[0].split("-")[1];
+				Config.android = "/home/hao/workspace/gator-3.0/AndroidBench/platform/"
+						+ Config.apiLevel
+						+ "/framework.jar:"
+						+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/"
+						+ Config.apiLevel
+						+ "/bouncycastle.jar:"
+						+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/"
+						+ Config.apiLevel
+						+ "/ext.jar:"
+						+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/"
+						+ Config.apiLevel
+						+ "/android-policy.jar:"
+						+ "/home/hao/workspace/gator-3.0/AndroidBench/platform/"
+						+ Config.apiLevel
+						+ "/services.jar:"
+						+ jarPath
+						+ "/home/hao/workspace/gator-3.0/SootAndroid/deps/annotations.jar:"
+						+ "/home/hao/workspace/gator-3.0/SootAndroid/deps/android-support-v4.jar:";
+				Config.jre = "/home/hao/workspace/gator-3.0/AndroidBench/platform/"
+						+ Config.apiLevel + "/core.jar";
+				Config.listenerSpecFile = "/home/hao/workspace/gator-3.0/SootAndroid/listeners.xml";
+				Config.wtgSpecFile = "/home/hao/workspace/gator-3.0/SootAndroid/wtg.xml";
+			} else {
+				Config.sdkDir = "C:/Users/hao/Downloads/android-sdk-windows/";
+				String jarPath = Scene.v().getAndroidJarPath(
+						Config.sdkDir + "/platforms", Config.apkPath);
+				print("jarPath: " + jarPath);
+				String[] tmp = jarPath.split("\\\\android.jar")[0]
+						.split("android-");
+				Config.apiLevel = "android-" + tmp[tmp.length - 1];
+				Config.android = "C:/Users/hao/workspace/Gator/gator/lib/AndroidBench"
+						+ Config.apiLevel
+						+ "/framework.jar:"
+						+ "C:/Users/hao/workspace/Gator/gator/lib/AndroidBench"
+						+ Config.apiLevel
+						+ "/bouncycastle.jar:"
+						+ "C:/Users/hao/workspace/Gator/gator/lib/AndroidBench"
+						+ Config.apiLevel
+						+ "/ext.jar:"
+						+ "C:/Users/hao/workspace/Gator/gator/lib/AndroidBench"
+						+ Config.apiLevel
+						+ "/android-policy.jar:"
+						+ "C:/Users/hao/workspace/Gator/gator/lib/AndroidBench"
+						+ Config.apiLevel
+						+ "/services.jar:"
+						+ jarPath
+						+ "C:/Users/hao/workspace/Gator/gator/deps/annotations.jar:"
+						+ "C:/Users/hao/workspace/Gator/gator/deps/android-support-v4.jar:";
+				Config.jre = "C:/Users/hao/workspace/Gator/gator/lib/AndroidBench"
+						+ Config.apiLevel + "/core.jar";
+				Config.listenerSpecFile = "C:/Users/hao/workspace/Gator/gator/listeners.xml";
+				Config.wtgSpecFile = "C:/Users/hao/workspace/Gator/gator/wtg.xml";
+			}
+
 			Config.benchmarkName = fileName;
-			Config.listenerSpecFile = "/home/hao/workspace/gator-3.0/SootAndroid/listeners.xml";
-			Config.wtgSpecFile = "/home/hao/workspace/gator-3.0/SootAndroid/wtg.xml";
 			Config.guiAnalysis = true;
 			Config.apkMode = false;
 			Config.processing();
-			
+
 			GUIAnalysis ga = GUIAnalysis.v();
+			ga.run();
 			FixpointSolver solver = ga.fixpointSolver;
 			DefaultGUIAnalysisOutput output = ga.output;
 			// FIXME
-			//Map<String, AndroidView> views = getViews(ga, solver, output);
-			
-			//PermissionAnalysis pa = PermissionAnalysis.v();
+			Map<String, AndroidView> views = getViews(ga, solver, output);
+
+			// PermissionAnalysis pa = PermissionAnalysis.v();
 			PerInvCtxAnalysis pa = PerInvCtxAnalysis.v();
 			pa.run();
-			// print(PermissionAnalysis.sensEntries);	
-			/*try {
+
+			try {
 				writeCSV(views);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}*/
+			}
+
 		}
 	}
 
-	/** 
-	 * @Title: decompile 
-	 * @Description:  Run apktool to decompile the apk
+	/**
+	 * @Title: decompile
+	 * @Description: Run apktool to decompile the apk
 	 * @param decomPath
 	 * @throws IOException
-	 * @throws InterruptedException    
-	 * @return: void    
+	 * @throws InterruptedException
+	 * @return: void
 	 */
 	public static void decompile(String decomPath) throws IOException,
 			InterruptedException {
-		String cmd = "apktool d " + Config.apkPath + " -o " + decomPath;
-		Runtime run = Runtime.getRuntime();
-		Process pr = run.exec(cmd);
+		String OS = System.getProperty("os.name").toLowerCase();
+		print(OS);
+		String cmd = " d " + Config.apkPath + " -o " + decomPath;
+		Process pr;
+		if (OS.indexOf("linux") >= 0) {
+			pr = Runtime.getRuntime().exec("apktool " + cmd);
+		} else {
+			pr = Runtime.getRuntime()
+					.exec("java -jar -Duser.language=en C:/Windows/apktool.jar"
+							+ cmd);
+		}
+
 		pr.waitFor();
 		BufferedReader buf = new BufferedReader(new InputStreamReader(
 				pr.getInputStream()));
@@ -139,44 +198,45 @@ public class Main {
 		}
 	}
 
-	/** 
-	 * @Title: getViews 
+	/**
+	 * @Title: getViews
 	 * @Description: Get Views: (event handler callback : view)
 	 * @param ga
 	 * @param solver
 	 * @param output
-	 * @return: Map<String,AndroidView>    
+	 * @return: Map<String,AndroidView>
 	 */
 	public static Map<String, AndroidView> getViews(GUIAnalysis ga,
 			FixpointSolver solver, DefaultGUIAnalysisOutput output) {
 		Map<String, AndroidView> map = new HashMap<>();
 		ga.retrieveIds();
-		
+
+		print("solver: " + solver);
+		print("solution: " + solver.solutionResults);
 		for (Entry<NOpNode, Set<NNode>> entry : solver.solutionResults
 				.entrySet()) {
 			// print("Operation: " + entry + ":: ");
 			for (NNode node : entry.getValue()) {
-				if (ga.xmlParser
-							.findViewById(node.idNode.getIdValue()) != null) {
+				if (ga.xmlParser.findViewById(node.idNode.getIdValue()) != null) {
 					print("Operation: " + entry + ":: ");
-				 print(ga.xmlParser
-							.findViewById(node.idNode.getIdValue()).getText());
-				 print(output
-						.getExplicitEventsAndTheirHandlers((NObjectNode) node)
-						.entrySet().toString());
+					print(ga.xmlParser.findViewById(node.idNode.getIdValue())
+							.getText());
+					print("event handler: "
+							+ output.getExplicitEventsAndTheirHandlers(
+									(NObjectNode) node).entrySet().toString());
 				}
-				 //print(output.getExplicitEventsAndTheirHandlers((NObjectNode)
-				 //node).toString());
+				// print(output.getExplicitEventsAndTheirHandlers((NObjectNode)
+				// node).toString());
 				for (Entry<EventType, Set<SootMethod>> et : output
 						.getExplicitEventsAndTheirHandlers((NObjectNode) node)
 						.entrySet()) {
 					for (SootMethod method : et.getValue()) {
-						//print(node.idNode.getIdValue().toString());
+						// print(node.idNode.getIdValue().toString());
 						map.put(method.getSignature(), ga.xmlParser
 								.findViewById(node.idNode.getIdValue()));
 						print(method.getSignature());
-						print(ga.xmlParser
-								.findViewById(node.idNode.getIdValue()).getText());
+						print(ga.xmlParser.findViewById(
+								node.idNode.getIdValue()).getText());
 					}
 				}
 			}
@@ -185,13 +245,12 @@ public class Main {
 		return map;
 	}
 
-
-	/** 
-	 * @Title: writeCSV 
+	/**
+	 * @Title: writeCSV
 	 * @Description: write results to csv
 	 * @param views
-	 * @throws IOException    
-	 * @return: void    
+	 * @throws IOException
+	 * @return: void
 	 */
 	public static void writeCSV(Map<String, AndroidView> views)
 			throws IOException {
@@ -208,8 +267,12 @@ public class Main {
 		}
 		CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
 		List<String[]> results = new ArrayList<>();
-		for (SootMethod sens : PermissionAnalysis.sensEntries.keySet()) {
-			for (SootMethod entry : PermissionAnalysis.sensEntries.get(sens)) {
+		// for (SootMethod sens : PermissionAnalysis.sensEntries.keySet()) {
+		// for (SootMethod entry : PermissionAnalysis.sensEntries.get(sens)) {
+		for (PermissionInvocation perInvoc : PerInvCtxAnalysis.perInvocs) {
+			SootMethod sens = perInvoc.getTgt();
+			for (Context ctx : perInvoc.getContexts()) {
+				SootMethod entry = ctx.getEntrypoint();
 				List<String> result = new ArrayList<>();
 				print(entry.toString() + ":: ");
 
@@ -217,8 +280,7 @@ public class Main {
 				result.add(sens.getSignature());
 
 				if (views.containsKey(entry.getSignature())) {
-					print(views.get(entry.getSignature())
-							.getText());
+					print(views.get(entry.getSignature()).getText());
 					result.add(views.get(entry.getSignature()).getText());
 				} else {
 					result.add(" ");
@@ -232,7 +294,7 @@ public class Main {
 		writer.writeAll(results);
 		writer.close();
 	}
-	
+
 	public static void print(String str) {
 		System.err.println("[UIDroid] " + str);
 	}

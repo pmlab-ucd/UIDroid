@@ -97,7 +97,7 @@ public class Config extends Configs{
 		/*SootMethod entryPoint = app.getEntryPointCreator().createDummyMain();
 		Options.v().set_main_class(entryPoint.getSignature());
 		Scene.v().setEntryPoints(Collections.singletonList(entryPoint));*/
-		
+		System.out.println(apiLevel);
 	    numericApiLevel = Integer.parseInt(apiLevel.substring("android-".length()));
 	    sysProj = Configs.sdkDir + "/platforms/" + Configs.apiLevel + "/data";
 	    // make validate() happy
