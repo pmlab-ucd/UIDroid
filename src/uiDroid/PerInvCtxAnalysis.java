@@ -82,9 +82,9 @@ public class PerInvCtxAnalysis {
 	private static IInfoflowCFG flowcfg;
 	// data flow analysis
 	private static InfoflowResults flowResults;
-
+	private static boolean debug = true;
 	protected final static BufferedWriter wr = null;
-
+	
 	/**
 	 * @ClassName: SingletonHolder
 	 * @Description: The nested class to implement singleton
@@ -107,6 +107,9 @@ public class PerInvCtxAnalysis {
 	}
 
 	public static void print(String string) {
+		if (!debug) {
+			return;
+		}
 		try {
 			System.out.println("[AppContext] " + string);
 			if (wr != null) {
@@ -141,7 +144,7 @@ public class PerInvCtxAnalysis {
 	public void run() {
 		// Taint Analysis
 		System.gc();
-		playAppContext.MyTest.runAnalysis(Config.apkPath, Config.platformDir,
+		playAppContext.MyTest.runAnalysis(Config.apkPath, Config.platformDir, "./libs/",
 				new ConditionalResultsAvailableHandler());
 		if (flowcfg == null || flowResults == null) {
 			throw new RuntimeException();
@@ -358,10 +361,9 @@ public class PerInvCtxAnalysis {
 		// to count the pred of
 		int signal = 0;
 		Set<SootMethod> s;
-		int tmp = 1;
 		// step forward from tgt to dummyMain
 		while (!unitStack.isEmpty()) {
-			print(u + " " + tmp++);
+			print(u + ": " + u.getJavaSourceStartLineNumber());
 			boolean isStartpoint = true;
 			try {
 				// Returns true is this is a method's start statement.
@@ -398,7 +400,7 @@ public class PerInvCtxAnalysis {
 										.getName().contains("invokeIfStmt")) {
 									u = predUnit;
 									contexts.put(condStmt, src);
-									print("context: " + condStmt + " of " + src);
+									print("context stmt: " + condStmt + " of " + src);
 								}
 							}
 						}
@@ -406,12 +408,12 @@ public class PerInvCtxAnalysis {
 						signal--;
 					}
 				}
-				icfg.getPredsOf(u).size();
 
 				// avoid stuck at loop or recursion
 				if (icfg.getPredsOf(u).size() > 1) {
-					signal++;
-					print("Signal++:" + u);
+					//signal++;
+					//print("Signal++:" + u);
+					/*
 					int count  = 0;
 					for (Unit unit : icfg.getPredsOf(u)) {
 						count++;
@@ -424,7 +426,7 @@ public class PerInvCtxAnalysis {
 						 if (icfg.getPredsOf(tmpp).iterator().hasNext())
 						 tmpp = icfg.getPredsOf(tmpp).iterator().next();
 					 }
-					}
+					}*/
 				}
 
 				// last = u;
@@ -566,12 +568,13 @@ public class PerInvCtxAnalysis {
 			// print("Entry: " + ctx.getEntrypoint());
 			// 此处的context是指sink所在的语句
 			for (Stmt conStmt : ctx.getConditionalStmt()) {
+				print("*********condistmt: " + conStmt.toString());
 				for (ResultSinkInfo sink : flowResults.getResults().keySet()) {
-					print("Found a flow to sink: " + sink);
-					print("*********condistmt: " + conStmt.toString());
+					//print("Found a flow to sink: " + sink);		
 					// when sink == conStmt, source == natural env vars
 					Stmt sinkStmt = sink.getSink();
 					if (isSameStmt(conStmt, sinkStmt)) {
+						print("Found a flow to sink: " + sink);	
 						print("Context:: Conditional Factors: ");
 						for (ResultSourceInfo source : flowResults.getResults()
 								.get(sink)) {

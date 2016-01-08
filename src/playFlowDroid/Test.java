@@ -37,8 +37,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import soot.SootMethod;
 import soot.jimple.Stmt;
-import soot.jimple.infoflow.InfoflowManager;
 import soot.jimple.infoflow.InfoflowConfiguration.CallgraphAlgorithm;
+import soot.jimple.infoflow.InfoflowManager;
 import soot.jimple.infoflow.android.InfoflowAndroidConfiguration;
 import soot.jimple.infoflow.android.SetupApplication;
 import soot.jimple.infoflow.android.source.AndroidSourceSinkManager.LayoutMatchingMode;
@@ -353,6 +353,10 @@ public class Test {
 				InfoflowAndroidConfiguration.setUseTypeTightening(false);
 				i++;
 			}
+			else if (args[i].equalsIgnoreCase("--safemode")) {
+				InfoflowAndroidConfiguration.setUseThisChainReduction(false);
+				i++;
+			}
 			else
 				i++;
 		}
@@ -447,7 +451,8 @@ public class Test {
 				noTaintWrapper ? "--notaintwrapper" : "",
 //				"--repeatCount", Integer.toString(repeatCount),
 				config.getEnableArraySizeTainting() ? "" : "--noarraysize",
-				InfoflowAndroidConfiguration.getUseTypeTightening() ? "" : "--notypetightening"
+				InfoflowAndroidConfiguration.getUseTypeTightening() ? "" : "--notypetightening",
+				InfoflowAndroidConfiguration.getUseThisChainReduction() ? "" : "--safemode"
 				};
 		System.out.println("Running command: " + executable + " " + Arrays.toString(command));
 		try {
@@ -508,7 +513,7 @@ public class Test {
 		}
 	}
 	
-	protected static InfoflowResults runAnalysis(final String fileName, final String androidJar) {
+	private static InfoflowResults runAnalysis(final String fileName, final String androidJar) {
 		try {
 			final long beforeRun = System.nanoTime();
 

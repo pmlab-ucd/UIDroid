@@ -1,9 +1,11 @@
 % My Test
-<de.ecspride.Activity1: void sink(long)> -> _SINK_
+%<java.lang.String: boolean equals(java.lang.Object)> -> _SINK_
+%<java.lang.Object: boolean equals(java.lang.Object)> -> _SINK_
 
 % UI
 %<android.view.View: android.view.View findViewById(int)> -> _SOURCE_
 %<android.widget.Button: void setOnClickListener(android.view.View$OnClickListener)> -> _SINK_
+%<android.widget.TextView: java.lang.CharSequence getText()> -> _SOURCE_
 
 % Natural Env 
 <java.lang.Runtime: java.lang.Runtime getRuntime()> -> _SOURCE_
@@ -352,7 +354,7 @@
 <android.app.Activity: android.content.Intent getIntent()> -> _SOURCE_
 
 <android.app.Activity: void setResult(int,android.content.Intent)> -> _SINK_
-<android.app.Activity: void onActivityResult(int,int,android.content.Intent)> -> _SOURCE_
+%<android.app.Activity: void onActivityResult(int,int,android.content.Intent)> -> _SOURCE_
 
 <android.app.Activity: void startActivity(android.content.Intent)> -> _SINK_
 <android.app.Activity: void startActivity(android.content.Intent,android.os.Bundle)> -> _SINK_
@@ -388,7 +390,7 @@
 
 
 
-
+% <android.app.Activity: android.view.View findViewById(int)> -> _SOURCE_
 <android.database.Cursor: java.lang.String getString(int)> -> _SOURCE_
 <android.database.sqlite.SQLiteDatabase: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String)> -> _SOURCE_
 <android.database.sqlite.SQLiteDatabase: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String,android.os.CancellationSignal)> -> _SOURCE_

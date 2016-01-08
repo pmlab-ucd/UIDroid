@@ -1,0 +1,81 @@
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.provider.ContactsContract$Data is a phantom class!
+Warning: android.provider.ContactsContract$PhoneLookup is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.1 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.2 seconds.
+[Spark] Solution found in 0.2 seconds.
+Callback analysis done.
+Warning: LinearLayout is a phantom class!
+Warning: com.hectorone.multismssender.LinearLayout is a phantom class!
+Warning: android.view.LinearLayout is a phantom class!
+Warning: ListView is a phantom class!
+Warning: com.hectorone.multismssender.ListView is a phantom class!
+Warning: android.view.ListView is a phantom class!
+Warning: TextView is a phantom class!
+Warning: com.hectorone.multismssender.TextView is a phantom class!
+Warning: android.view.TextView is a phantom class!
+Found 1 layout controls in file res/layout/delivery_list.xml
+Found 2 layout controls in file res/layout/delivery_row.xml
+Warning: EditText is a phantom class!
+Warning: com.hectorone.multismssender.EditText is a phantom class!
+Warning: android.view.EditText is a phantom class!
+Warning: Button is a phantom class!
+Warning: com.hectorone.multismssender.Button is a phantom class!
+Warning: android.view.Button is a phantom class!
+Found 3 layout controls in file res/layout/edit_group_list.xml
+Found 4 layout controls in file res/layout/entry_list.xml
+Warning: ImageView is a phantom class!
+Warning: com.hectorone.multismssender.ImageView is a phantom class!
+Warning: android.view.ImageView is a phantom class!
+Found 5 layout controls in file res/layout/entry_row.xml
+Found 6 layout controls in file res/layout/group_list.xml
+Found 7 layout controls in file res/layout/group_row.xml
+Warning: View is a phantom class!
+Warning: com.hectorone.multismssender.View is a phantom class!
+Warning: requestFocus is a phantom class!
+Warning: com.hectorone.multismssender.requestFocus is a phantom class!
+Warning: android.view.requestFocus is a phantom class!
+Warning: android.widget.requestFocus is a phantom class!
+Warning: android.webkit.requestFocus is a phantom class!
+Warning: CheckBox is a phantom class!
+Warning: com.hectorone.multismssender.CheckBox is a phantom class!
+Warning: android.view.CheckBox is a phantom class!
+Found 8 layout controls in file res/layout/main.xml
+Found 9 layout controls in file res/layout/number_list.xml
+Found 10 layout controls in file res/layout/number_row.xml
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+Warning: android.provider.ContactsContract$Data is a phantom class!
+Warning: android.provider.ContactsContract$PhoneLookup is a phantom class!
+Warning: app.DummyClass is a phantom class!
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.4 seconds.
+[Spark] Solution found in 0.4 seconds.
+Running incremental callback analysis for 8 components...
+Incremental callback analysis done.
+Found 46 callback methods for 8 components
+Found {res/layout/number_list.xml=[16908298 - android.widget.ListView, -1 - android.widget.LinearLayout, -1 - android.view.View, 16908292 - android.widget.TextView, 2131034126 - android.widget.Button], res/layout/entry_row.xml=[2131034118 - android.widget.TextView, -1 - android.widget.LinearLayout, 2131034114 - android.widget.TextView, 2131034117 - android.widget.ImageView, 2131034112 - android.widget.LinearLayout], res/layout/number_row.xml=[-1 - android.widget.LinearLayout, 2131034114 - android.widget.TextView, 2131034129 - android.widget.TextView, 2131034128 - android.widget.CheckBox, 2131034127 - android.widget.LinearLayout], res/layout/edit_group_list.xml=[16908298 - android.widget.ListView, -1 - android.widget.LinearLayout, 16908292 - android.widget.TextView, 2131034115 - android.widget.EditText, 2131034116 - android.widget.Button], res/layout/entry_list.xml=[16908298 - android.widget.ListView, -1 - android.widget.LinearLayout, 16908292 - android.widget.TextView], res/layout/group_row.xml=[2131034119 - android.widget.TextView], res/layout/main.xml=[-1 - android.widget.LinearLayout, -1 - android.view.View, 2131034124 - android.widget.Button, 2131034120 - android.widget.Button, 2131034125 - android.widget.CheckBox, 2131034123 - android.widget.EditText, 2131034121 - android.widget.Button, 2131034122 - android.widget.EditText], res/layout/group_list.xml=[16908298 - android.widget.ListView, -1 - android.widget.LinearLayout, 16908292 - android.widget.TextView], res/layout/delivery_list.xml=[16908298 - android.widget.ListView, -1 - android.widget.LinearLayout, 16908292 - android.widget.TextView], res/layout/delivery_row.xml=[2131034114 - android.widget.TextView, 2131034113 - android.widget.TextView, 2131034112 - android.widget.LinearLayout]} layout controls
+Entry point calculation done.
+Created a SourceSinkManager with 107 sources, 139 sinks, and 46 callback methods.
+Running data flow analysis...
+Running data flow analysis on C:\Users\hao\workspace\Gator\gator\apkSamples\app-release.apk with 107 sources and 139 sinks...
+Starting infoflow computation...
+Warning: android.provider.ContactsContract$Data is a phantom class!
+Warning: android.provider.ContactsContract$PhoneLookup is a phantom class!
+Warning: app.DummyClass is a phantom class!
+Warning: java.lang.invoke.LambdaMetafactory is a phantom class!
+Warning: java.lang.ref.Finalizer is a phantom class!
+[Call Graph] For information on where the call graph may be incomplete, use the verbose option to the cg phase.
+[Spark] Pointer Assignment Graph in 0.0 seconds.
+[Spark] Type masks in 0.0 seconds.
+[Spark] Pointer Graph simplified in 0.0 seconds.
+[Spark] Propagation in 0.3 seconds.
+[Spark] Solution found in 0.3 seconds.

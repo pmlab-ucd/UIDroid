@@ -46,8 +46,10 @@ import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.results.ResultSinkInfo;
 import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.results.xml.InfoflowResultsSerializer;
+import soot.jimple.infoflow.android.InfoflowAndroidConfiguration;
 import soot.jimple.infoflow.android.SetupApplication;
-//import soot.jimple.infoflow.android.source.AndroidSourceSinkManager.LayoutMatchingMode;
+import soot.jimple.infoflow.android.source.AndroidSourceSinkManager.LayoutMatchingMode;
+import soot.jimple.infoflow.data.pathBuilders.DefaultPathBuilderFactory.PathBuilder;
 import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
 import soot.jimple.infoflow.solver.cfg.IInfoflowCFG;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
@@ -129,48 +131,41 @@ public class MyTest extends playFlowDroid.Test {
 		// 输出成csv格式
 		csvName = args[2];
 
+		// start with cleanup:
 		File outputDir = new File("JimpleOutput");
 		if (outputDir.isDirectory()) {
 			boolean success = true;
-			File[] arrayOfFile;
-			// 获得文件夹下文件数目
-			int j = (arrayOfFile = outputDir.listFiles()).length;
-			// 遍历文件
-			for (int i = 0; i < j; i++) {
-				File f = arrayOfFile[i];
-				// 用于删除目录下所有文件
-				success = (success) && (f.delete());
-				if (!success) {
-					System.err.println("Cleanup of output dir " + outputDir
-							+ " failed@");
-				}
-				outputDir.delete();
+			for (File f : outputDir.listFiles()) {
+				success = success && f.delete();
 			}
+			if (!success) {
+				System.err.println("Cleanup of output directory " + outputDir
+						+ " failed!");
+			}
+			outputDir.delete();
 		}
 
-		// 读入额外的参数
-		if (!parseAdditionalOptions(args)) {
+		// Parse additional command-line arguments
+		if (!parseAdditionalOptions(args))
 			return;
-		}
-		if (!validateAdditionalOptions()) {
+		if (!validateAdditionalOptions())
 			return;
-		}
-		// 读入文件并判断是否是apk文件
-		List<String> apkFiles = new ArrayList<>();
+
+		List<String> apkFiles = new ArrayList<String>();
 		File apkFile = new File(args[0]);
 		if (apkFile.isDirectory()) {
 			String[] dirFiles = apkFile.list(new FilenameFilter() {
+
 				@Override
 				public boolean accept(File dir, String name) {
 					return (name.endsWith(".apk"));
 				}
 
 			});
-			for (String s : dirFiles) {
+			for (String s : dirFiles)
 				apkFiles.add(s);
-			}
 		} else {
-			// 获得文件类型
+			// apk is a file so grab the extension
 			String extension = apkFile.getName().substring(
 					apkFile.getName().lastIndexOf("."));
 			if (extension.equalsIgnoreCase(".txt")) {
@@ -188,33 +183,39 @@ public class MyTest extends playFlowDroid.Test {
 		}
 
 		for (final String fileName : apkFiles) {
-			final String fullFilePath = fileName;
+			String fullFilePath = fileName;
 
 			// Directory handling
-			if (apkFiles.size() > 1) {
-				print("Analyzing file " + fullFilePath + "...");
-				File flagFile = new File("_Run_" + new File(fileName).getName());
-				if (flagFile.exists())
-					continue;
-				flagFile.createNewFile();
-			}
-			appName = fullFilePath;
+			if (apkFiles.size() >= 1) {
+				if (apkFile.isDirectory())
+					fullFilePath = args[0] + File.separator + fileName;
+				else
+					fullFilePath = fileName;
+				System.out.println("Analyzing file " + fullFilePath + "...");
+			} else
+				fullFilePath = fileName;
 
+			appName = fullFilePath;
 			// Run the taint analysis
 			System.gc();
 			// will assign results to flowResults
+			String path = null;
 			if (timeout > 0) {
 				runAnalysisTimeout(fullFilePath, args[1]);
 			} else if (sysTimeout > 0) {
 				runAnalysisSysTimeout(fullFilePath, args[1]);
 			} else {
 				// AppContext's
-				runAnalysis(fullFilePath, args[1], new ConditionalResultsAvailableHandler());
+				//path = System.getProperty ("java.home" ) + File.separator + "lib" + File.separator
+                       // + "rt.jar" + File. pathSeparator + "." + File.separator + "libs" ;
+				path = "." + File.separator + "libs";
+				runAnalysis(fullFilePath, args[1], path,
+						new ConditionalResultsAvailableHandler());
 			}
 			// AppContext独有的, leverage results of taint analysis to identify
 			// context factors inside conditional stmts
 			permissionAnalysis(fullFilePath, args[1]);
-
+			print(path);
 			System.gc();
 		}
 	}
@@ -239,20 +240,24 @@ public class MyTest extends playFlowDroid.Test {
 	 * @return
 	 * @return: InfoflowResults
 	 */
-	public static InfoflowResults runAnalysis(String fileName, String androidJar, ResultsAvailableHandler resHandler) {
+	public static InfoflowResults runAnalysis(String fileName,
+			String androidJar, String extraJar,
+			ResultsAvailableHandler resHandler) {
 		try {
+			print("RUN ANALYSIS");
 			final long beforeRun = System.nanoTime();
 
 			final SetupApplication app;
-			if (null == ipcManager) {
-				app = new SetupApplication(androidJar, fileName);
-			} else {
-				app = new SetupApplication(androidJar, fileName, ipcManager);
-			}
-			
-			// Support layout mode. --Hao
-			// config.setLayoutMatchingMode(LayoutMatchingMode.MatchAll);
+			app = new SetupApplication(androidJar, fileName, extraJar,
+					ipcManager);
+
 			// Set configuration object
+			// Support layout mode. --Hao
+			config.setLayoutMatchingMode(LayoutMatchingMode.MatchAll);
+			// ctx sensitive
+			config.setPathBuilder(PathBuilder.ContextSensitive);
+			// --safemode
+			InfoflowAndroidConfiguration.setUseThisChainReduction(false);
 			app.setConfig(config);
 
 			final ITaintPropagationWrapper taintWrapper;
@@ -287,8 +292,7 @@ public class MyTest extends playFlowDroid.Test {
 			}
 
 			System.out.println("Running data flow analysis...");
-			final InfoflowResults res = app
-					.runInfoflow(resHandler);
+			final InfoflowResults res = app.runInfoflow(resHandler);
 			System.out.println("Analysis has run for "
 					+ (System.nanoTime() - beforeRun) / 1E9 + " seconds");
 
@@ -515,10 +519,10 @@ public class MyTest extends playFlowDroid.Test {
 		// to count the pred of
 		int signal = 0;
 		Set<SootMethod> s;
-		//int tmp = 1;
+		// int tmp = 1;
 		// step forward from tgt to dummyMain
 		while (!unitStack.isEmpty()) {
-			//print(u + " " + tmp++);
+			// print(u + " " + tmp++);
 			boolean isStartpoint = true;
 			try {
 				// Returns true is this is a method's start statement.
@@ -536,11 +540,11 @@ public class MyTest extends playFlowDroid.Test {
 				// if is a condition stmt
 				if (((u instanceof IfStmt)) || ((u instanceof TableSwitchStmt))
 						|| ((u instanceof LookupSwitchStmt))) {
-					//print("CONDITIONAL STMT: " + u);
+					// print("CONDITIONAL STMT: " + u);
 					// check whether the pred node is a conditional stmt
 					// and this node is conditional dep on pred node
 					if (signal <= 0) {
-						//print("Signal <= 0");
+						// print("Signal <= 0");
 						Unit predUnit = u;
 						while (u.equals(predUnit)) {
 							// THE single pred node
@@ -555,7 +559,8 @@ public class MyTest extends playFlowDroid.Test {
 										.getName().contains("invokeIfStmt")) {
 									u = predUnit;
 									contexts.put(condStmt, src);
-									//print("context: " + condStmt + " of " + src);
+									// print("context: " + condStmt + " of " +
+									// src);
 								}
 							}
 						}
@@ -568,10 +573,10 @@ public class MyTest extends playFlowDroid.Test {
 				// avoid stuck at loop or recursion
 				if (icfg.getPredsOf(u).size() > 1) {
 					signal++;
-					//print("Signal++:" + u);
-					//for (Unit unit : icfg.getPredsOf(u)) {
-						//print("Signal: " + unit);
-					//}
+					// print("Signal++:" + u);
+					// for (Unit unit : icfg.getPredsOf(u)) {
+					// print("Signal: " + unit);
+					// }
 				}
 
 				// last = u;
@@ -632,9 +637,9 @@ public class MyTest extends playFlowDroid.Test {
 				u = (Unit) unitStack.pop();
 				src = (SootMethod) callerStack.pop();
 				path.add(src);
-				//print("Path:" + path);
+				// print("Path:" + path);
 			}
-			//print("Path:" + path);
+			// print("Path:" + path);
 		}
 
 		// Set permission contexts
@@ -710,19 +715,19 @@ public class MyTest extends playFlowDroid.Test {
 
 		SootMethod m;
 		for (ResultSinkInfo sink : flowResults.getResults().keySet()) {
-			//print("Found a flow to sink: " + sink);
+			// print("Found a flow to sink: " + sink);
 			for (Context ctx : perInvoc.getContexts()) {
-				//print("Entry: " + ctx.getEntrypoint());
+				// print("Entry: " + ctx.getEntrypoint());
 				// 此处的context是指sink所在的语句
 				Stmt sinkStmt = sink.getSink();
 				for (Stmt conStmt : ctx.getConditionalStmt()) {
-					//print("*********condistmt: " + conStmt.toString());
+					// print("*********condistmt: " + conStmt.toString());
 					// when sink == conStmt, source == natural env vars
 					if (isSameStmt(conStmt, sinkStmt)) {
-						//print("Context:: Conditional Factors: ");
+						// print("Context:: Conditional Factors: ");
 						for (ResultSourceInfo source : flowResults.getResults()
 								.get(sink)) {
-							//print("Srcs: " + source);
+							// print("Srcs: " + source);
 							Stmt factorValue = source.getSource();
 							if ((factorValue instanceof InvokeExpr)) {
 								InvokeExpr factorExpr = (InvokeExpr) factorValue;
@@ -730,16 +735,16 @@ public class MyTest extends playFlowDroid.Test {
 								if (!ctx.hasFactorMethod(m)) {
 									ctx.addFactorMethod(m);
 								}
-								//print("factor method: "
-										//+ factorExpr.getMethod());
+								// print("factor method: "
+								// + factorExpr.getMethod());
 							} else if ((factorValue instanceof Ref)) {
 								Ref factorRef = (Ref) factorValue;
 								if (!ctx.hasFactorRef(factorRef)) {
 									ctx.addFactorRef(factorRef);
 								}
-								//print("Ref factor: " + source.getSource());
+								// print("Ref factor: " + source.getSource());
 							} else {
-								//print("Other factor: " + source.getSource());
+								// print("Other factor: " + source.getSource());
 								if (!ctx.hasOtherFactor(factorValue)) {
 									ctx.addOtherFactor(factorValue);
 								}
@@ -750,55 +755,55 @@ public class MyTest extends playFlowDroid.Test {
 			}
 		}
 
-			String csv = csvName;
-			try {
-				File csvFile = new File(csv);
-				if (!csvFile.exists()) {
-					csvFile.createNewFile();
-				}
-
-				CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
-
-				List<String[]> data = new ArrayList<>();
-
-				String permission = perInvoc.getPermission();
-				String tgt = perInvoc.getTgt().toString();
-
-				String entrypoint = "";
-				for (Context ctx : perInvoc.getContexts()) {
-					ArrayList<String> result = new ArrayList<>();
-					entrypoint = ctx.getEntrypoint().toString();
-					result.add(appName);
-					result.add(permission);
-					result.add(tgt);
-					result.add(entrypoint);
-					if (ctx.getFactorMethod() != null) {
-						for (SootMethod method : ctx.getFactorMethod()) {
-							result.add(method.toString());
-						}
-					}
-					if (ctx.getFactorRef() != null) {
-						for (Ref r : ctx.getFactorRef()) {
-							result.add(r.toString());
-						}
-					}
-					if (ctx.getOtherFactor() != null) {
-						for (Stmt s : ctx.getOtherFactor()) {
-							result.add(s.toString());
-						}
-					}
-					String[] resultArray = (String[]) result
-							.toArray(new String[result.size()]);		
-					data.add(resultArray);
-					print("RESULT" + result.toString());
-				}
-				
-				writer.writeAll(data);
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+		String csv = csvName;
+		try {
+			File csvFile = new File(csv);
+			if (!csvFile.exists()) {
+				csvFile.createNewFile();
 			}
-		
+
+			CSVWriter writer = new CSVWriter(new FileWriter(csv, true));
+
+			List<String[]> data = new ArrayList<>();
+
+			String permission = perInvoc.getPermission();
+			String tgt = perInvoc.getTgt().toString();
+
+			String entrypoint = "";
+			for (Context ctx : perInvoc.getContexts()) {
+				ArrayList<String> result = new ArrayList<>();
+				entrypoint = ctx.getEntrypoint().toString();
+				result.add(appName);
+				result.add(permission);
+				result.add(tgt);
+				result.add(entrypoint);
+				if (ctx.getFactorMethod() != null) {
+					for (SootMethod method : ctx.getFactorMethod()) {
+						result.add(method.toString());
+					}
+				}
+				if (ctx.getFactorRef() != null) {
+					for (Ref r : ctx.getFactorRef()) {
+						result.add(r.toString());
+					}
+				}
+				if (ctx.getOtherFactor() != null) {
+					for (Stmt s : ctx.getOtherFactor()) {
+						result.add(s.toString());
+					}
+				}
+				String[] resultArray = (String[]) result
+						.toArray(new String[result.size()]);
+				data.add(resultArray);
+				print("RESULT" + result.toString());
+			}
+
+			writer.writeAll(data);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
