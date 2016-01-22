@@ -192,16 +192,16 @@ public class Test {
 			System.gc();
 			
 			// Directory handling
-			if (apkFiles.size() > 1) {
+			if (apkFiles.size() >= 1) {
 				if (apkFile.isDirectory())
 					fullFilePath = args[0] + File.separator + fileName;
 				else
 					fullFilePath = fileName;
 				System.out.println("Analyzing file " + fullFilePath + "...");
-				File flagFile = new File("_Run_" + new File(fileName).getName());
+				/*File flagFile = new File("_Run_" + new File(fileName).getName());
 				if (flagFile.exists())
 					continue;
-				flagFile.createNewFile();
+				flagFile.createNewFile();*/
 			}
 			else
 				fullFilePath = fileName;

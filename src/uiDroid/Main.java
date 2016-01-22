@@ -30,6 +30,13 @@ import presto.android.xml.AndroidView;
 import soot.Scene;
 import soot.SootMethod;
 
+/**
+ * @ClassName: Main
+ * @Description: For each permission invoke, extract the activation 
+ * event with UI (gator), and the conditional contexts (AppContext) 
+ * @author: hao
+ * @date: Jan 22, 2016 2:04:21 PM
+ */
 public class Main {
 
 	public static void main(String[] args) {
@@ -148,21 +155,21 @@ public class Main {
 			Config.processing();
 
 			GUIAnalysis ga = GUIAnalysis.v();
-			ga.run();
+			/*ga.run();
 			FixpointSolver solver = ga.fixpointSolver;
 			DefaultGUIAnalysisOutput output = ga.output;
 			// FIXME
-			Map<String, AndroidView> views = getViews(ga, solver, output);
+			Map<String, AndroidView> views = getViews(ga, solver, output);*/
 
 			// PermissionAnalysis pa = PermissionAnalysis.v();
 			PerInvCtxAnalysis pa = PerInvCtxAnalysis.v();
 			pa.run();
-
+			/*
 			try {
 				writeCSV(views);
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}*/
 
 		}
 	}

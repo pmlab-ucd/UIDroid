@@ -1,6 +1,12 @@
 % My Test
 %<java.lang.String: boolean equals(java.lang.Object)> -> _SINK_
 %<java.lang.Object: boolean equals(java.lang.Object)> -> _SINK_
+<org.apache.http.impl.client.DefaultHttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)> -> _SINK_
+<org.apache.http.client.HttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)> -> _SINK_
+<org.apache.http.client.methods: void HttpGet(java.lang.String,java.lang.String)> -> _SINK_
+<org.apache.http.client.methods: void <init>(java.lang.String,java.lang.String)> -> _SINK_
+<uiDroid.fakeNetwork: java.lang.String invokeHTTPGet(java.lang.String)> -> _SINK_
+<org.apache.http.client.HttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)> -> _SOURCE_
 
 % UI
 %<android.view.View: android.view.View findViewById(int)> -> _SOURCE_
@@ -8,40 +14,40 @@
 %<android.widget.TextView: java.lang.CharSequence getText()> -> _SOURCE_
 
 % Natural Env 
-<java.lang.Runtime: java.lang.Runtime getRuntime()> -> _SOURCE_
-<java.io.DataOutputStream: void writeBytes(java.lang.String)> -> _SINK_
-<java.io.DataOutputStream: void <init>(java.io.OutputStream)> -> _SINK_
+%<java.lang.Runtime: java.lang.Runtime getRuntime()> -> _SOURCE_
+%<java.io.DataOutputStream: void writeBytes(java.lang.String)> -> _SINK_
+%<java.io.DataOutputStream: void <init>(java.io.OutputStream)> -> _SINK_
 
-<javax.crypto.Cipher: byte[] doFinal(byte[])> -> _SINK_
-<javax.crypto.Cipher: byte[] doFinal(byte[])> -> _SOURCE_
+%<javax.crypto.Cipher: byte[] doFinal(byte[])> -> _SINK_
+%<javax.crypto.Cipher: byte[] doFinal(byte[])> -> _SOURCE_
 <com.xxx.yyy.qzl: void <init>(android.content.Context,java.lang.String,java.lang.String,int,com.xxx.yyy.SMSObserver)> -> _SINK_
 <com.xxx.yyy.qzl: void <init>(android.content.Context,java.lang.String,java.lang.String,int)> -> _SINK_
-<android.os.Build$VERSION: void <clinit>()> -> _SOURCE_
+%<android.os.Build$VERSION: void <clinit>()> -> _SOURCE_
 
 <android.net.Uri: android.net.Uri parse(java.lang.String)> -> _SOURCE_
 
-<android.content.pm.PackageManager: android.content.pm.ApplicationInfo getApplicationInfo(java.lang.String,int)> -> _SOURCE_
-<android.content.Context: android.content.pm.PackageManager getPackageManager()> -> _SOURCE_
+%<android.content.pm.PackageManager: android.content.pm.ApplicationInfo getApplicationInfo(java.lang.String,int)> -> _SOURCE_
+%<android.content.Context: android.content.pm.PackageManager getPackageManager()> -> _SOURCE_
 
-<java.util.Calendar: int get(int)> -> _SOURCE_
-<java.util.Calendar: java.util.Calendar getInstance()> -> _SOURCE_
-<java.util.Calendar: java.util.Calendar getInstance(java.util.Locale)> -> _SOURCE_
-<java.util.Calendar: java.util.Calendar getInstance(java.util.TimeZone)> -> _SOURCE_
-<java.util.Calendar: java.util.Calendar getInstance(java.util.TimeZone,java.util.Locale)> -> _SOURCE_
-<java.util.Calendar: java.util.Date getTime()> -> _SOURCE_
-<java.util.Calendar: long getTimeInMillis()> -> _SOURCE_
-<java.util.Calendar: java.util.TimeZone getTimeZone()> -> _SOURCE_
+%<java.util.Calendar: int get(int)> -> _SOURCE_
+%<java.util.Calendar: java.util.Calendar getInstance()> -> _SOURCE_
+%<java.util.Calendar: java.util.Calendar getInstance(java.util.Locale)> -> _SOURCE_
+%<java.util.Calendar: java.util.Calendar getInstance(java.util.TimeZone)> -> _SOURCE_
+%<java.util.Calendar: java.util.Calendar getInstance(java.util.TimeZone,java.util.Locale)> -> _SOURCE_
+%<java.util.Calendar: java.util.Date getTime()> -> _SOURCE_
+%<java.util.Calendar: long getTimeInMillis()> -> _SOURCE_
+%<java.util.Calendar: java.util.TimeZone getTimeZone()> -> _SOURCE_
 
 
 
-<java.lang.System: long currentTimeMillis()> -> _SOURCE_
-<java.lang.System: long nanoTime()> -> _SOURCE_
+%<java.lang.System: long currentTimeMillis()> -> _SOURCE_
+%<java.lang.System: long nanoTime()> -> _SOURCE_
 
 % Conditional stmts
-<app.DummyClass: void invokeIfStmt(java.lang.Object[])> -> _SINK_
-<app.DummyClass: void invokeIfStmt(java.lang.Object)> -> _SINK_
-<app.DummyClass: void invokeIfStmt(boolean)> -> _SINK_
-<app.DummyClass: void invokeIfStmt(double)> -> _SINK_
+%<app.DummyClass: void invokeIfStmt(java.lang.Object[])> -> _SINK_
+%<app.DummyClass: void invokeIfStmt(java.lang.Object)> -> _SINK_
+%<app.DummyClass: void invokeIfStmt(boolean)> -> _SINK_
+%<app.DummyClass: void invokeIfStmt(double)> -> _SINK_
 
 % FlowDroid Default
 <android.location.Location: double getLatitude()> -> _SOURCE_
@@ -315,18 +321,11 @@
 <android.content.SharedPreferences: android.content.SharedPreferences getDefaultSharedPreferences(android.content.Context)> -> _SOURCE_
 
 
-<android.bluetooth.BluetoothAdapter: java.lang.String getAddress()> -> _SOURCE_
-<android.net.wifi.WifiInfo: java.lang.String: getMacAddress()> -> _SOURCE_
+
 <java.util.Locale: java.lang.String getCountry()> -> _SOURCE_
-<android.net.wifi.WifiInfo: java.lang.String getSSID()> -> _SOURCE_
-<android.telephony.gsm.GsmCellLocation: int getCid()> -> _SOURCE_
-<android.telephony.gsm.GsmCellLocation: int getLac()> -> _SOURCE_
 <android.location.Location: double getLongitude()> -> _SOURCE_
 <android.location.Location: double getLatitude()> -> _SOURCE_
-<android.accounts.AccountManager: android.accounts.Account[] getAccounts()> -> _SOURCE_
 <java.util.Calendar: java.util.TimeZone getTimeZone()> -> _SOURCE_
-<android.provider.Browser: android.database.Cursor getAllBookmarks()> -> _SOURCE_
-<android.provider.Browser: android.database.Cursor getAllVisitedUrls()> -> _SOURCE_
 <java.net.URL: java.net.URLConnection openConnection()> -> _SOURCE_
 
 <org.apache.http.impl.client.DefaultHttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)> -> _SINK_

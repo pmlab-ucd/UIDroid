@@ -1,0 +1,8 @@
+<de.ecspride.Activity1: int mySource()> -> _SOURCE_
+%<android.util.Log: int i(java.lang.String,java.lang.String)> -> _SINK_
+
+<android.telephony.gsm.GsmCellLocation: int getCid()> -> _SOURCE_
+<android.telephony.gsm.GsmCellLocation: int getLac()> -> _SOURCE_
+<android.location.Location: double getLongitude()> -> _SOURCE_
+<android.location.Location: double getLatitude()> -> _SOURCE_
+<android.location.LocationManager: android.location.Location getLastKnownLocation(java.lang.String)> -> _SOURCE_

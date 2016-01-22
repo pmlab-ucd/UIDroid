@@ -714,6 +714,9 @@ public class MyTest extends playFlowDroid.Test {
 		print("per: " + perInvoc.getPermission());
 
 		SootMethod m;
+		if (flowResults == null || flowResults.getResults().isEmpty()) {
+			return;
+		}
 		for (ResultSinkInfo sink : flowResults.getResults().keySet()) {
 			// print("Found a flow to sink: " + sink);
 			for (Context ctx : perInvoc.getContexts()) {

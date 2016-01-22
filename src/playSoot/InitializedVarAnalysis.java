@@ -58,7 +58,7 @@ public class InitializedVarAnalysis {
 		 */
 		@Override
 		protected void flowThrough(Object in, Object node, Object out) {
-			FlowSet<?> inSet = (FlowSet<?>)in, outSet = (FlowSet<?>)out;
+			FlowSet inSet = (FlowSet)in, outSet = (FlowSet)out;
 			Unit unit = (Unit) node;
 			kill(inSet, unit, outSet);
 			gen(outSet, unit);
@@ -85,7 +85,7 @@ public class InitializedVarAnalysis {
 		 * add var declared
 		 */
 		private void gen(Object out, Object node) {
-			FlowSet<Value> outSet = (FlowSet<Value>)out;
+			FlowSet outSet = (FlowSet)out;
 			Unit unit = (Unit)node;
 			if (unit instanceof DefinitionStmt && 
 					!(unit instanceof AssignStmt)) {

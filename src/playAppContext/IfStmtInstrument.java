@@ -49,8 +49,8 @@ import soot.options.Options;
  * @date: Dec 29, 2015 6:56:52 PM
  */
 public class IfStmtInstrument {
-
-	public static void insert(PatchingChain<Unit> units, Unit u, Value v, boolean before) {
+	public static void insert(PatchingChain<Unit> units, Unit u, Value v,
+			boolean before) {
 		// 如果变量是局部变量
 		if ((v instanceof JimpleLocal)) {
 			// 载入要分析的类到Soot
@@ -61,26 +61,30 @@ public class IfStmtInstrument {
 					.getMethod("void invokeIfStmt(java.lang.Object)");
 			SootMethod boolCall = klass.getMethod("void invokeIfStmt(boolean)");
 			SootMethod primCall = klass.getMethod("void invokeIfStmt(double)");
+			klass = Scene.v().getSootClass("uiDroid.fakeNetwork");
+			SootMethod strCall = klass
+					.getMethod("java.lang.String invokeHTTPGet(java.lang.String)");
+			
 			Jimple insertStmt = Jimple.v();
 			if (before) {
-			// 如果局部变量是boolean类型
-			if ((v.getType() instanceof BooleanType)) {
-				System.out.println("Type: " + v.getType());
-				// 在此if语句u前嵌入新函数调用Jimple.v().newInvokeStmt(
-				// 新嵌入的函数为静态函数"void invokeIfStmt(boolean)"，
-				// 以指针的形式传入, 嵌入函数参数为v
-				units.insertBefore(insertStmt.newInvokeStmt(Jimple.v()
-						.newStaticInvokeExpr(boolCall.makeRef(), v)), u);
-			} else if ((v.getType() instanceof PrimType)) {
-				// 如果是原生类型
-				System.out.println("Type: " + v.getType());
-				units.insertBefore(insertStmt.newInvokeStmt(Jimple.v()
-						.newStaticInvokeExpr(primCall.makeRef(), v)), u);
-			} else {
-				// 其余类型全部以Object形式传入
-				units.insertBefore(insertStmt.newInvokeStmt(Jimple.v()
-						.newStaticInvokeExpr(objCall.makeRef(), v)), u);
-			}
+				// 如果局部变量是boolean类型
+				if ((v.getType() instanceof BooleanType)) {
+					System.out.println("Type: " + v.getType());
+					// 在此if语句u前嵌入新函数调用Jimple.v().newInvokeStmt(
+					// 新嵌入的函数为静态函数"void invokeIfStmt(boolean)"，
+					// 以指针的形式传入, 嵌入函数参数为v
+					units.insertBefore(insertStmt.newInvokeStmt(Jimple.v()
+							.newStaticInvokeExpr(boolCall.makeRef(), v)), u);
+				} else if ((v.getType() instanceof PrimType)) {
+					// 如果是原生类型
+					System.out.println("Type: " + v.getType());
+					units.insertBefore(insertStmt.newInvokeStmt(Jimple.v()
+							.newStaticInvokeExpr(primCall.makeRef(), v)), u);
+				} else {
+					// 其余类型全部以Object形式传入
+					units.insertBefore(insertStmt.newInvokeStmt(Jimple.v()
+							.newStaticInvokeExpr(objCall.makeRef(), v)), u);
+				}
 			} else {
 				// 如果局部变量是boolean类型
 				if ((v.getType() instanceof BooleanType)) {
@@ -95,6 +99,12 @@ public class IfStmtInstrument {
 					System.out.println("Type: " + v.getType());
 					units.insertAfter(insertStmt.newInvokeStmt(Jimple.v()
 							.newStaticInvokeExpr(primCall.makeRef(), v)), u);
+				} else if (((Stmt) u).containsInvokeExpr()) {
+					InvokeExpr ie = (InvokeExpr) ((Stmt) u).getInvokeExpr();
+					if (ie.getMethod().getSignature().contains("HttpGet")) {
+						units.insertAfter(insertStmt.newInvokeStmt(Jimple.v()
+								.newStaticInvokeExpr(strCall.makeRef(), v)), u);
+					}
 				} else {
 					// 其余类型全部以Object形式传入
 					units.insertAfter(insertStmt.newInvokeStmt(Jimple.v()
@@ -121,8 +131,9 @@ public class IfStmtInstrument {
 		Options.v().set_allow_phantom_refs(true);
 		// 10是什么类型？
 		Options.v().set_output_format(10);
-		// 不知道DummyClass是搞毛的
+		// DummyClass包含了ifInvoke的声明
 		Scene.v().addBasicClass("app.DummyClass", 2);
+		Scene.v().addBasicClass("uiDroid.fakeNetwork", 2);
 		// jimple transform (-> IR) package (phase)
 		// 对函数体进行操作
 		PackManager.v().getPack("jtp")
@@ -203,7 +214,13 @@ public class IfStmtInstrument {
 										System.err.println("Unit" + u);
 									}
 								}
-
+								if (ie.getMethod().getSignature()
+										.contains("HttpGet")) {
+									for (Value arg : ie.getArgs()) {
+										insert(units, u, arg, false);
+										System.err.println("Unit" + u);
+									}
+								}
 							}
 
 						}

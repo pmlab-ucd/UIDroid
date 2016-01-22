@@ -1,0 +1,10 @@
+\section{Introduction} \ref{sec: intro}
+The exponential growth of mobile devices has raised security concerns.
+In this paper, we focus on detecting privacy leaking transmissions from authentic apps in popular Android markets.
+Compared to malware, authentic apps still perform their proposed functionality.
+However, they may also put users at risk by behaving in a user-unexpected way, such as stealthily sending user’s private information out for purposes such as analytics, advertising, cross-application profiling, and social computing [31].
+Static and dynamic program taint analysis of apps focus on identifying whether sensitive data leaves the user device.
+They treat all sensitive transmission as illegal, so that suffer from high false positive rate.
+To address this critical problem, we take into account user intention and define illegal flows as follows: a transmission flow is illegitimate if given the app-level
+context, the user considers the transmission is not required
+for its functionalities.

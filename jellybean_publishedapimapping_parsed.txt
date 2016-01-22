@@ -1,3 +1,9 @@
+Permission:I_DEFINED
+4 Callers:
+<org.apache.http.impl.client.DefaultHttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)>
+<org.apache.http.client: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)>
+<org.apache.http.client.methods: void HttpGet(java.lang.String,java.lang.String)>
+<org.apache.http.client.methods: void <init>(java.lang.String,java.lang.String)>
 Permission:REFLECTION_METHOD
 2 Callers:
 <java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object[])>

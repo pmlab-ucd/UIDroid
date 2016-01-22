@@ -10,16 +10,12 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/axml-2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/soot-infoflow.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/soot-infoflow-android.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hao/workspace/MyFlowAnalysis/libs/soot-trunk.jar" sourcepath="libs/sootsources-trunk.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/UiDroid/libs/sootjavadoc-trunk.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/SootAndroid/bin"/>
 	<classpathentry kind="lib" path="C:/Users/hao/Dropbox/workspace/UiDroid/uidroid/libs/opencsv-3.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/hao/workspace/AppContext/Core/Main.jar"/>
 	<classpathentry kind="lib" path="C:/Users/hao/workspace/AppContext/libs/DummyClass.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/soot"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SootAndroid"/>
+	<classpathentry kind="lib" path="/soot-infoflow-android/lib/AXMLPrinter2.jar" sourcepath="D:/Tools/AXMLPrinter2.source"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/soot-infoflow"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/soot-infoflow-android"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -38,8 +38,9 @@ public class CallFlowGraphSimplify {
 		soot.G.reset();
 
 		SetupApplication app = new SetupApplication(
-		// "C:/Users/hao/Downloads/android-sdk-windows/platforms",
-				"/home/hao/Android/Sdk/platforms", source_apk);
+		 "C:/Users/hao/Downloads/android-sdk-windows/platforms",
+				//"/home/hao/Android/Sdk/platforms", 
+				source_apk);
 
 		try {
 			app.calculateSourcesSinksEntrypoints("./SourcesAndSinks.txt");
@@ -56,8 +57,8 @@ public class CallFlowGraphSimplify {
 
 		Options.v().set_process_dir(Collections.singletonList(source_apk));
 		Options.v().set_force_android_jar(
-		// "C:/Users/hao/Downloads/android-sdk-windows/platforms");
-				"/home/hao/Android/Sdk/platforms");
+		 "C:/Users/hao/Downloads/android-sdk-windows/platforms");
+				//"/home/hao/Android/Sdk/platforms");
 
 		Options.v().set_whole_program(true);
 
